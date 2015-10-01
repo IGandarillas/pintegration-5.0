@@ -23,14 +23,13 @@ class InsertClientFromPipedrive extends Command implements SelfHandling, ShouldB
 
     public function __construct($request)
     {
-        error_log("job handle");
         $this->request = $request;
     }
     public function handle(){
-        error_log("job handle");
+
         $newClientId = $this->request['current']['person_id'];//Id Pipedrive
         $client = $this->createNewClient($newClientId);
-        error_log($newClientId);
+
         $tools = new Tools();
         $tools->addClient($client);
         $tools->addAddress($client);
@@ -38,7 +37,7 @@ class InsertClientFromPipedrive extends Command implements SelfHandling, ShouldB
     }
     protected function createNewClient($newClientId){
         $clientData = $this->getClientData($newClientId);
-        error_log($this->isAddress($clientData));
+
         if($this->isAddress($clientData)) {
             $newClient = new Client();
             $newClient->firstname = $clientData['data']['first_name'];
@@ -46,7 +45,7 @@ class InsertClientFromPipedrive extends Command implements SelfHandling, ShouldB
             $newClient->email = $clientData['data']['email'][0]['value'];
             $newClient->password = 'needAutoGenPass';
             $newClient->id_client_pipedrive = $newClientId;
-            $newClient->user_id = Auth::user()->id;
+            $newClient->user_id = '1';
             $newClient->save();
 
             $address = new Direccion();
