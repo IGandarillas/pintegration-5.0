@@ -28,7 +28,7 @@ class PipedriveReceipt extends Controller
      */
     public function create()
     {
-        //
+        ///
     }
 
 
