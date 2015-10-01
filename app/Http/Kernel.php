@@ -15,7 +15,8 @@ class Kernel extends HttpKernel {
 		'Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse',
 		'Illuminate\Session\Middleware\StartSession',
 		'Illuminate\View\Middleware\ShareErrorsFromSession',
-		'pintegration\Http\Middleware\VerifyCsrfToken',
+		//'pintegration\Http\Middleware\VerifyCsrfToken',
+		'pintegration\Http\Middleware\VerifyCsrf',
 	];
 
 	/**
