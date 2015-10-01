@@ -6,23 +6,23 @@ namespace pintegration\Commands;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Bus\SelfHandling;
-use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Contracts\Queue\ShouldBeQueued;
 use GuzzleHttp;
-use Auth;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use pintegration\Client;
 use Illuminate\Support\Facades\Artisan;
 use Symfony\Component\Finder\Shell\Command;
 use Tools\Tools;
 use pintegration\Direccion;
-class InsertClientFromPipedrive extends Command implements SelfHandling, ShouldQueue
+class InsertClientFromPipedrive extends Command implements SelfHandling, ShouldBeQueued
 {
     use InteractsWithQueue, SerializesModels;
 
     protected $request;
 
     public function __construct($request)
-    {//Mover a funcion manejadora
+    {
         $this->request = $request;
     }
     public function handle(){
