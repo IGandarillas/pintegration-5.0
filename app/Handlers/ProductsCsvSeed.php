@@ -24,7 +24,7 @@ class ProductsCsvSeed extends CsvSeeder\CsvSeeder {
         $this->offset_rows = 1;
         if(Auth::check())
         $this->customFields['user_id'] = Auth::user()->id;
-
+        error_log('CSV SEED '.$filePath);
     }
 
     public function run()

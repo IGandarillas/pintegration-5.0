@@ -1,7 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="37af2971-b24d-4079-83f3-20cafbd46bd1" name="Default" comment="" />
+    <list default="true" id="37af2971-b24d-4079-83f3-20cafbd46bd1" name="Default" comment="">
+      <change type="MOVED" beforePath="C:\Users\yukorff\psintegration\README.md" afterPath="$PROJECT_DIR$/readme.md" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Handlers/ProductsCsvSeed.php" afterPath="$PROJECT_DIR$/app/Handlers/ProductsCsvSeed.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/composer.json" afterPath="$PROJECT_DIR$/composer.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/composer.lock" afterPath="$PROJECT_DIR$/composer.lock" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/vcs.xml" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+    </list>
     <ignored path="dev.pintegration.co.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path=".idea/dataSources.local.xml" />
@@ -22,10 +29,32 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="FileEntryController.php" pinned="false" current-in-tab="true">
+      <file leaf-file-name="ProductsCsvSeed.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/Handlers/ProductsCsvSeed.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-4.576923">
+              <caret line="12" column="43" selection-start-line="12" selection-start-column="43" selection-end-line="12" selection-end-column="43" />
+              <folding>
+                <element signature="e#124#148#0#PHP" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="CsvSeeder.php" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/libraries/csv-seeder/src/Flynsarmy/CsvSeeder/CsvSeeder.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="0" column="5" selection-start-line="0" selection-start-column="5" selection-end-line="0" selection-end-column="5" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="FileEntryController.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/Http/Controllers/FileEntryController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.59408605">
+            <state vertical-scroll-proportion="-8.5">
               <caret line="55" column="30" selection-start-line="55" selection-start-column="30" selection-end-line="55" selection-end-column="30" />
               <folding>
                 <element signature="e#49#98#0#PHP" expanded="true" />
@@ -37,8 +66,8 @@
       <file leaf-file-name="ProductsCsvSeedJob.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/Commands/ProductsCsvSeedJob.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-6.3846154">
-              <caret line="18" column="7" selection-start-line="18" selection-start-column="7" selection-end-line="18" selection-end-column="30" />
+            <state vertical-scroll-proportion="-10.384615">
+              <caret line="32" column="38" selection-start-line="32" selection-start-column="38" selection-end-line="32" selection-end-column="38" />
               <folding>
                 <element signature="e#41#70#0#PHP" expanded="true" />
               </folding>
@@ -46,7 +75,20 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="InsertClientFromPipedrive.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/Commands/InsertClientFromPipedrive.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-1.9615384">
+              <caret line="14" column="30" selection-start-line="14" selection-start-column="30" selection-end-line="14" selection-end-column="30" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
     </leaf>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
@@ -59,7 +101,6 @@
         <option value="$PROJECT_DIR$/app/Http/Middleware/VerifyCsrfToken.php" />
         <option value="$PROJECT_DIR$/app/Commands/InsertClientFromPipedrive.php" />
         <option value="$PROJECT_DIR$/composer.json" />
-        <option value="$PROJECT_DIR$/app/Handlers/ProductsCsvSeed.php" />
         <option value="$PROJECT_DIR$/vendor/flynsarmy/csv-seeder/src/Flynsarmy/CsvSeeder/CsvSeeder.php" />
         <option value="$PROJECT_DIR$/app/Console/Kernel.php" />
         <option value="$PROJECT_DIR$/app/Console/Commands/PdCreateProducts.php" />
@@ -70,6 +111,8 @@
         <option value="$PROJECT_DIR$/app/Console/Commands/SyncPrestashopProducts.php" />
         <option value="$PROJECT_DIR$/app/Commands/ProductsCsvSeedJob.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/FileEntryController.php" />
+        <option value="$PROJECT_DIR$/app/Handlers/ProductsCsvSeed.php" />
+        <option value="$PROJECT_DIR$/libraries/csv-seeder/src/Flynsarmy/CsvSeeder/CsvSeeder.php" />
       </list>
     </option>
   </component>
@@ -92,7 +135,7 @@
     <option name="width" value="1378" />
     <option name="height" value="744" />
   </component>
-  <component name="ProjectLevelVcsManager" settingsEditedManually="false">
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <OptionsSetting value="true" id="Add" />
     <OptionsSetting value="true" id="Remove" />
     <OptionsSetting value="true" id="Checkout" />
@@ -334,7 +377,7 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="21" column="19" selection-start-line="21" selection-start-column="19" selection-end-line="21" selection-end-column="19" />
           <folding>
-            <element signature="e#49#80#0#PHP" expanded="true" />
+            <element signature="e#49#80#0#PHP" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -352,7 +395,7 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="76" column="64" selection-start-line="76" selection-start-column="64" selection-end-line="76" selection-end-column="64" />
           <folding>
-            <element signature="e#49#80#0#PHP" expanded="true" />
+            <element signature="e#49#80#0#PHP" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -362,7 +405,7 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#49#80#0#PHP" expanded="true" />
+            <element signature="e#49#80#0#PHP" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -380,7 +423,7 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="17" column="19" selection-start-line="17" selection-start-column="14" selection-end-line="17" selection-end-column="19" />
           <folding>
-            <element signature="e#49#80#0#PHP" expanded="true" />
+            <element signature="e#49#80#0#PHP" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -390,7 +433,7 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="15" column="19" selection-start-line="15" selection-start-column="19" selection-end-line="15" selection-end-column="19" />
           <folding>
-            <element signature="e#49#80#0#PHP" expanded="true" />
+            <element signature="e#49#80#0#PHP" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -400,7 +443,7 @@
         <state vertical-scroll-proportion="-11.230769">
           <caret line="38" column="0" selection-start-line="38" selection-start-column="0" selection-end-line="47" selection-end-column="5" />
           <folding>
-            <element signature="e#32#68#0#PHP" expanded="true" />
+            <element signature="e#32#68#0#PHP" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -497,13 +540,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/Commands/InsertClientFromPipedrive.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.65384614">
-          <caret line="2" column="31" selection-start-line="2" selection-start-column="23" selection-end-line="2" selection-end-column="31" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/Kernel.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="2.5">
@@ -539,16 +575,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/Handlers/ProductsCsvSeed.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="38" column="18" selection-start-line="38" selection-start-column="18" selection-end-line="38" selection-end-column="18" />
-          <folding>
-            <element signature="e#124#148#0#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/Console/Kernel.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -578,7 +604,7 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="17" column="19" selection-start-line="17" selection-start-column="14" selection-end-line="17" selection-end-column="19" />
           <folding>
-            <element signature="e#49#80#0#PHP" expanded="true" />
+            <element signature="e#49#80#0#PHP" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -588,7 +614,7 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="15" column="19" selection-start-line="15" selection-start-column="19" selection-end-line="15" selection-end-column="19" />
           <folding>
-            <element signature="e#49#80#0#PHP" expanded="true" />
+            <element signature="e#49#80#0#PHP" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -598,7 +624,7 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="21" column="19" selection-start-line="21" selection-start-column="19" selection-end-line="21" selection-end-column="19" />
           <folding>
-            <element signature="e#49#80#0#PHP" expanded="true" />
+            <element signature="e#49#80#0#PHP" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -608,7 +634,7 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="76" column="64" selection-start-line="76" selection-start-column="64" selection-end-line="76" selection-end-column="64" />
           <folding>
-            <element signature="e#49#80#0#PHP" expanded="true" />
+            <element signature="e#49#80#0#PHP" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -618,28 +644,54 @@
         <state vertical-scroll-proportion="-1.3252689">
           <caret line="16" column="12" selection-start-line="16" selection-start-column="12" selection-end-line="16" selection-end-column="12" />
           <folding>
-            <element signature="e#49#80#0#PHP" expanded="true" />
+            <element signature="e#49#80#0#PHP" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Commands/InsertClientFromPipedrive.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-1.9615384">
+          <caret line="14" column="30" selection-start-line="14" selection-start-column="30" selection-end-line="14" selection-end-column="30" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/Commands/ProductsCsvSeedJob.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-6.3846154">
-          <caret line="18" column="7" selection-start-line="18" selection-start-column="7" selection-end-line="18" selection-end-column="30" />
+        <state vertical-scroll-proportion="-10.384615">
+          <caret line="32" column="38" selection-start-line="32" selection-start-column="38" selection-end-line="32" selection-end-column="38" />
           <folding>
             <element signature="e#41#70#0#PHP" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/Handlers/ProductsCsvSeed.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-4.576923">
+          <caret line="12" column="43" selection-start-line="12" selection-start-column="43" selection-end-line="12" selection-end-column="43" />
+          <folding>
+            <element signature="e#124#148#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/Controllers/FileEntryController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.59408605">
+        <state vertical-scroll-proportion="-8.5">
           <caret line="55" column="30" selection-start-line="55" selection-start-column="30" selection-end-line="55" selection-end-column="30" />
           <folding>
             <element signature="e#49#98#0#PHP" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/libraries/csv-seeder/src/Flynsarmy/CsvSeeder/CsvSeeder.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="5" selection-start-line="0" selection-start-column="5" selection-end-line="0" selection-end-column="5" />
+          <folding />
         </state>
       </provider>
     </entry>
