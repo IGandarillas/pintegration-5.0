@@ -36,9 +36,9 @@ class PipedriveReceipt extends Controller
     {
 
         error_log("Añadir a cola");
-        //$req = $request->all();
+        $req = $request->all();
 
-        $req=$request;
+
        // dd( );
 
 
