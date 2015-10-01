@@ -1,4 +1,4 @@
-<?php namespace App\Http\Middleware;
+<?php namespace pintegration\Http\Middleware;
 
 class VerifyCsrf extends \Illuminate\Foundation\Http\Middleware\VerifyCsrfToken
 {
