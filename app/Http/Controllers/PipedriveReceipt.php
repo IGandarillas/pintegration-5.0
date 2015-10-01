@@ -35,7 +35,7 @@ class PipedriveReceipt extends Controller
     public function handlePipedriveReceipt(\Illuminate\Http\Request $request)
     {
 
-        error_log("Añadir a cola");
+        error_log("Request");
         $req = $request->all();
 
 
