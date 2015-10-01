@@ -49,11 +49,11 @@ class FileEntryController extends Controller
                 $path = storage_path().'\\app\\'.$file->getFilename().'.'.$extension;
                 $file->move( storage_path(),$file->getFilename());
                 error_log($file->getPathname().$file->getFilename().' '.storage_path().' '.$file->getRealPath());
-                (env('QUEUE_DRIVER'));
+
 
             error_log('Lanzar job');
                 $commandJob = $this->dispatch(new ProductsCsvSeedJob($path));
-            ($commandJob);
+
                 return redirect('/products');
 
             }else{
