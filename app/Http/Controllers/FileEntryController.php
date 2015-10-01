@@ -53,7 +53,7 @@ class FileEntryController extends Controller
 
             error_log('Lanzar job');
                 $commandJob = $this->dispatch(new ProductsCsvSeedJob($path));
-
+            error_log('Seeder c');
                 return redirect('/products');
 
             }else{
