@@ -7,7 +7,7 @@ use pintegration\Client;
 use pintegration\Http\Requests;
 use Auth;
 use GuzzleHttp;
-use pintegration\Jobs\InsertClientFromPipedrive;
+use pintegration\Commands\InsertClientFromPipedrive;
 
 class PipedriveReceipt extends Controller
 {
@@ -53,7 +53,7 @@ class PipedriveReceipt extends Controller
 
             if(  Client::whereIdClientPipedrive($clientIdPipedrive)->first() != null  ){
                 //Get
-                dd('encontrad');
+
                 return;
             }else{
 
