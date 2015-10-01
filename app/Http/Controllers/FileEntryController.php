@@ -33,7 +33,7 @@ class FileEntryController extends Controller
     }
 
     public function postProducts(Request $request) {
-        error_log('AASDF');
+
         if ($request->hasFile('csvproducts')) {
                 $file = $request->file('csvproducts');
                 $extension = $file->getClientOriginalExtension();
@@ -46,7 +46,7 @@ class FileEntryController extends Controller
                 $entry->filename = $file->getFilename() . '.' . $extension;
                 $entry->save();
 
-                $path = storage_path().'\\app\\'.$file->getFilename().'.'.$extension;
+                $path = storage_path().'/app/'.$file->getFilename().'.'.$extension;
                 $file->move( storage_path(),$file->getFilename());
                 error_log($file->getPathname().$file->getFilename().' '.storage_path().' '.$file->getRealPath());
 
