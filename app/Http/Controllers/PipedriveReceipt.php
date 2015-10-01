@@ -58,7 +58,7 @@ class PipedriveReceipt extends Controller
             }else{
 
                 error_log("job");
-                $this->dispatch(new InsertClientFromPipedrive($req));
+               // $this->dispatch(new InsertClientFromPipedrive($req));
 
             }
             //
