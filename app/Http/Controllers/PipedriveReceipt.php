@@ -42,7 +42,7 @@ class PipedriveReceipt extends Controller
        // dd( );
 
 
-        error_log(env(QUEUE_DRIVER));
+        //error_log(env(QUEUE_DRIVER));
         //$this->dispatchFrom('App\Jobs\SyncPipedriveDeals',$request);
 
         if($req['current']['status'] == 'won' && $req['previous']['status'] != 'won'){
