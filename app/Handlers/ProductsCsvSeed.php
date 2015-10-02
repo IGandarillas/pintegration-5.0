@@ -22,11 +22,10 @@ class ProductsCsvSeed extends CsvSeeder\CsvSeeder {
             1 => 'code'
         ];
         $this->offset_rows = 1;
-        if(Auth::check())
-        $this->customFields = [
-            'user_id' => '1'
-        ];
-        error_log('CSV SEED '.$this->customFields['user_id']);
+
+        //$this->customFields['user_id'] = '1';
+
+
     }
 
     public function run()

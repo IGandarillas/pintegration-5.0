@@ -1,6 +1,7 @@
 <?php namespace Flynsarmy\CsvSeeder;
 
 use App;
+use Illuminate\Support\Facades\Auth;
 use Log;
 use Illuminate\Support\Facades\DB;
 use Hash;
@@ -235,6 +236,13 @@ class CsvSeeder extends Seeder
             }
 
         }
+
+        /**
+         * HARDCODED
+         */
+        if(Auth::check())
+        $customFields['user_id']=Auth::user()->id;
+
         foreach($customFields as $dbCol => $colValue){
 
             $row_values[$dbCol] = $colValue;
