@@ -43,7 +43,7 @@ class Tools
         try {
             $opt = array('resource' => 'customers');
             $opt['postXml'] = $xml->asXML();
-
+            $connectClient = $this->initConnection();
             $xml = $connectClient->add($opt);
             $client->id_client_prestashop = $xml->children()->children()->id;//Process response.
             $client->update();

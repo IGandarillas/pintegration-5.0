@@ -64,8 +64,8 @@
       <file leaf-file-name="Tools.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/libraries/tools/Tools.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.70740104">
-              <caret line="44" column="39" selection-start-line="44" selection-start-column="39" selection-end-line="44" selection-end-column="39" />
+            <state vertical-scroll-proportion="0.73666096">
+              <caret line="45" column="53" selection-start-line="45" selection-start-column="53" selection-end-line="45" selection-end-column="53" />
               <folding>
                 <element signature="e#111#133#0#PHP" expanded="true" />
               </folding>
@@ -379,7 +379,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
+    <frame x="-8" y="-8" width="1382" height="744" extended-state="7" />
     <editor active="true" />
     <layout>
       <window_info id="Gulp" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
@@ -828,8 +828,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/libraries/tools/Tools.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.70740104">
-          <caret line="44" column="39" selection-start-line="44" selection-start-column="39" selection-end-line="44" selection-end-column="39" />
+        <state vertical-scroll-proportion="0.73666096">
+          <caret line="45" column="53" selection-start-line="45" selection-start-column="53" selection-end-line="45" selection-end-column="53" />
           <folding>
             <element signature="e#111#133#0#PHP" expanded="true" />
           </folding>
