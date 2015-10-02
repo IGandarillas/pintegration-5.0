@@ -25,7 +25,7 @@ class ProductsCsvSeed extends CsvSeeder\CsvSeeder {
         if(Auth::check())
             $customFields['user_id']=$user_id;
 
-        error_log($customFields['user_id']);
+        error_log($user_id);
 
 
     }

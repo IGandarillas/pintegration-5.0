@@ -18,7 +18,7 @@ class ProductsCsvSeedJob extends Command implements SelfHandling
     public function __construct($path,$user_id)
     {
         $this->path = $path;
-
+        $this->user_id=$user_id;
 
     }
 
