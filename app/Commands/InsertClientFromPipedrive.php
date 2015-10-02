@@ -29,12 +29,13 @@ class InsertClientFromPipedrive extends Command implements SelfHandling, ShouldB
     public function handle(){
         error_log("hbdle");
         $newClientId = $this->request['current']['person_id'];//Id Pipedrive
+        error_log($newClientId);
         $client = $this->createNewClient($newClientId);
-
+        error_log('Client Lastname '.$client->lastname);
         $tools = new Tools();
         $tools->addClient($client);
         $tools->addAddress($client);
-        error_log("hbdleND");
+        error_log("hbdlND");
 
     }
     protected function createNewClient($newClientId){

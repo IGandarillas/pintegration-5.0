@@ -15,8 +15,6 @@ use Auth;
 use Illuminate\Queue\SerializesModels;
 class Tools
 {
-
-
     public function addClient($client){
         $user = Auth::user();
         try
@@ -47,6 +45,7 @@ class Tools
             echo $ex->getMessage();
         }
     }
+
     public function addAddress($client){
         $user = Auth::user();
         try
