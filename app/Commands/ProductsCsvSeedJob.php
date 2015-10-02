@@ -16,7 +16,6 @@ class ProductsCsvSeedJob extends Command implements SelfHandling
      */
     public function __construct($path)
     {
-        error_log('Seeder c');
         $this->path = $path;
 
 

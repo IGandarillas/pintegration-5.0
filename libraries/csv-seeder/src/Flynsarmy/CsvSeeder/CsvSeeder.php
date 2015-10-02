@@ -87,7 +87,7 @@ class CsvSeeder extends Seeder
      */
     public function run()
     {
-
+        error_log($this->filename.' '.$this->csv_delimiter);
         $this->seedFromCSV($this->filename, $this->csv_delimiter);
     }
 
@@ -140,7 +140,7 @@ class CsvSeeder extends Seeder
     public function seedFromCSV($filename, $deliminator = ",")
     {
         $handle = $this->openCSV($filename);
-
+        error_log($handle);
         // CSV doesn't exist or couldn't be read from.
         if ( $handle === FALSE )
             return [];
@@ -237,7 +237,7 @@ class CsvSeeder extends Seeder
 
             $row_values[$dbCol] = $colValue;
         }
-
+        error_log($row_values);
         if ($this->hashable && isset($row_values[$this->hashable])) {
             $row_values[$this->hashable] =  Hash::make($row_values[$this->hashable]);
         }
