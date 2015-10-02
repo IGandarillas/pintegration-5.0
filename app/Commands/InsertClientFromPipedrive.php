@@ -18,19 +18,19 @@ class InsertClientFromPipedrive extends Command implements SelfHandling, ShouldB
     use InteractsWithQueue, SerializesModels;
 
     protected $request;
+    protected $user;
 
-    public function __construct($request)
-    {
+    public function __construct($request,$user)    {
         $this->request = $request;
-        error_log("Constr");
+        $this->user=$user;
     }
     public function handle(){
         error_log("hbdle");
         $newClientId = $this->request['current']['person_id'];//Id Pipedrive
         error_log($newClientId);
         $client = $this->createNewClient($newClientId);
-        error_log('Client Lastname ');
-        $tools = new Tools();
+        error_log('User IDd '.$this->user->id);
+        $tools = new Tools($this->user);
         $tools->addClient($client);
         $tools->addAddress($client);
         error_log("FIN");

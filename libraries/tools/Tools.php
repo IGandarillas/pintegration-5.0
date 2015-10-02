@@ -12,14 +12,20 @@ namespace Tools;
 use GuzzleHttp\Client;
 use PSWebS\PrestaShopWebservice;
 use Auth;
-use Illuminate\Queue\SerializesModels;
+
 class Tools
 {
+    protected $user=null;
+
+    public function __construct($user){
+        $this->user=$user;
+    }
     public function addClient($client){
-        $user = Auth::user();
+        error_log('client se pasa? : ' .$client->id);
+
         try
         {   //Get Blank schema
-            $connectClient = $this->initConnection($user);
+            $connectClient = $this->initConnection($this->user);
             $xml = $connectClient->get(array('url' => 'http://osteox.esy.es/prestashop/api/customers?schema=blank'));
             $resources = $xml->children()->children();
         }
