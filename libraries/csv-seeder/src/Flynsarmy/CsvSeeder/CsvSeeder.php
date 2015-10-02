@@ -140,7 +140,7 @@ class CsvSeeder extends Seeder
     public function seedFromCSV($filename, $deliminator = ",")
     {
         $handle = $this->openCSV($filename);
-        error_log($handle);
+
         // CSV doesn't exist or couldn't be read from.
         if ( $handle === FALSE )
             return [];
@@ -231,13 +231,17 @@ class CsvSeeder extends Seeder
                 $row_values[$dbCol] = NULL;
             } else {
                 $row_values[$dbCol] = $row[$csvCol];
+                error_log($row_values[$dbCol]);
             }
+
         }
         foreach($customFields as $dbCol => $colValue){
 
             $row_values[$dbCol] = $colValue;
+            error_log($row_values[$dbCol]);
         }
-        error_log($row_values);
+
+
         if ($this->hashable && isset($row_values[$this->hashable])) {
             $row_values[$this->hashable] =  Hash::make($row_values[$this->hashable]);
         }
@@ -256,6 +260,7 @@ class CsvSeeder extends Seeder
 
         try {
             DB::table($this->table)->insert($seedData);
+            error_log($this->table);
         } catch (\Exception $e) {
             Log::error("CSV insert failed: " . $e->getMessage() . " - CSV " . $this->filename);
             return FALSE;
