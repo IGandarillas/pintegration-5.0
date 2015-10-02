@@ -34,9 +34,13 @@ class Tools
         { // Here we are dealing with errors
             error_log($e->getMessage());
         }
-
-        $resources->firstname = $client->firstname;
-        $resources->lastname = $client->lastname;
+        if($client->firstname == null || $client->lastname == null ){
+            $resources->firstname = $client->name;
+            $resources->lastname = $client->name;
+        }else {
+            $resources->firstname = $client->firstname;
+            $resources->lastname = $client->lastname;
+        }
         $resources->passwd = $client->password;
         $resources->email = $client->email;
         error_log('client se pasa? : ' .$resources->email);
