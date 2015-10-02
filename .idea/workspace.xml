@@ -4,7 +4,6 @@
     <list default="true" id="37af2971-b24d-4079-83f3-20cafbd46bd1" name="Default" comment="">
       <change type="MOVED" beforePath="C:\Users\yukorff\psintegration\README.md" afterPath="$PROJECT_DIR$/readme.md" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Handlers/ProductsCsvSeed.php" afterPath="$PROJECT_DIR$/app/Handlers/ProductsCsvSeed.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Commands/ProductsCsvSeedJob.php" afterPath="$PROJECT_DIR$/app/Commands/ProductsCsvSeedJob.php" />
     </list>
     <ignored path="dev.pintegration.co.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -29,8 +28,8 @@
       <file leaf-file-name="ProductsCsvSeed.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/Handlers/ProductsCsvSeed.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.6437177">
-              <caret line="27" column="26" selection-start-line="27" selection-start-column="26" selection-end-line="27" selection-end-column="26" />
+            <state vertical-scroll-proportion="0.61445785">
+              <caret line="26" column="48" selection-start-line="26" selection-start-column="48" selection-end-line="26" selection-end-column="48" />
               <folding>
                 <element signature="e#124#148#0#PHP" expanded="true" />
               </folding>
@@ -800,8 +799,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/Handlers/ProductsCsvSeed.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.6437177">
-          <caret line="27" column="26" selection-start-line="27" selection-start-column="26" selection-end-line="27" selection-end-column="26" />
+        <state vertical-scroll-proportion="0.61445785">
+          <caret line="26" column="48" selection-start-line="26" selection-start-column="48" selection-end-line="26" selection-end-column="48" />
           <folding>
             <element signature="e#124#148#0#PHP" expanded="true" />
           </folding>
