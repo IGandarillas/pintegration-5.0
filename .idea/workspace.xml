@@ -4,7 +4,6 @@
     <list default="true" id="37af2971-b24d-4079-83f3-20cafbd46bd1" name="Default" comment="">
       <change type="MOVED" beforePath="C:\Users\yukorff\psintegration\README.md" afterPath="$PROJECT_DIR$/readme.md" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/libraries/csv-seeder/src/Flynsarmy/CsvSeeder/CsvSeeder.php" afterPath="$PROJECT_DIR$/libraries/csv-seeder/src/Flynsarmy/CsvSeeder/CsvSeeder.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="dev.pintegration.co.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -41,8 +40,8 @@
       <file leaf-file-name="CsvSeeder.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/libraries/csv-seeder/src/Flynsarmy/CsvSeeder/CsvSeeder.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.5797101">
-              <caret line="262" column="36" selection-start-line="262" selection-start-column="36" selection-end-line="262" selection-end-column="36" />
+            <state vertical-scroll-proportion="0.48731884">
+              <caret line="260" column="36" selection-start-line="260" selection-start-column="36" selection-end-line="260" selection-end-column="36" />
               <folding />
             </state>
           </provider>
@@ -796,8 +795,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/libraries/csv-seeder/src/Flynsarmy/CsvSeeder/CsvSeeder.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5797101">
-          <caret line="262" column="36" selection-start-line="262" selection-start-column="36" selection-end-line="262" selection-end-column="36" />
+        <state vertical-scroll-proportion="0.48731884">
+          <caret line="260" column="36" selection-start-line="260" selection-start-column="36" selection-end-line="260" selection-end-column="36" />
           <folding />
         </state>
       </provider>

@@ -241,7 +241,6 @@ class CsvSeeder extends Seeder
             error_log($row_values[$dbCol]);
         }
 
-
         if ($this->hashable && isset($row_values[$this->hashable])) {
             $row_values[$this->hashable] =  Hash::make($row_values[$this->hashable]);
         }
@@ -259,10 +258,12 @@ class CsvSeeder extends Seeder
     {
 
         try {
+            error_log($seedData[0]);
             DB::table($this->table)->insert($seedData);
-            error_log($this->table);
+
         } catch (\Exception $e) {
-            Log::error("CSV insert failed: " . $e->getMessage() . " - CSV " . $this->filename);
+            error_log("CSV insert failed: " . $e->getMessage() . " - CSV " . $this->filename);
+            \Illuminate\Support\Facades\Log::error("CSV insert failed: " . $e->getMessage() . " - CSV " . $this->filename);
             return FALSE;
         }
 
