@@ -234,14 +234,12 @@ class CsvSeeder extends Seeder
                 $row_values[$dbCol] = $row[$csvCol];
                 error_log($row_values[$dbCol].' '.$dbCol);
             }
-
         }
 
         /**
          * HARDCODED
          */
-        if(Auth::check())
-        $customFields['user_id']=Auth::user()->id;
+
 
         foreach($customFields as $dbCol => $colValue){
 
@@ -266,7 +264,7 @@ class CsvSeeder extends Seeder
     {
 
         try {
-            error_log($seedData[0]);
+          error_log($seedData[0]);
             DB::table($this->table)->insert($seedData);
 
         } catch (\Exception $e) {

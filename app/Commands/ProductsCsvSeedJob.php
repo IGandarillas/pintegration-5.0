@@ -8,13 +8,14 @@ use pintegration\Handlers\ProductsCsvSeed;
 
 class ProductsCsvSeedJob extends Command implements SelfHandling
 {
-    protected $path='hola';
+    protected $path='';
+    protected $user_id='';
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($path)
+    public function __construct($path,$user_id)
     {
         $this->path = $path;
 
@@ -29,7 +30,7 @@ class ProductsCsvSeedJob extends Command implements SelfHandling
     public function handle()
     {
         error_log('Seeder handle');
-        $productsCsvSeeder = new ProductsCsvSeed( $this->path );
+        $productsCsvSeeder = new ProductsCsvSeed( $this->path, $this->user_id );
         //dd($productsCsvSeeder);
         $productsCsvSeeder->run();
     }

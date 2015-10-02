@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 class ProductsCsvSeed extends CsvSeeder\CsvSeeder {
 
-    public function __construct($filePath)
+    public function __construct($filePath,$user_id)
     {
         $this->table = 'items';
         $this->filename = $filePath;
@@ -22,8 +22,10 @@ class ProductsCsvSeed extends CsvSeeder\CsvSeeder {
             1 => 'code'
         ];
         $this->offset_rows = 1;
+        if(Auth::check())
+            $customFields['user_id']=$user_id;
 
-        //$this->customFields['user_id'] = '1';
+        error_log($customFields['user_id']);
 
 
     }
