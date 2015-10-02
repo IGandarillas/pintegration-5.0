@@ -50,13 +50,15 @@ class InsertClientFromPipedrive extends Command implements SelfHandling, ShouldB
             $newClient->id_client_pipedrive = $newClientId;
             $newClient->user_id = '1';
             $newClient->save();
-
+            error_log('cliente creado');
             $address = new Direccion();
             $address->client_id = $newClient->id;//?
             $address->address1 = $clientData['data']['57cda8344ed4defb3ad99df35e755b8cfc64c248'];
             $address->country = $clientData['data']['57cda8344ed4defb3ad99df35e755b8cfc64c248_country'];
             $address->postcode = $clientData['data']['57cda8344ed4defb3ad99df35e755b8cfc64c248_postal_code'];
             $address->city = $clientData['data']['57cda8344ed4defb3ad99df35e755b8cfc64c248_locality'];
+            error_log($address->city);
+            error_log($address->client_id);
             $address->save();
 
             return $newClient;

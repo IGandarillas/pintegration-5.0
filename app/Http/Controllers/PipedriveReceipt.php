@@ -60,7 +60,7 @@ class PipedriveReceipt extends Controller
             }else{
                 $task= new InsertClientFromPipedrive($req);
                 error_log("job");
-                Queue::later(Carbon::now()->addSeconds(10), $task);
+                Queue::later(Carbon::now()->addSeconds(5), $task);
 
 
             }

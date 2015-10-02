@@ -56,7 +56,7 @@ class FileEntryController extends Controller
             error_log('Lanzar job');
             if(Auth::check()) {
                 $task = new ProductsCsvSeedJob($path, Auth::user()->id);
-                Queue::later(Carbon::now()->addSeconds(10), $task);
+                Queue::later(Carbon::now()->addSeconds(1), $task);
                 error_log('Seeder c');
                 return redirect('/products');
             }else{
