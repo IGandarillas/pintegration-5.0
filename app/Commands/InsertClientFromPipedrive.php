@@ -8,8 +8,6 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Contracts\Queue\ShouldBeQueued;
 use GuzzleHttp;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Redirect;
 use pintegration\Client;
 use Illuminate\Support\Facades\Artisan;
 use Symfony\Component\Finder\Shell\Command;
@@ -40,7 +38,9 @@ class InsertClientFromPipedrive extends Command implements SelfHandling, ShouldB
     }
     protected function createNewClient($newClientId){
         $clientData = $this->getClientData($newClientId);
-
+        error_log($clientData['data']['first_name']);
+        error_log($clientData['data']['last_name']);
+        error_log($clientData['data']['email'][0]['value']);
         if($this->isAddress($clientData)) {
             $newClient = new Client();
             $newClient->firstname = $clientData['data']['first_name'];
@@ -81,9 +81,11 @@ class InsertClientFromPipedrive extends Command implements SelfHandling, ShouldB
 
     }
     protected function getData($url){
+        error_log($url);
         $guzzleClient = new GuzzleHttp\Client();
         try {
             $response = $guzzleClient->get($url);
+            error_log($response);
             if(  $response!=null && $response->getStatusCode() == 200 ){
                 return json_decode($response->getBody(),true);
             }
