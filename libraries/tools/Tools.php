@@ -23,7 +23,7 @@ class Tools
         $this->user_id=$user_id;
     }
     public function addClient($client){
-        error_log('client se pasa? : ' .$client->id);
+
         try
         {   //Get Blank schema
             $connectClient = $this->initConnection();
@@ -39,6 +39,7 @@ class Tools
         $resources->lastname = $client->lastname;
         $resources->passwd = $client->password;
         $resources->email = $client->email;
+        error_log('client se pasa? : ' .$resources->email);
         try {
             $opt = array('resource' => 'customers');
             $opt['postXml'] = $xml->asXML();
@@ -54,10 +55,9 @@ class Tools
     }
 
     public function addAddress($client){
-        $user = Auth::user();
         try
         {   //Get Blank schema
-            $connectClient = $this->initConnection($user);
+            $connectClient = $this->initConnection();
             $xml = $connectClient->get(array('url' => 'http://osteox.esy.es/prestashop/api/addresses?schema=blank'));
             $resources = $xml->children()->children();
         }
@@ -73,7 +73,6 @@ class Tools
         $resources->city = $direccion->city;
         $resources->id_country = '6';
         $resources->postcode = $direccion->postcode;
-
         $resources->alias = 'Alias';
         try {
             $opt = array('resource' => 'addresses');
@@ -89,10 +88,10 @@ class Tools
     }
 
     public function addOrder($client){
-        $user = Auth::user();
+
         try
         {   //Get Blank schema
-            $connectClient = $this->initConnection($user);
+            $connectClient = $this->initConnection();
             $xml = $connectClient->get(array('url' => 'http://osteox.esy.es/prestashop/api/orders?schema=blank'));
             $resources = $xml->children()->children();
         }
