@@ -231,14 +231,14 @@ class CsvSeeder extends Seeder
                 $row_values[$dbCol] = NULL;
             } else {
                 $row_values[$dbCol] = $row[$csvCol];
-                error_log($row_values[$dbCol]);
+                error_log($row_values[$dbCol].' '.$dbCol);
             }
 
         }
         foreach($customFields as $dbCol => $colValue){
 
             $row_values[$dbCol] = $colValue;
-            error_log($row_values[$dbCol]);
+            error_log($row_values[$dbCol].' '.$dbCol);
         }
 
         if ($this->hashable && isset($row_values[$this->hashable])) {
