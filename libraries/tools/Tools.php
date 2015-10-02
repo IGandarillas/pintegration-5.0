@@ -10,22 +10,23 @@
 
 namespace Tools;
 use GuzzleHttp\Client;
+use pintegration\User;
 use PSWebS\PrestaShopWebservice;
+
 use Auth;
 
 class Tools
 {
-    protected $user=null;
+    protected $user_id=null;
 
-    public function __construct($user){
-        $this->user=$user;
+    public function __construct($user_id){
+        $this->user_id=$user_id;
     }
     public function addClient($client){
         error_log('client se pasa? : ' .$client->id);
-
         try
         {   //Get Blank schema
-            $connectClient = $this->initConnection($this->user);
+            $connectClient = $this->initConnection();
             $xml = $connectClient->get(array('url' => 'http://osteox.esy.es/prestashop/api/customers?schema=blank'));
             $resources = $xml->children()->children();
         }
@@ -123,7 +124,8 @@ class Tools
     }
 
 
-    protected function initConnection($user){
+    protected function initConnection(){
+        $user = User::find($this->user_id);
         return new PrestaShopWebservice($user->prestashop_url, $user->prestashop_api, true);
     }
 }
