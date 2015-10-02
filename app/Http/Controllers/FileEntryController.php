@@ -4,6 +4,7 @@ namespace pintegration\Http\Controllers;
 
 use Illuminate\Foundation\Bus\DispatchesCommands;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Queue;
 use pintegration\Http\Requests;
 use pintegration\Handlers\ProductsCsvSeed;
 use Illuminate\Support\Facades\File;
