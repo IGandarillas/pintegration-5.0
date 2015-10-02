@@ -2,7 +2,9 @@
 
 namespace pintegration\Http\Controllers;
 
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Request;
+use Illuminate\Support\Facades\Queue;
 use pintegration\Client;
 use pintegration\Http\Requests;
 use Auth;
@@ -56,9 +58,10 @@ class PipedriveReceipt extends Controller
 
                 return;
             }else{
-
+                $task= new InsertClientFromPipedrive($req);
                 error_log("job");
-                $this->dispatch(new InsertClientFromPipedrive($req));
+                Queue::later(Carbon::now()->addSeconds(10), $task);
+
 
             }
             //
