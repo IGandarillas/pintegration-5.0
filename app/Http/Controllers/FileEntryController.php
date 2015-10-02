@@ -52,7 +52,8 @@ class FileEntryController extends Controller
 
 
             error_log('Lanzar job');
-                $commandJob = $this->dispatch(new ProductsCsvSeedJob($path));
+                $task = new ProductsCsvSeedJob($path);
+            Queue::later(Carbon::now()->addSeconds(10), $task);
             error_log('Seeder c');
                 return redirect('/products');
 
