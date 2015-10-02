@@ -264,11 +264,11 @@ class CsvSeeder extends Seeder
     {
 
         try {
-          error_log($seedData[0]);
+
             DB::table($this->table)->insert($seedData);
 
         } catch (\Exception $e) {
-            error_log("CSV insert failed: " . $e->getMessage() . " - CSV " . $this->filename);
+            error_log("CSV insert failed: " . $e->getTraceAsString() . " - CSV " . $this->filename);
             \Illuminate\Support\Facades\Log::error("CSV insert failed: " . $e->getMessage() . " - CSV " . $this->filename);
             return FALSE;
         }
