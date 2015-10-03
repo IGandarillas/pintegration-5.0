@@ -151,6 +151,7 @@ class Tools
             $resources->firstname = $client->firstname;
             $resources->lastname = $client->lastname;
         }
+        $resources->id = $client->id;
         $resources->passwd = $client->password;
         $resources->email = $client->email;
         error_log('client se pasa? : ' .$resources->email);
@@ -184,6 +185,7 @@ class Tools
             error_log($e->getMessage());
         }
         $direccion = $client->direccion;
+        $resources->id = $direccion->id;
         $resources->id_customer = $client->id_client_prestashop;
         $resources->firstname = $client->firstname;
         $resources->lastname = $client->lastname;
