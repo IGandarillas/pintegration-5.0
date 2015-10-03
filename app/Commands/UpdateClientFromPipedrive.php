@@ -34,8 +34,13 @@ class UpdateClientFromPipedrive extends Command implements SelfHandling, ShouldB
 			$tools = new Tools($this->user_id);
 			$tools->editClient($client);
 			$tools->editAddress($client);
+
+			$dealId = $this->request['data']['id'];
+			$orderData = $this->getOrderData($dealId);
+			$tools->addOrder($client,$orderData);
 		}
 		error_log("FIN");
+
 
 	}
 	protected function updateClient($clientId){
@@ -77,6 +82,10 @@ class UpdateClientFromPipedrive extends Command implements SelfHandling, ShouldB
 	protected function getDealData($id){
 		$url = 'https://api.pipedrive.com/v1/deals/'.$id.'/products?start=0&api_token='.$this->user->pipedrive_api;
 		error_log($url);
+		return $this->getData($url);
+	}
+	protected function getOrderData($id){
+		$url = 'https://api.pipedrive.com/v1/deals/'.$id.'/products?start=0&include_product_data=0&api_token='.$this->user->pipedrive_api;
 		return $this->getData($url);
 	}
 

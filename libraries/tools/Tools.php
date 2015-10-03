@@ -95,7 +95,7 @@ class Tools
         }
     }
 
-    public function addOrder($client){
+    public function addOrder($client,$order){
 
         try
         {   //Get Blank schema
@@ -109,13 +109,11 @@ class Tools
         }
         $direccion = $client->direccion;
         $resources->id_customer = $client->id_client_prestashop;
-        $resources->firstname = $client->firstname;
-        $resources->lastname = $client->lastname;
-        $resources->address1 = $direccion->address1;
-        $resources->city = $direccion->city;
-        $resources->id_country = '6';
-        $resources->postcode = $direccion->postcode;
-        $resources->alias = $client->firstname.' '.$client->lastname;
+        $resources->id_address_delivery = $direccion->id_address_prestashop;
+
+        $resources->associations->order_rows[0]->product_id = $order->data[0]->product_id;
+
+
 
         try {
             $opt = array('resource' => 'orders');
