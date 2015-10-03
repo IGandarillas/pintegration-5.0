@@ -48,6 +48,7 @@ class HomeController extends Controller
         $user->prestashop_api = $request->get('prestashop_api');
         $user->pipedrive_api = $request->get('pipedrive_api');
         $user->prestashop_url = $request->get('prestashop_url');
+        $user->address_field = $request->get('address_field');
         $user->save();
         return view('home.createOrUpdate',compact('user'));
     }
