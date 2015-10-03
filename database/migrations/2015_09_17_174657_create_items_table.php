@@ -20,7 +20,7 @@ class CreateItemsTable extends Migration
 
             $table->string('code')->nullable()->unique();;
             $table->string('name',1000)->nullable();
-
+            $table->string('price')->nullable();
             $table->timestamps();
 
             $table->integer('user_id')->unsigned();
