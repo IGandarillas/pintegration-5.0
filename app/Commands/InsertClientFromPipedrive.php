@@ -79,9 +79,6 @@ class InsertClientFromPipedrive extends Command implements SelfHandling, ShouldB
         return ($clientData['data']['57cda8344ed4defb3ad99df35e755b8cfc64c248_formatted_address'] != NULL);
     }
 
-    protected function fillAddress($clientData){
-
-    }
     protected function getData($url){
         error_log($url);
         $guzzleClient = new GuzzleHttp\Client();

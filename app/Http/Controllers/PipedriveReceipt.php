@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Queue;
 use pintegration\Client;
+use pintegration\Commands\UpdateClientFromPipedrive;
 use pintegration\Http\Requests;
 use Auth;
 use GuzzleHttp;
@@ -40,10 +41,6 @@ class PipedriveReceipt extends Controller
         error_log("Request");
         $req = $request->all();
 
-
-       // dd( );
-
-
         //error_log(env(QUEUE_DRIVER));
         //$this->dispatchFrom('App\Jobs\SyncPipedriveDeals',$request);
 
@@ -54,14 +51,13 @@ class PipedriveReceipt extends Controller
             );
 
             if(  Client::whereIdClientPipedrive($clientIdPipedrive)->first() != null  ){
-                //Get
-
-                return;
+                $task= new UpdateClientFromPipedrive($req, Auth::user()->id);
+                error_log("Job Update");
+                Queue::later(Carbon::now()->addSeconds(5), $task);
             }else{
                 $task= new InsertClientFromPipedrive($req, Auth::user()->id);
                 error_log("job");
                 Queue::later(Carbon::now()->addSeconds(5), $task);
-
 
             }
             //

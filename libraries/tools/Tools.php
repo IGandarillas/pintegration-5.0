@@ -129,6 +129,80 @@ class Tools
             echo $ex->getMessage();
         }
     }
+    public function editClient($client){
+
+        try
+        {   //Get Blank schema
+            $connectClient = $this->initConnection();
+            $xml = $connectClient->get(array('url' => 'http://osteox.esy.es/prestashop/api/customers?schema=blank'));
+            $resources = $xml->children()->children();
+        }
+        catch (PrestaShopWebserviceException $e)
+        { // Here we are dealing with errors
+            error_log($e->getMessage());
+        }
+        if($client->firstname == null){
+            $resources->firstname = $client->lastname;
+            $resources->lastname = $client->lastname;
+        }elseif( $client->lastname == null ){
+            $resources->firstname = $client->firstname;
+            $resources->lastname = $client->firstname;
+        }else {
+            $resources->firstname = $client->firstname;
+            $resources->lastname = $client->lastname;
+        }
+        $resources->id = $client->id;
+        $resources->passwd = $client->password;
+        $resources->email = $client->email;
+        error_log('client se pasa? : ' .$resources->email);
+        try {
+            $opt = array('resource' => 'customers');
+            $opt['postXml'] = $xml->asXML();
+            $connectClient = $this->initConnection();
+            $xml = $connectClient->edit($opt);
+            $client->id_client_prestashop = $xml->children()->children()->id;//Process response.
+            $client->update();
+        }
+        catch (PrestaShopWebserviceException $ex)
+        { // Here we are dealing with errors
+            echo $ex->getMessage();
+        }
+    }
+
+
+    public function editAddress($client){
+        try
+        {   //Get Blank schema
+            $connectClient = $this->initConnection();
+            $xml = $connectClient->get(array('url' => 'http://osteox.esy.es/prestashop/api/addresses?schema=blank'));
+            $resources = $xml->children()->children();
+        }
+        catch (PrestaShopWebserviceException $e)
+        { // Here we are dealing with errors
+            error_log($e->getMessage());
+        }
+        $direccion = $client->direccion;
+        $resources->id = $direccion->id;
+        $resources->id_customer = $client->id_client_prestashop;
+        $resources->firstname = $client->firstname;
+        $resources->lastname = $client->lastname;
+        $resources->address1 = $direccion->address1;
+        $resources->city = $direccion->city;
+        $resources->id_country = '6';
+        $resources->postcode = $direccion->postcode;
+        $resources->alias = 'Alias';
+        try {
+            $opt = array('resource' => 'addresses');
+            $opt['postXml'] = $xml->asXML();
+            $xml = $connectClient->edit($opt);
+            $direccion->id_address_prestashop = $xml->children()->children()->id;//Process response.
+            $direccion->update();
+        }
+        catch (PrestaShopWebserviceException $ex) {
+            // Here we are dealing with errors
+            echo $ex->getMessage();
+        }
+    }
 
 
     protected function initConnection(){
@@ -136,3 +210,4 @@ class Tools
         return new PrestaShopWebservice($user->prestashop_url, $user->prestashop_api, true);
     }
 }
+
