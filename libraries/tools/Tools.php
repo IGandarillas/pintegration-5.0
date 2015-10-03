@@ -111,7 +111,7 @@ class Tools
         $resources->id_customer = $client->id_client_prestashop;
         $resources->id_address_delivery = $direccion->id_address_prestashop;
 
-        $resources->associations->order_rows[0]->product_id = $order->data[0]->product_id;
+        $resources->associations->order_rows[0]->product_id = $order['data'][0]['product_id'];
 
 
 
