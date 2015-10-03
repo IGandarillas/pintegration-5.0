@@ -4,12 +4,13 @@ namespace pintegration\Http\Controllers;
 
 use Carbon\Carbon;
 
+use Illuminate\Support\Facades\Auth;
 use pintegration\User;
 use Illuminate\Support\Facades\Queue;
 use pintegration\Client;
 use pintegration\Commands\UpdateClientFromPipedrive;
 use pintegration\Http\Requests;
-use Illuminate\Auth;
+
 use GuzzleHttp;
 use pintegration\Commands\InsertClientFromPipedrive;
 
