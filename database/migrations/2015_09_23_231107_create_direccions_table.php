@@ -20,7 +20,7 @@ class CreateDireccionsTable extends Migration
             $table->string('postcode');
             $table->string('city');
             $table->timestamps();
-            $table->integer('client_id')->unsigned()->nullable();
+            $table->integer('client_id')->unsigned()->nullable()->unique();
             $table->foreign('client_id')
                 ->references('id')->on('clients')
                 ->onDelete('cascade')->onUpdate('cascade');

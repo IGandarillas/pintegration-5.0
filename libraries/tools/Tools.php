@@ -151,7 +151,7 @@ class Tools
             $resources->firstname = $client->firstname;
             $resources->lastname = $client->lastname;
         }
-        $resources->id = $client->id;
+        $resources->id = $client->id_client_prestashop;
         $resources->passwd = $client->password;
         $resources->email = $client->email;
         error_log('client se pasa? : ' .$resources->email);
@@ -163,8 +163,8 @@ class Tools
             $opt['putXml'] = $xml->asXML();
             $connectClient = $this->initConnection();
             $xml = $connectClient->edit($opt);
-            $client->id_client_prestashop = $xml->children()->children()->id;//Process response.
-            $client->update();
+            //$client->id_client_prestashop = $xml->children()->children()->id;//Process response.
+            //$client->update();
         }
         catch (PrestaShopWebserviceException $ex)
         { // Here we are dealing with errors
@@ -185,7 +185,7 @@ class Tools
             error_log($e->getMessage());
         }
         $direccion = $client->direccion;
-        $resources->id = $direccion->id;
+        $resources->id = $direccion->id_address_prestashop;
         $resources->id_customer = $client->id_client_prestashop;
         $resources->firstname = $client->firstname;
         $resources->lastname = $client->lastname;
@@ -201,8 +201,8 @@ class Tools
             );
             $opt['putXml'] = $xml->asXML();
             $xml = $connectClient->edit($opt);
-            $direccion->id_address_prestashop = $xml->children()->children()->id;//Process response.
-            $direccion->update();
+            //$direccion->id_address_prestashop = $xml->children()->children()->id;//Process response.
+            //$direccion->update();
         }
         catch (PrestaShopWebserviceException $ex) {
             // Here we are dealing with errors

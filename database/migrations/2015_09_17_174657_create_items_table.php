@@ -15,12 +15,11 @@ class CreateItemsTable extends Migration
         Schema::create('items', function (Blueprint $table) {
             $table->increments('id');
 
-            $table->integer('id_item_prestashop')->index()->nullable();
-            $table->integer('id_item_pipedrive')->index()->unique()->nullable();
+            $table->integer('id_item_prestashop')->index()->nullable()->unique();;
+            $table->integer('id_item_pipedrive')->index()->unique()->nullable()->unique();;
 
-            $table->string('code')->nullable();
+            $table->string('code')->nullable()->unique();;
             $table->string('name',1000)->nullable();
-            $table->string('description',1000)->nullable();
 
             $table->timestamps();
 
