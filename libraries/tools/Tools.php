@@ -113,11 +113,14 @@ class Tools
 
         $resources->id_customer = $client->id_client_prestashop;
         $resources->id_address_delivery = $direccion->id_address_prestashop;
+        $resources->id_currency = '1';
+        $resources->id_lang='3';
 
         $item = Item::whereIdItemPipedrive($order['data'][0]['product_id'])->first();
         error_log($order['data'][0]['product_id']);
         $resources->associations->order_rows->order_row[0]->product_id = $item->id_item_prestashop;
-
+        $resources->associations->order_rows->order_row[0]->product_attribute_id = '1';
+        $resources->associations->order_rows->order_row[0]->name= $item->name;
 
 
         try {
