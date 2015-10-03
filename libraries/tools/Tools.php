@@ -10,6 +10,7 @@
 
 namespace Tools;
 use GuzzleHttp\Client;
+use pintegration\Item;
 use pintegration\User;
 use PSWebS\PrestaShopWebservice;
 
@@ -110,8 +111,9 @@ class Tools
         $direccion = $client->direccion;
         $resources->id_customer = $client->id_client_prestashop;
         $resources->id_address_delivery = $direccion->id_address_prestashop;
-
-        $resources->associations->order_rows[0]->product_id = $order['data'][0]['product_id'];
+        
+        $item = Item::whereIdItemPipedrive($order['data'][0]['product_id'])->first();
+        $resources->associations->order_rows[0]->product_id = $item->id;
 
 
 

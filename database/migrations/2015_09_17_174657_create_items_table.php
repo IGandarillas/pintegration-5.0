@@ -16,7 +16,7 @@ class CreateItemsTable extends Migration
             $table->increments('id');
 
             $table->integer('id_item_prestashop')->index()->nullable()->unique();;
-            $table->integer('id_item_pipedrive')->index()->unique()->nullable()->unique();;
+            $table->integer('id_item_pipedrive')->index()->unique()->nullable();
 
             $table->string('code')->nullable()->unique();;
             $table->string('name',1000)->nullable();
