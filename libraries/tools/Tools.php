@@ -157,7 +157,7 @@ class Tools
         error_log('client se pasa? : ' .$resources->email);
         try {
             $opt = array('resource' => 'customers');
-            $opt['postXml'] = $xml->asXML();
+            $opt['putXml'] = $xml->asXML();
             $connectClient = $this->initConnection();
             $xml = $connectClient->edit($opt);
             $client->id_client_prestashop = $xml->children()->children()->id;//Process response.
@@ -193,7 +193,7 @@ class Tools
         $resources->alias = 'Alias';
         try {
             $opt = array('resource' => 'addresses');
-            $opt['postXml'] = $xml->asXML();
+            $opt['putXml'] = $xml->asXML();
             $xml = $connectClient->edit($opt);
             $direccion->id_address_prestashop = $xml->children()->children()->id;//Process response.
             $direccion->update();
