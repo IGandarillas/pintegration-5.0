@@ -151,12 +151,14 @@ class Tools
             $resources->firstname = $client->firstname;
             $resources->lastname = $client->lastname;
         }
-        $resources->id = $client->id;
         $resources->passwd = $client->password;
         $resources->email = $client->email;
         error_log('client se pasa? : ' .$resources->email);
         try {
-            $opt = array('resource' => 'customers');
+            $opt = array(
+                'resource' => 'customers',
+                'id' => $client->id
+            );
             $opt['putXml'] = $xml->asXML();
             $connectClient = $this->initConnection();
             $xml = $connectClient->edit($opt);
@@ -182,8 +184,6 @@ class Tools
             error_log($e->getMessage());
         }
         $direccion = $client->direccion;
-        log_error('ID DIRECCION: '.$client->direccion->id);
-        $resources->id = $direccion->id;
         $resources->id_customer = $client->id_client_prestashop;
         $resources->firstname = $client->firstname;
         $resources->lastname = $client->lastname;
@@ -193,7 +193,10 @@ class Tools
         $resources->postcode = $direccion->postcode;
         $resources->alias = 'Alias';
         try {
-            $opt = array('resource' => 'addresses');
+            $opt = array(
+                'resource' => 'addresses',
+                'id' => $direccion->id
+            );
             $opt['putXml'] = $xml->asXML();
             $xml = $connectClient->edit($opt);
             $direccion->id_address_prestashop = $xml->children()->children()->id;//Process response.
