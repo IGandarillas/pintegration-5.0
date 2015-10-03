@@ -356,7 +356,7 @@ class PrestaShopWebservice
 				$url .= '&id_group_shop='.$options['id_group_shop'];
 		}
 		else
-			throw new Exception('Bad parameters given');
+			throw new \Exception('Bad parameters given');
 
 		$request = self::executeRequest($url,  array(CURLOPT_CUSTOMREQUEST => 'PUT', CURLOPT_POSTFIELDS => $xml));
 		self::checkStatusCode($request['status_code']);// check the response validity
