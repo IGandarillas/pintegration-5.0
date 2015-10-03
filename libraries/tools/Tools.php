@@ -112,7 +112,7 @@ class Tools
         $resources->id_customer = $client->id_client_prestashop;
         $resources->id_address_delivery = $direccion->id_address_prestashop;
 
-        $item = Item::whereIdItemPipedrive($order['data']['0']['product_id'])->first();
+        $item = Item::whereIdItemPipedrive($order['data'][0]['product_id'])->first();
         $resources->associations->order_rows[0]->product_id = $item->id;
 
 

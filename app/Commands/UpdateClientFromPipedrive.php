@@ -35,7 +35,7 @@ class UpdateClientFromPipedrive extends Command implements SelfHandling, ShouldB
 			$tools->editClient($client);
 			$tools->editAddress($client);
 
-			$dealId = $this->request['data']['id'];
+			$dealId = $this->request['current']['id'];
 			$orderData = $this->getOrderData($dealId);
 			$tools->addOrder($client,$orderData);
 		}
