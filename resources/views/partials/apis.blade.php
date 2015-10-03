@@ -10,16 +10,16 @@
 			 </div>
 		 @endif
 		 <div class="form-group">
-		 	{!! Form::label('PipeDrive') !!}
-		 	{!! Form::text('pipedrive_api', null ,array('class'=>'form-control text-', 'placeholder'=>'PipeDrive API key')) !!}
+		 	{!! Form::label('PipeDrive API key') !!}
+		 	{!! Form::text('pipedrive_api', null ,array('class'=>'form-control text-', 'placeholder'=>'Ex: e9748c75a8b8a2179354dd2226665332c04c71ea')) !!}
 		 </div>
 		<div class="form-group">
-		 	{!! Form::label('Prestashop') !!}
-		 	{!! Form::text('prestashop_api', null ,array('class'=>'form-control text-', 'placeholder'=>'Prestashop API key')) !!}
+		 	{!! Form::label('Prestashop API key') !!}
+		 	{!! Form::text('prestashop_api', null ,array('class'=>'form-control text-', 'placeholder'=>'Ex: 5AWMFQ9B8AJG4NV88GS16NWUB1CXC7WS')) !!}
 		 </div>
          <div class="form-group">
 			 {!! Form::label('Prestashop URL') !!}
-			 {!! Form::text('prestashop_url', null ,array('class'=>'form-control text-', 'placeholder'=>'Prestashop URL')) !!}
+			 {!! Form::text('prestashop_url', null ,array('class'=>'form-control text-', 'placeholder'=>'Ex: http://osteox.esy.es/prestashop/')) !!}
 		 </div>
 		 <div class="form-group">
 			 {!! Form::label('Address field code') !!}
