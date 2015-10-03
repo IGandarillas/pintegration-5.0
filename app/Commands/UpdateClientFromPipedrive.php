@@ -7,6 +7,7 @@ use Illuminate\Contracts\Bus\SelfHandling;
 use GuzzleHttp;
 use pintegration\Client;
 use Illuminate\Support\Facades\Artisan;
+use pintegration\User;
 use Symfony\Component\Finder\Shell\Command;
 use Tools\Tools;
 use pintegration\Direccion;
@@ -69,11 +70,11 @@ class UpdateClientFromPipedrive extends Command implements SelfHandling, ShouldB
 
 	protected function getClientData($id)
 	{
-		$url = 'https://api.pipedrive.com/v1/persons/'.$id.'?api_token=e9748c75a8b8a2179354dd2226665332c04c71ea';
+		$url = 'https://api.pipedrive.com/v1/persons/'.$id.'?api_token='.$this->user->pipedrive_api;
 		return $this->getData($url);
 	}
 	protected function getDealData($id){
-		$url = 'https://api.pipedrive.com/v1/deals/'.$id.'/products?start=0&api_token=e9748c75a8b8a2179354dd2226665332c04c71ea';
+		$url = 'https://api.pipedrive.com/v1/deals/'.$id.'/products?start=0&api_token='.$this->user->pipedriveapi;
 		return $this->getData($url);
 	}
 
