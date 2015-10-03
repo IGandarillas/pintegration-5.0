@@ -110,12 +110,13 @@ class Tools
         }
         $direccion = $client->direccion;
         error_log($direccion->id_address_prestashop);
+
         $resources->id_customer = $client->id_client_prestashop;
         $resources->id_address_delivery = $direccion->id_address_prestashop;
 
         $item = Item::whereIdItemPipedrive($order['data'][0]['product_id'])->first();
         error_log($order['data'][0]['product_id']);
-        $resources->associations->order_rows[0]->product_id = $item->id_item_prestashop;
+        $resources->associations->order_rows->order_row[0]->product_id = $item->id_item_prestashop;
 
 
 
