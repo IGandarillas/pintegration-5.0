@@ -19,10 +19,12 @@ class InsertClientFromPipedrive extends Command implements SelfHandling, ShouldB
 
     protected $request;
     protected $user_id;
+    protected $user;
 
     public function __construct($request,$user_id)    {
         $this->request = $request;
         $this->user_id=$user_id;
+        $this->user = User::find($user_id);
     }
     public function handle(){
         error_log("hbdle");
@@ -53,10 +55,10 @@ class InsertClientFromPipedrive extends Command implements SelfHandling, ShouldB
             error_log('cliente creado');
             $address = new Direccion();
             $address->client_id = $newClient->id;//?
-            $address->address1 = $clientData['data']['57cda8344ed4defb3ad99df35e755b8cfc64c248'];
-            $address->country = $clientData['data']['57cda8344ed4defb3ad99df35e755b8cfc64c248_country'];
-            $address->postcode = $clientData['data']['57cda8344ed4defb3ad99df35e755b8cfc64c248_postal_code'];
-            $address->city = $clientData['data']['57cda8344ed4defb3ad99df35e755b8cfc64c248_locality'];
+            $address->address1 = $clientData['data'][$this->user->address_field];
+            $address->country = $clientData['data'][$this->user->address_field.'_country'];
+            $address->postcode = $clientData['data'][$this->user->address_field.'_postal_code'];
+            $address->city = $clientData['data'][$this->user->address_field.'_locality'];
             error_log($address->city);
             error_log($address->client_id);
             $address->save();
@@ -76,7 +78,7 @@ class InsertClientFromPipedrive extends Command implements SelfHandling, ShouldB
     }
 
     protected function isAddress($clientData){
-        return ($clientData['data']['57cda8344ed4defb3ad99df35e755b8cfc64c248_formatted_address'] != NULL);
+        return ($clientData['data'][$this->user->address_field.'_formatted_address'] != NULL);
     }
 
     protected function getData($url){

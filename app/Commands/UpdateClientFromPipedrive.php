@@ -18,10 +18,12 @@ class UpdateClientFromPipedrive extends Command implements SelfHandling, ShouldB
 
 	protected $request;
 	protected $user_id;
+	protected $user;
 
 	public function __construct($request,$user_id)    {
 		$this->request = $request;
 		$this->user_id=$user_id;
+		$this->user = User::find($user_id);
 	}
 	public function handle(){
 		$clientId = $this->request['current']['person_id'];//Id Pipedrive
@@ -54,10 +56,10 @@ class UpdateClientFromPipedrive extends Command implements SelfHandling, ShouldB
 
 			$direccion= array(
 				'client_id' => $updateClient->id,
-				'address1' => $clientData['data']['57cda8344ed4defb3ad99df35e755b8cfc64c248'],
-				'country' => $clientData['data']['57cda8344ed4defb3ad99df35e755b8cfc64c248_country'],
-				'postcode' => $clientData['data']['57cda8344ed4defb3ad99df35e755b8cfc64c248_postal_code'],
-				'city' => $clientData['data']['57cda8344ed4defb3ad99df35e755b8cfc64c248_locality']
+				'address1' => $clientData['data'][$this->user->address_field],
+				'country' => $clientData['data'][$this->user->address_field.'_country'],
+				'postcode' => $clientData['data'][$this->user->address_field.'_postal_code'],
+				'city' => $clientData['data'][$this->user->address_field.'_locality']
 			);
 			Direccion::updateOrCreate($direccion);
 
@@ -76,7 +78,7 @@ class UpdateClientFromPipedrive extends Command implements SelfHandling, ShouldB
 	}
 
 	protected function isAddress($clientData){
-		return ($clientData['data']['57cda8344ed4defb3ad99df35e755b8cfc64c248_formatted_address'] != NULL);
+		return ($clientData['data'][$this->user->address_field.'_formatted_address'] != NULL);
 	}
 
 	protected function getData($url){

@@ -18,6 +18,7 @@ class CreateUsersTable extends Migration
             $table->string('prestashop_api')->nullable();
             $table->string('prestashop_url')->nullable();
             $table->string('pipedrive_api')->nullable();
+            $table->string('address_field')->nullable();
             $table->string('email')->unique();
             $table->string('password', 60);
             $table->rememberToken();
