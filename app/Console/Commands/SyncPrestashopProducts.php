@@ -104,7 +104,7 @@ class SyncPrestashopProducts extends Command
             if($item->id_item_pipedrive != NULL){
                 try {
 
-                    $res = $client->put('https://api.pipedrive.com/v1/products/'.$item->id_item_pipedrive.'?api_token=e9748c75a8b8a2179354dd2226665332c04c71ea', [
+                    $res = $client->put('https://api.pipedrive.com/v1/products/'.$item->id_item_pipedrive.'?api_token='.$user->id_item_pipedrive, [
                         'body' => [
                             'name' => $item->name,
                             'owner_id' => '830118',
@@ -124,7 +124,7 @@ class SyncPrestashopProducts extends Command
                 //Get pipedrive Key and update
                 try {
                    // https://api.pipedrive.com/v1/
-                    $res = $client->post('https://api.pipedrive.com/v1/products?api_token=e9748c75a8b8a2179354dd2226665332c04c71ea', [
+                    $res = $client->post('https://api.pipedrive.com/v1/products?api_token='.$user->id_item_pipedrive, [
                         'body' => [
                             'name' => $item->name,
                             'active_flag' => '1',
