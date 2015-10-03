@@ -71,6 +71,7 @@ class InsertClientFromPipedrive extends Command implements SelfHandling, ShouldB
     protected function getClientData($id)
     {
         $url = 'https://api.pipedrive.com/v1/persons/'.$id.'?api_token='.$this->user->pipedriveapi;
+        error_log($url);
         return $this->getData($url);
     }
     protected function getDealData($id){
