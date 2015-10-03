@@ -75,7 +75,7 @@ class UpdateClientFromPipedrive extends Command implements SelfHandling, ShouldB
 		return $this->getData($url);
 	}
 	protected function getDealData($id){
-		$url = 'https://api.pipedrive.com/v1/deals/'.$id.'/products?start=0&api_token='.$this->user->pipedriveapi;
+		$url = 'https://api.pipedrive.com/v1/deals/'.$id.'/products?start=0&api_token='.$this->user->pipedrive_api;
 		error_log($url);
 		return $this->getData($url);
 	}
