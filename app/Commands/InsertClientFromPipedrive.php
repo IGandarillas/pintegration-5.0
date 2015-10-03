@@ -10,6 +10,7 @@ use Illuminate\Contracts\Queue\ShouldBeQueued;
 use GuzzleHttp;
 use pintegration\Client;
 use Illuminate\Support\Facades\Artisan;
+use pintegration\User;
 use Symfony\Component\Finder\Shell\Command;
 use Tools\Tools;
 use pintegration\Direccion;
