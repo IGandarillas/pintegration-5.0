@@ -114,7 +114,7 @@ class Tools
 
         $resources->id_address_delivery = $direccion->id_address_prestashop;
         $resources->id_address_invoice = $direccion->id_address_prestashop;
-        $resources->id_cart = addCart($client,$order);
+        $resources->id_cart = $this->addCart($client,$order);
         $resources->id_currency = '1';
         $resources->id_lang='1';
         $resources->id_customer = $client->id_client_prestashop;
