@@ -114,11 +114,7 @@ class SyncPrestashopProducts extends Command
                         'body' => [
                             'name' => $item->name,
                             'owner_id' => '867597',
-                            'prices' => [
-                                'currency' => 'EUR',
-                                'price' => '200'
-                            ]
-
+                            'prices' => array('currency' => 'EUR', 'price' => '200')
                         ]
                     ]);
                     dd($res);
