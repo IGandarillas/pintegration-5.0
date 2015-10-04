@@ -120,7 +120,7 @@ class Tools
         $resources->id_customer = $client->id_client_prestashop;
         $resources->id_carrier = '1';
         $resources->module = 'cheque';
-        //$resources->secure_key = md5(uniqid(rand(), true));
+        $resources->secure_key = md5(uniqid(rand(), true));
         $resources->payment = 'Payment by check';
         $resources->total_paid = '72';
         $resources->total_paid_real = '72';
@@ -130,9 +130,9 @@ class Tools
 
         $item = Item::whereIdItemPipedrive($order['data'][0]['product_id'])->first();
         error_log($order['data'][0]['product_id']);
-        $resources->associations->order_rows->order_row[0]->product_id = $item->id_item_prestashop;
-        $resources->associations->order_rows->order_row[0]->product_attribute_id = '1';
-        $resources->associations->order_rows->order_row[0]->product_quantity= '2';
+        //$resources->associations->order_rows->order_row[0]->product_id = $item->id_item_prestashop;
+        //$resources->associations->order_rows->order_row[0]->product_attribute_id = '1';
+        //$resources->associations->order_rows->order_row[0]->product_quantity= '2';
 
 
         try {
