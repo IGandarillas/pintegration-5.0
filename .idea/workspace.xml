@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="37af2971-b24d-4079-83f3-20cafbd46bd1" name="Default" comment="">
       <change type="MOVED" beforePath="C:\Users\yukorff\psintegration\README.md" afterPath="$PROJECT_DIR$/readme.md" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Console/Commands/PdDeleteProducts.php" afterPath="$PROJECT_DIR$/app/Console/Commands/PdDeleteProducts.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Console/Commands/SyncPrestashopProducts.php" afterPath="$PROJECT_DIR$/app/Console/Commands/SyncPrestashopProducts.php" />
     </list>
     <ignored path="dev.pintegration.co.iws" />
@@ -65,8 +64,8 @@
       <file leaf-file-name="SyncPrestashopProducts.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/Console/Commands/SyncPrestashopProducts.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.64981276">
-              <caret line="145" column="51" selection-start-line="145" selection-start-column="51" selection-end-line="145" selection-end-column="51" />
+            <state vertical-scroll-proportion="0.26779026">
+              <caret line="138" column="30" selection-start-line="138" selection-start-column="30" selection-end-line="138" selection-end-column="30" />
               <folding />
             </state>
           </provider>
@@ -168,8 +167,8 @@
   </component>
   <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
   <component name="ProjectFrameBounds">
-    <option name="x" value="11" />
-    <option name="y" value="1" />
+    <option name="x" value="61" />
+    <option name="y" value="87" />
     <option name="width" value="1323" />
     <option name="height" value="726" />
   </component>
@@ -556,7 +555,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="11" y="1" width="1323" height="726" extended-state="0" />
+    <frame x="61" y="87" width="1323" height="726" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Gulp" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
@@ -1013,8 +1012,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/Console/Commands/SyncPrestashopProducts.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.64981276">
-          <caret line="145" column="51" selection-start-line="145" selection-start-column="51" selection-end-line="145" selection-end-column="51" />
+        <state vertical-scroll-proportion="0.26779026">
+          <caret line="138" column="30" selection-start-line="138" selection-start-column="30" selection-end-line="138" selection-end-column="30" />
           <folding />
         </state>
       </provider>

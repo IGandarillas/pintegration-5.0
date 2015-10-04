@@ -143,7 +143,9 @@ class SyncPrestashopProducts extends Command
                             'owner_id' => '867597',
                             'prices' => array(
                                 'price' => '100',
-                                'currency' => 'EUR'
+                                'currency' => 'EUR',
+                                'overhead_cost' => '100',
+                                'cost' => '100'
                             )
                         )
                     ];
