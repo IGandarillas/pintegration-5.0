@@ -52,7 +52,7 @@ class Tools
         $resources->secure_key = md5(uniqid(rand(), true));
         $resources->active = true;
         $resources->id_default_group = '3';
-        //$resources->associations->groups->group->
+        $resources->associations->groups->group->id = '3';
 
 
         error_log('client se pasa? : ' .$resources->email);
