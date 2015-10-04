@@ -215,7 +215,7 @@ class Tools
         error_log($order['data'][0]['product_id']);
         $resources->associations->cart_rows->cart_row[0]->id_product = $item->id_item_prestashop;
         $resources->associations->cart_rows->cart_row[0]->id_address_delivery = $direccion->id_address_prestashop;
-        $resources->associations->cart_rows->cart_row[0]->id_product_attribute  = '24';
+        //$resources->associations->cart_rows->cart_row[0]->id_product_attribute  = '24';
         $resources->associations->cart_rows->cart_row[0]->quantity = '2';
         try {
             $opt = array('resource' => 'carts');
