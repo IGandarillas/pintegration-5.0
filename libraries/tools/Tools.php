@@ -111,16 +111,27 @@ class Tools
         $direccion = $client->direccion;
         error_log($direccion->id_address_prestashop);
 
-        $resources->id_customer = $client->id_client_prestashop;
+
         $resources->id_address_delivery = $direccion->id_address_prestashop;
+        $resources->id_address_invoice = $direccion->id_address_prestashop;
+        $resources->id_cart = '1';
         $resources->id_currency = '1';
-        $resources->id_lang='3';
+        $resources->id_lang='1';
+        $resources->id_customer = $client->id_client_prestashop;
+        $resources->id_carrier = '1';
+        $resources->module = 'check';
+        $resources->payment = 'Tarjeta';
+        $resources->total_paid = '72';
+        $resources->total_paid_real = '72';
+        $resources->total_products = '70';
+        $resources->total_products_wt = '70';
+        $resources->conversion_rate = '2.0';
 
         $item = Item::whereIdItemPipedrive($order['data'][0]['product_id'])->first();
         error_log($order['data'][0]['product_id']);
         $resources->associations->order_rows->order_row[0]->product_id = $item->id_item_prestashop;
         $resources->associations->order_rows->order_row[0]->product_attribute_id = '1';
-        $resources->associations->order_rows->order_row[0]->name= $item->name;
+        $resources->associations->order_rows->order_row[0]->product_quantity= '2';
 
 
         try {
