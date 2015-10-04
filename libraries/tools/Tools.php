@@ -175,6 +175,8 @@ class Tools
         $resources->minimal_quantity = '1';
         $resources->id_product = $item->id_item_prestashop;
         $resources->price = $item->price;
+        $resources->quantity = '2';
+        $resources->reference = $item->code;
 
         try {
             $opt = array('resource' => 'combinations');
