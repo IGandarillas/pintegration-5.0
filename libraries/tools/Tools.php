@@ -168,7 +168,7 @@ class Tools
         }
 
         $resources->minimal_quantity = '1';
-        $resources->id_product = $item->id;
+        $resources->id_product = $item->id_item_prestashop;
         $resources->price = $item->price;
 
         try {
