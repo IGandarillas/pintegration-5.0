@@ -129,7 +129,7 @@ class Tools
         $resources->id_carrier = '1';
         $resources->module = 'bankwire';
         $resources->secure_key = md5(uniqid(rand(), true));
-        $resources->payment = 'Payment by check';
+        $resources->payment = 'Transferencia bancaria';
         $resources->total_paid = '72';
         $resources->total_paid_real = '72';
         $resources->total_products = '70';
@@ -149,6 +149,34 @@ class Tools
             $xml = $connectClient->add($opt);
             //$direccion->id_address_prestashop = $xml->children()->children()->id;//Process response.
             //$direccion->update();
+        }
+        catch (PrestaShopWebserviceException $ex) {
+            // Here we are dealing with errors
+            echo $ex->getMessage();
+        }
+    }
+    public function addCombination($item){
+        try
+        {   //Get Blank schema
+            $connectClient = $this->initConnection();
+            $xml = $connectClient->get(array('url' => $this->user->prestashop_url.'api/combinations?schema=blank'));
+            $resources = $xml->children()->children();
+        }
+        catch (PrestaShopWebserviceException $e)
+        { // Here we are dealing with errors
+            error_log($e->getMessage());
+        }
+
+        $resources->minimal_quantity = '1';
+        $resources->id_product = $item->id;
+        $resources->price = $item->price;
+
+        try {
+            $opt = array('resource' => 'combinations');
+            $opt['postXml'] = $xml->asXML();
+            $xml = $connectClient->add($opt);
+            return $xml->children()->children()->id;//Process response.
+
         }
         catch (PrestaShopWebserviceException $ex) {
             // Here we are dealing with errors
@@ -175,7 +203,7 @@ class Tools
         error_log($order['data'][0]['product_id']);
         $resources->associations->cart_rows->cart_row[0]->id_product = $item->id_item_prestashop;
         $resources->associations->cart_rows->cart_row[0]->id_address_delivery = $direccion->id_address_prestashop;
-        $resources->associations->cart_rows->cart_row[0]->id_product_attribute  = '1';
+        $resources->associations->cart_rows->cart_row[0]->id_product_attribute  = $this->addCombination($item);
         $resources->associations->cart_rows->cart_row[0]->quantity = '2';
         try {
             $opt = array('resource' => 'carts');
