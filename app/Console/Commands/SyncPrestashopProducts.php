@@ -114,7 +114,12 @@ class SyncPrestashopProducts extends Command
                         'body' => [
                             'name' => $item->name,
                             'owner_id' => '867597',
-                            'prices' => array('currency' => 'EUR', 'price' => '200')
+                            'prices' => array(
+                                'currency' => 'EUR',
+                                'price' => '200',
+                                'cost' => 'optional',
+                                'overhead_cost' => 'optional'
+                            )
                         ]
                     ]);
                     dd($res);
@@ -136,10 +141,12 @@ class SyncPrestashopProducts extends Command
                             'active_flag' => '1',
                             'visible_to' => '3',
                             'owner_id' => '867597',
-                            'prices' => [
+                            'prices' => array(
                                 'currency' => 'EUR',
-                                'price' => '200'
-                            ]
+                                'price' => '200',
+                                'cost' => 'optional',
+                                'overhead_cost' => 'optional'
+                            )
                         ]
                     ]);
 
