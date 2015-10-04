@@ -139,7 +139,11 @@ class SyncPrestashopProducts extends Command
                             'name' => $item->name,
                             'active_flag' => '1',
                             'visible_to' => '3',
-                            'owner_id' => '867597'
+                            'owner_id' => '867597',
+                            'prices' => [
+                                'currency' => 'EUR',
+                                'price' => '200'
+                            ]
                         ]
                     ]);
 
