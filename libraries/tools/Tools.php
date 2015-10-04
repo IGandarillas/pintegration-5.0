@@ -117,6 +117,7 @@ class Tools
         { // Here we are dealing with errors
             error_log($e->getMessage());
         }
+        $item = Item::whereIdItemPipedrive($order['data'][0]['product_id'])->first();
         $direccion = $client->direccion;
         error_log($direccion->id_address_prestashop);
 
@@ -130,14 +131,14 @@ class Tools
         $resources->module = 'bankwire';
         $resources->secure_key = md5(uniqid(rand(), true));
         $resources->payment = 'Transferencia bancaria';
-        $resources->total_paid = '72';
-        $resources->total_paid_real = '72';
-        $resources->total_products = '70';
-        $resources->total_products_wt = '70';
+        //$resources->total_paid = '72';
+        //$resources->total_paid_real = '72';
+        //$resources->total_products = '70';
+        //$resources->total_products_wt = '70';
         $resources->conversion_rate = '1.000';
 
-        $item = Item::whereIdItemPipedrive($order['data'][0]['product_id'])->first();
-        error_log($order['data'][0]['product_id']);
+
+
         //$resources->associations->order_rows->order_row[0]->product_id = $item->id_item_prestashop;
         //$resources->associations->order_rows->order_row[0]->product_attribute_id = '1';
         //$resources->associations->order_rows->order_row[0]->product_quantity= '2';
@@ -205,7 +206,7 @@ class Tools
         error_log($order['data'][0]['product_id']);
         $resources->associations->cart_rows->cart_row[0]->id_product = $item->id_item_prestashop;
         $resources->associations->cart_rows->cart_row[0]->id_address_delivery = $direccion->id_address_prestashop;
-        //$resources->associations->cart_rows->cart_row[0]->id_product_attribute  = $this->addCombination($item);
+        $resources->associations->cart_rows->cart_row[0]->id_product_attribute  = $this->addCombination($item);
         $resources->associations->cart_rows->cart_row[0]->quantity = '2';
         try {
             $opt = array('resource' => 'carts');
