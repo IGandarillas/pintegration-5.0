@@ -204,10 +204,13 @@ class Tools
         }
         $direccion = $client->direccion;
 
+        $resources->id_address_delivery = $direccion->id_address_prestashop;
+        $resources->id_address_invoice = $direccion->id_address_prestashop;
         $resources->id_currency = '1';
         $resources->id_lang='1';
         $resources->id_customer = $client->id_client_prestashop;
         $resources->id_carrier = '1';
+
         $item = Item::whereIdItemPipedrive($order['data'][0]['product_id'])->first();
         error_log($order['data'][0]['product_id']);
         $resources->associations->cart_rows->cart_row[0]->id_product = $item->id_item_prestashop;
