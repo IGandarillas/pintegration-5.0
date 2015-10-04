@@ -19,16 +19,17 @@ use Auth;
 class Tools
 {
     protected $user_id=null;
-
+    protected $user;
     public function __construct($user_id){
         $this->user_id=$user_id;
+        $this->user = User::find($user_id);
     }
     public function addClient($client){
 
         try
         {   //Get Blank schema
             $connectClient = $this->initConnection();
-            $xml = $connectClient->get(array('url' => 'http://osteox.esy.es/prestashop/api/customers?schema=blank'));
+            $xml = $connectClient->get(array('url' => $this->user->prestashop_url.'api/customers?schema=blank'));
             $resources = $xml->children()->children();
         }
         catch (PrestaShopWebserviceException $e)
@@ -68,7 +69,7 @@ class Tools
         try
         {   //Get Blank schema
             $connectClient = $this->initConnection();
-            $xml = $connectClient->get(array('url' => 'http://osteox.esy.es/prestashop/api/addresses?schema=blank'));
+            $xml = $connectClient->get(array('url' => $this->user->prestashop_url.'api/addresses?schema=blank'));
             $resources = $xml->children()->children();
         }
         catch (PrestaShopWebserviceException $e)
@@ -102,7 +103,7 @@ class Tools
         try
         {   //Get Blank schema
             $connectClient = $this->initConnection();
-            $xml = $connectClient->get(array('url' => 'http://osteox.esy.es/prestashop/api/orders?schema=blank'));
+            $xml = $connectClient->get(array('url' => $this->user->prestashop_url.'api/orders?schema=blank'));
             $resources = $xml->children()->children();
         }
         catch (PrestaShopWebserviceException $e)
@@ -152,7 +153,7 @@ class Tools
         try
         {   //Get Blank schema
             $connectClient = $this->initConnection();
-            $xml = $connectClient->get(array('url' => 'http://osteox.esy.es/prestashop/api/carts?schema=blank'));
+            $xml = $connectClient->get(array('url' => $this->user->prestashop_url.'api/carts?schema=blank'));
             $resources = $xml->children()->children();
         }
         catch (PrestaShopWebserviceException $e)
@@ -195,16 +196,10 @@ class Tools
         { // Here we are dealing with errors
             error_log($e->getMessage());
         }
-        if($client->firstname == null){
-            $resources->firstname = $client->lastname;
-            $resources->lastname = $client->lastname;
-        }elseif( $client->lastname == null ){
-            $resources->firstname = $client->firstname;
-            $resources->lastname = $client->firstname;
-        }else {
-            $resources->firstname = $client->firstname;
-            $resources->lastname = $client->lastname;
-        }
+
+        $resources->firstname = $client->firstname;
+        $resources->lastname = $client->lastname;
+
         $resources->id = $client->id_client_prestashop;
         $resources->passwd = $client->password;
         $resources->email = $client->email;
