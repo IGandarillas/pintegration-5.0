@@ -113,11 +113,11 @@ class SyncPrestashopProducts extends Command
                     $res = $client->put('https://api.pipedrive.com/v1/products/'.$item->id_item_pipedrive.'?api_token='.$user->pipedrive_api, [
                         'body' => [
                             'name' => $item->name,
-                            'owner_id' => '867597'
-                      /*         'prices' => [
+                            'owner_id' => '867597',
+                            'prices' => [
                                 'currency' => 'EUR',
                                 'price' => '200'
-                            ]*/
+                            ]
 
                         ]
                     ]);

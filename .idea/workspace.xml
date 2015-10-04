@@ -3,7 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="37af2971-b24d-4079-83f3-20cafbd46bd1" name="Default" comment="">
       <change type="MOVED" beforePath="C:\Users\yukorff\psintegration\README.md" afterPath="$PROJECT_DIR$/readme.md" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Console/Commands/PdDeleteProducts.php" afterPath="$PROJECT_DIR$/app/Console/Commands/PdDeleteProducts.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Console/Commands/SyncPrestashopProducts.php" afterPath="$PROJECT_DIR$/app/Console/Commands/SyncPrestashopProducts.php" />
     </list>
     <ignored path="dev.pintegration.co.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -40,8 +40,8 @@
       <file leaf-file-name="InsertClientFromPipedrive.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/Commands/InsertClientFromPipedrive.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-1.8">
-              <caret line="36" column="19" selection-start-line="36" selection-start-column="19" selection-end-line="36" selection-end-column="19" />
+            <state vertical-scroll-proportion="-0.25454545">
+              <caret line="61" column="18" selection-start-line="61" selection-start-column="18" selection-end-line="61" selection-end-column="18" />
               <folding>
                 <element signature="e#42#80#0#PHP" expanded="true" />
               </folding>
@@ -52,7 +52,7 @@
       <file leaf-file-name="UpdateClientFromPipedrive.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/Commands/UpdateClientFromPipedrive.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="19.5">
+            <state vertical-scroll-proportion="16.23077">
               <caret line="37" column="54" selection-start-line="37" selection-start-column="54" selection-end-line="37" selection-end-column="54" />
               <folding>
                 <element signature="e#40#86#0#PHP" expanded="true" />
@@ -61,21 +61,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="SyncPrestashopProducts.php" pinned="false" current-in-tab="false">
+      <file leaf-file-name="SyncPrestashopProducts.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/Console/Commands/SyncPrestashopProducts.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-1.1818181">
-              <caret line="76" column="11" selection-start-line="76" selection-start-column="11" selection-end-line="76" selection-end-column="11" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="SyncPipedrive.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/Console/Commands/SyncPipedrive.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="5.769231">
-              <caret line="11" column="0" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.48731884">
+              <caret line="118" column="47" selection-start-line="118" selection-start-column="44" selection-end-line="118" selection-end-column="47" />
               <folding />
             </state>
           </provider>
@@ -84,7 +74,7 @@
       <file leaf-file-name="Tools.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/libraries/tools/Tools.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="57.96154">
+            <state vertical-scroll-proportion="94.03846">
               <caret line="26" column="20" selection-start-line="26" selection-start-column="20" selection-end-line="26" selection-end-column="20" />
               <folding>
                 <element signature="e#111#133#0#PHP" expanded="true" />
@@ -95,32 +85,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ProductsCsvSeedJob.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/Commands/ProductsCsvSeedJob.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-16.153847">
-              <caret line="32" column="37" selection-start-line="32" selection-start-column="37" selection-end-line="32" selection-end-column="37" />
-              <folding>
-                <element signature="e#41#70#0#PHP" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="PdCreateProducts.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/Console/Commands/PdCreateProducts.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-1.9615384">
-              <caret line="49" column="19" selection-start-line="0" selection-start-column="0" selection-end-line="88" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="PdDeleteProducts.php" pinned="false" current-in-tab="true">
+      <file leaf-file-name="PdDeleteProducts.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/Console/Commands/PdDeleteProducts.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.14629948">
+            <state vertical-scroll-proportion="-3.2692308">
               <caret line="10" column="14" selection-start-line="10" selection-start-column="14" selection-end-line="10" selection-end-column="14" />
               <folding />
             </state>
@@ -175,10 +143,10 @@
         <option value="$PROJECT_DIR$/libraries/tools/Tools.php" />
         <option value="$PROJECT_DIR$/database/migrations/2015_09_17_174657_create_items_table.php" />
         <option value="$PROJECT_DIR$/app/Console/Commands/SyncPipedrive.php" />
-        <option value="$PROJECT_DIR$/app/Console/Commands/SyncPrestashopProducts.php" />
         <option value="$PROJECT_DIR$/app/Console/Commands/PdCreateProducts.php" />
         <option value="$PROJECT_DIR$/app/Console/Kernel.php" />
         <option value="$PROJECT_DIR$/app/Console/Commands/PdDeleteProducts.php" />
+        <option value="$PROJECT_DIR$/app/Console/Commands/SyncPrestashopProducts.php" />
       </list>
     </option>
   </component>
@@ -968,72 +936,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/Console/Commands/SyncPrestashopProducts.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-1.1818181">
-          <caret line="76" column="11" selection-start-line="76" selection-start-column="11" selection-end-line="76" selection-end-column="11" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Commands/UpdateClientFromPipedrive.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="19.5">
-          <caret line="37" column="54" selection-start-line="37" selection-start-column="54" selection-end-line="37" selection-end-column="54" />
-          <folding>
-            <element signature="e#40#86#0#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Console/Commands/SyncPipedrive.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="5.769231">
-          <caret line="11" column="0" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Commands/InsertClientFromPipedrive.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-1.8">
-          <caret line="36" column="19" selection-start-line="36" selection-start-column="19" selection-end-line="36" selection-end-column="19" />
-          <folding>
-            <element signature="e#42#80#0#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/libraries/tools/Tools.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="57.96154">
-          <caret line="26" column="20" selection-start-line="26" selection-start-column="20" selection-end-line="26" selection-end-column="20" />
-          <folding>
-            <element signature="e#111#133#0#PHP" expanded="true" />
-            <element signature="e#7047#8389#0#PHP" expanded="false" />
-            <element signature="e#8396#9880#0#PHP" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Commands/ProductsCsvSeedJob.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-16.153847">
-          <caret line="32" column="37" selection-start-line="32" selection-start-column="37" selection-end-line="32" selection-end-column="37" />
-          <folding>
-            <element signature="e#41#70#0#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Console/Commands/PdCreateProducts.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-1.9615384">
-          <caret line="49" column="19" selection-start-line="0" selection-start-column="0" selection-end-line="88" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/Console/Kernel.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-4.3962264">
@@ -1044,8 +946,74 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/Console/Commands/PdDeleteProducts.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.14629948">
+        <state vertical-scroll-proportion="-3.2692308">
           <caret line="10" column="14" selection-start-line="10" selection-start-column="14" selection-end-line="10" selection-end-column="14" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Console/Commands/SyncPipedrive.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.25817555">
+          <caret line="11" column="0" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Commands/ProductsCsvSeedJob.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.6781411">
+          <caret line="32" column="37" selection-start-line="32" selection-start-column="37" selection-end-line="32" selection-end-column="37" />
+          <folding>
+            <element signature="e#41#70#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Console/Commands/PdCreateProducts.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.17555939">
+          <caret line="52" column="37" selection-start-line="52" selection-start-column="37" selection-end-line="52" selection-end-column="37" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/libraries/tools/Tools.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="94.03846">
+          <caret line="26" column="20" selection-start-line="26" selection-start-column="20" selection-end-line="26" selection-end-column="20" />
+          <folding>
+            <element signature="e#111#133#0#PHP" expanded="true" />
+            <element signature="e#7047#8389#0#PHP" expanded="false" />
+            <element signature="e#8396#9880#0#PHP" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Commands/InsertClientFromPipedrive.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.25454545">
+          <caret line="61" column="18" selection-start-line="61" selection-start-column="18" selection-end-line="61" selection-end-column="18" />
+          <folding>
+            <element signature="e#42#80#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Commands/UpdateClientFromPipedrive.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="16.23077">
+          <caret line="37" column="54" selection-start-line="37" selection-start-column="54" selection-end-line="37" selection-end-column="54" />
+          <folding>
+            <element signature="e#40#86#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Console/Commands/SyncPrestashopProducts.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.48731884">
+          <caret line="118" column="47" selection-start-line="118" selection-start-column="44" selection-end-line="118" selection-end-column="47" />
           <folding />
         </state>
       </provider>
