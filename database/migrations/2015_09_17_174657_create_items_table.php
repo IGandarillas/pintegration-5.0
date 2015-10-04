@@ -18,9 +18,9 @@ class CreateItemsTable extends Migration
             $table->integer('id_item_prestashop')->index()->nullable()->unique();;
             $table->integer('id_item_pipedrive')->index()->unique()->nullable();
 
-            $table->string('code')->nullable()->unique();;
+            $table->string('code')->nullable()->unique()->default(NULL);
             $table->string('name',1000)->nullable();
-            $table->string('price')->nullable();
+            $table->string('price')->nullable()->default(NULL);
             $table->timestamps();
 
             $table->integer('user_id')->unsigned();

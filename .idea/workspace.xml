@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="37af2971-b24d-4079-83f3-20cafbd46bd1" name="Default" comment="">
       <change type="MOVED" beforePath="C:\Users\yukorff\psintegration\README.md" afterPath="$PROJECT_DIR$/readme.md" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/database/migrations/2015_09_17_174657_create_items_table.php" afterPath="$PROJECT_DIR$/database/migrations/2015_09_17_174657_create_items_table.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Console/Commands/SyncPrestashopProducts.php" afterPath="$PROJECT_DIR$/app/Console/Commands/SyncPrestashopProducts.php" />
     </list>
     <ignored path="dev.pintegration.co.iws" />
@@ -65,17 +66,17 @@
         <entry file="file://$PROJECT_DIR$/app/Console/Commands/SyncPrestashopProducts.php">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.56110156">
-              <caret line="88" column="52" selection-start-line="88" selection-start-column="52" selection-end-line="88" selection-end-column="52" />
+              <caret line="88" column="45" selection-start-line="88" selection-start-column="45" selection-end-line="88" selection-end-column="45" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="2014_10_12_000000_create_users_table.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/database/migrations/2014_10_12_000000_create_users_table.php">
+      <file leaf-file-name="2015_09_17_174657_create_items_table.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/database/migrations/2015_09_17_174657_create_items_table.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-6.6923075">
-              <caret line="17" column="42" selection-start-line="17" selection-start-column="28" selection-end-line="17" selection-end-column="42" />
+            <state vertical-scroll-proportion="-13.730769">
+              <caret line="22" column="62" selection-start-line="22" selection-start-column="62" selection-end-line="22" selection-end-column="62" />
               <folding />
             </state>
           </provider>
@@ -142,9 +143,9 @@
         <option value="$PROJECT_DIR$/app/Http/Controllers/PipedriveReceipt.php" />
         <option value="$PROJECT_DIR$/app/Commands/UpdateClientFromPipedrive.php" />
         <option value="$PROJECT_DIR$/database/migrations/2015_09_17_175004_create_clients_table.php" />
-        <option value="$PROJECT_DIR$/database/migrations/2015_09_17_174657_create_items_table.php" />
         <option value="$PROJECT_DIR$/app/Commands/InsertClientFromPipedrive.php" />
         <option value="$PROJECT_DIR$/libraries/tools/Tools.php" />
+        <option value="$PROJECT_DIR$/database/migrations/2015_09_17_174657_create_items_table.php" />
         <option value="$PROJECT_DIR$/app/Console/Commands/SyncPrestashopProducts.php" />
       </list>
     </option>
@@ -966,16 +967,16 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/database/migrations/2014_10_12_000000_create_users_table.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-6.6923075">
-          <caret line="17" column="42" selection-start-line="17" selection-start-column="28" selection-end-line="17" selection-end-column="42" />
+        <state vertical-scroll-proportion="0.41480207">
+          <caret line="24" column="30" selection-start-line="24" selection-start-column="30" selection-end-line="24" selection-end-column="30" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/database/migrations/2015_09_17_174657_create_items_table.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5903614">
-          <caret line="25" column="33" selection-start-line="25" selection-start-column="33" selection-end-line="25" selection-end-column="33" />
+        <state vertical-scroll-proportion="-13.730769">
+          <caret line="22" column="62" selection-start-line="22" selection-start-column="62" selection-end-line="22" selection-end-column="62" />
           <folding />
         </state>
       </provider>
@@ -983,7 +984,7 @@
     <entry file="file://$PROJECT_DIR$/app/Console/Commands/SyncPrestashopProducts.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.56110156">
-          <caret line="88" column="52" selection-start-line="88" selection-start-column="52" selection-end-line="88" selection-end-column="52" />
+          <caret line="88" column="45" selection-start-line="88" selection-start-column="45" selection-end-line="88" selection-end-column="45" />
           <folding />
         </state>
       </provider>

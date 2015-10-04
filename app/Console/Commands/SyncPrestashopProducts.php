@@ -85,8 +85,12 @@ class SyncPrestashopProducts extends Command
                     //dd($itemIdPrestashop);
                     $item = Item::firstOrCreate($itemIdPrestashop);
                     $item->name = $resource->name->language[0];
-                    $item->code = $resource->reference;
-                    $item->price = $resource->price;
+                    error_log($resource->reference.' - '.$resource->price);
+                    if($resource->reference != '') {
+
+                        $item->code = $resource->reference;
+                        $item->price = $resource->price;
+                    }
                     //$item->description = $resource->description->language[0];
                     $item->save();
                 } catch ( QueryException $e) {
