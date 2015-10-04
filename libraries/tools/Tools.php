@@ -165,10 +165,10 @@ class Tools
         $resources->id_lang='1';
         $item = Item::whereIdItemPipedrive($order['data'][0]['product_id'])->first();
         error_log($order['data'][0]['product_id']);
-        $resources->associations->order_rows->order_row[0]->id_product = $item->id_item_prestashop;
-        $resources->associations->order_rows->order_row[0]->id_address_delivery = $direccion->id_address_prestashop;
-        $resources->associations->order_rows->order_row[0]->id_product_attribute  = '1';
-        $resources->associations->order_rows->order_row[0]->quantity = '2';
+        $resources->associations->cart_rows->cart_row[0]->id_product = $item->id_item_prestashop;
+        $resources->associations->cart_rows->cart_row[0]->id_address_delivery = $direccion->id_address_prestashop;
+        $resources->associations->cart_rows->cart_row[0]->id_product_attribute  = '1';
+        $resources->associations->cart_rows->cart_row[0]->quantity = '2';
         try {
             $opt = array('resource' => 'carts');
             $opt['postXml'] = $xml->asXML();
