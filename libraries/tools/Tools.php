@@ -50,6 +50,7 @@ class Tools
         $resources->passwd = $client->password;
         $resources->email = $client->email;
         $resources->secure_key = md5(uniqid(rand(), true));
+        $resources->active = true;
         error_log('client se pasa? : ' .$resources->email);
         try {
             $opt = array('resource' => 'customers');
