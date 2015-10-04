@@ -51,6 +51,10 @@ class Tools
         $resources->email = $client->email;
         $resources->secure_key = md5(uniqid(rand(), true));
         $resources->active = true;
+        $resources->id_default_group = '3';
+        //$resources->associations->groups->group->
+
+
         error_log('client se pasa? : ' .$resources->email);
         try {
             $opt = array('resource' => 'customers');
