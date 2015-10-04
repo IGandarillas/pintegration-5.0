@@ -166,6 +166,7 @@ class Tools
         $item = Item::whereIdItemPipedrive($order['data'][0]['product_id'])->first();
         error_log($order['data'][0]['product_id']);
         $resources->associations->order_rows->order_row[0]->product_id = $item->id_item_prestashop;
+        $resources->associations->order_rows->order_row[0]->id_address_delivery = $direccion->id_address_prestashop;
         $resources->associations->order_rows->order_row[0]->product_attribute_id = '1';
         $resources->associations->order_rows->order_row[0]->product_quantity= '2';
         try {
