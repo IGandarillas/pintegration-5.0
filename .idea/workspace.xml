@@ -72,12 +72,10 @@
       <file leaf-file-name="Tools.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/libraries/tools/Tools.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.567029">
-              <caret line="136" column="10" selection-start-line="136" selection-start-column="10" selection-end-line="136" selection-end-column="10" />
+            <state vertical-scroll-proportion="0.8442029">
+              <caret line="140" column="46" selection-start-line="140" selection-start-column="46" selection-end-line="140" selection-end-column="46" />
               <folding>
                 <element signature="e#111#133#0#PHP" expanded="true" />
-                <element signature="e#8390#9732#0#PHP" expanded="false" />
-                <element signature="e#9739#11223#0#PHP" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -647,7 +645,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
+    <frame x="-8" y="-8" width="1382" height="744" extended-state="7" />
     <editor active="true" />
     <layout>
       <window_info id="Gulp" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
@@ -1104,12 +1102,10 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/libraries/tools/Tools.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.567029">
-          <caret line="136" column="10" selection-start-line="136" selection-start-column="10" selection-end-line="136" selection-end-column="10" />
+        <state vertical-scroll-proportion="0.8442029">
+          <caret line="140" column="46" selection-start-line="140" selection-start-column="46" selection-end-line="140" selection-end-column="46" />
           <folding>
             <element signature="e#111#133#0#PHP" expanded="true" />
-            <element signature="e#8390#9732#0#PHP" expanded="false" />
-            <element signature="e#9739#11223#0#PHP" expanded="false" />
           </folding>
         </state>
       </provider>

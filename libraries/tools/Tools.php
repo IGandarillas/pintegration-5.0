@@ -104,7 +104,9 @@ class Tools
             echo $ex->getMessage();
         }
     }
-
+    public function getTotalPrice($item,$quantity){
+        return $item->price*$quantity;
+    }
     public function addOrder($client,$order){
 
         try
@@ -118,7 +120,9 @@ class Tools
             error_log($e->getMessage());
         }
         $item = Item::whereIdItemPipedrive($order['data'][0]['product_id'])->first();
+        $quantity = $order['data'][0]['quantity'];
         $direccion = $client->direccion;
+        $price = $this->getTotalPrice($item,$quantity);
         error_log($direccion->id_address_prestashop);
 
         $resources->id_address_delivery = $direccion->id_address_prestashop;
@@ -131,10 +135,10 @@ class Tools
         $resources->module = 'bankwire';
         $resources->secure_key = md5(uniqid(rand(), true));
         $resources->payment = 'Transferencia bancaria';
-        //$resources->total_paid = '72';
-        //$resources->total_paid_real = '72';
-        //$resources->total_products = '70';
-        //$resources->total_products_wt = '70';
+        $resources->total_paid = $price;
+        $resources->total_paid_real = $price;
+        $resources->total_products = $price;
+        $resources->total_products_wt = $price;
         $resources->conversion_rate = '1.000';
 
 
