@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="37af2971-b24d-4079-83f3-20cafbd46bd1" name="Default" comment="">
       <change type="MOVED" beforePath="C:\Users\yukorff\psintegration\README.md" afterPath="$PROJECT_DIR$/readme.md" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/libraries/tools/Tools.php" afterPath="$PROJECT_DIR$/libraries/tools/Tools.php" />
     </list>
     <ignored path="dev.pintegration.co.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -73,11 +72,11 @@
         <entry file="file://$PROJECT_DIR$/libraries/tools/Tools.php">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.4937833">
-              <caret line="85" column="28" selection-start-line="85" selection-start-column="28" selection-end-line="85" selection-end-column="28" />
+              <caret line="85" column="35" selection-start-line="85" selection-start-column="35" selection-end-line="85" selection-end-column="35" />
               <folding>
                 <element signature="e#111#133#0#PHP" expanded="true" />
-                <element signature="e#7138#8480#0#PHP" expanded="false" />
-                <element signature="e#8487#9971#0#PHP" expanded="false" />
+                <element signature="e#7140#8482#0#PHP" expanded="false" />
+                <element signature="e#8489#9973#0#PHP" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -1087,11 +1086,11 @@
     <entry file="file://$PROJECT_DIR$/libraries/tools/Tools.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.4937833">
-          <caret line="85" column="28" selection-start-line="85" selection-start-column="28" selection-end-line="85" selection-end-column="28" />
+          <caret line="85" column="35" selection-start-line="85" selection-start-column="35" selection-end-line="85" selection-end-column="35" />
           <folding>
             <element signature="e#111#133#0#PHP" expanded="true" />
-            <element signature="e#7138#8480#0#PHP" expanded="false" />
-            <element signature="e#8487#9971#0#PHP" expanded="false" />
+            <element signature="e#7140#8482#0#PHP" expanded="false" />
+            <element signature="e#8489#9973#0#PHP" expanded="false" />
           </folding>
         </state>
       </provider>
