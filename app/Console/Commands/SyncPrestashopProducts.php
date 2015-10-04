@@ -57,7 +57,7 @@ class SyncPrestashopProducts extends Command
     public function getProducts($user){
         try{
 
-            $webService = new PrestaShopWebservice(PS_SHOP_PATH, PS_WS_AUTH_KEY, DEBUG);
+            $webService = new PrestaShopWebservice($user->prestashop_url, $user->prestashop_api, DEBUG);
             // Here we set the option array for the Webservice : we want customers resources
             $opt['resource'] = 'products';
             $opt['display'] = '[name,id,description]';
