@@ -1,12 +1,11 @@
 <?php namespace pintegration\Console\Commands;
 
-use pintegration\Commands\Command;
-
+use Illuminate\Console\Command;
 use Illuminate\Contracts\Bus\SelfHandling;
 
-class Prueba extends Command implements SelfHandling {
+class Prueba extends Command {
 
-	protected $name = 'prueba';
+	protected $name = 'command:prueba';
 	/**
 	 * Create a new command instance.
 	 *
@@ -14,7 +13,7 @@ class Prueba extends Command implements SelfHandling {
 	 */
 	public function __construct()
 	{
-		//
+		parent::__construct();
 	}
 
 	/**
@@ -30,15 +29,18 @@ class Prueba extends Command implements SelfHandling {
 				'active_flag' => '1',
 				'visible_to' => '3',
 				'owner_id' => '867597',
-				'prices' => array(
-					'price' => '100',
-					'currency' => 'EUR',
-					'overhead_cost' => '100',
-					'cost' => '100'
-				)
+				'prices' =>
+				[
+					array(
+						'price' => '100',
+						'currency' => 'EUR',
+						'overhead_cost' => '100',
+						'cost' => '100'
+					)
+				]
 			)
 		];
-		dd($product);
+		dd(json_encode($product));
 	}
 
 }

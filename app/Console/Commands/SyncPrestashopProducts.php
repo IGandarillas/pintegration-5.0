@@ -141,12 +141,14 @@ class SyncPrestashopProducts extends Command
                             'active_flag' => '1',
                             'visible_to' => '3',
                             'owner_id' => '867597',
-                            'prices' => array(
-                                'price' => '100',
-                                'currency' => 'EUR',
-                                'overhead_cost' => '100',
-                                'cost' => '100'
-                            )
+                            'prices' => [
+                                array(
+                                    'price' => '100',
+                                    'currency' => 'EUR',
+                                    'overhead_cost' => '100',
+                                    'cost' => '100'
+                                )
+                            ]
                         )
                     ];
                     $res = $client->post('https://api.pipedrive.com/v1/products?api_token='.$user->pipedrive_api,$product);
