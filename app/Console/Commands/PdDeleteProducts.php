@@ -8,7 +8,7 @@ use pintegration\Item;
 use GuzzleHttp;
 use PSWebS\PrestaShopWebservice;
 use Faker;
-class PdCreateProducts extends Command
+class PdDeleteProducts extends Command
 {
     /**
      * The name and signature of the console command.
