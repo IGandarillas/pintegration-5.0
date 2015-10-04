@@ -120,7 +120,7 @@ class Tools
         $resources->id_customer = $client->id_client_prestashop;
         $resources->id_carrier = '1';
         $resources->module = 'cheque';
-        $resources->secure_key = md5(uniqid(rand(), true));
+        //$resources->secure_key = md5(uniqid(rand(), true));
         $resources->payment = 'Payment by check';
         $resources->total_paid = '72';
         $resources->total_paid_real = '72';
