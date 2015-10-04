@@ -83,6 +83,7 @@ class Tools
         $resources->address1 = $direccion->address1;
         $resources->city = 'Cantabria';//$direccion->city;
         $resources->id_country = '6';
+        $resources->id_state = '6';
         $resources->postcode = $direccion->postcode;
         $resources->phone = '645621321';
         $resources->alias = 'Alias';

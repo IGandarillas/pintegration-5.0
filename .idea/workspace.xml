@@ -72,12 +72,12 @@
       <file leaf-file-name="Tools.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/libraries/tools/Tools.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.5239787">
-              <caret line="86" column="40" selection-start-line="86" selection-start-column="40" selection-end-line="86" selection-end-column="40" />
+            <state vertical-scroll-proportion="0.4937833">
+              <caret line="85" column="28" selection-start-line="85" selection-start-column="28" selection-end-line="85" selection-end-column="28" />
               <folding>
                 <element signature="e#111#133#0#PHP" expanded="true" />
-                <element signature="e#7102#8444#0#PHP" expanded="false" />
-                <element signature="e#8451#9935#0#PHP" expanded="false" />
+                <element signature="e#7138#8480#0#PHP" expanded="false" />
+                <element signature="e#8487#9971#0#PHP" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -1086,12 +1086,12 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/libraries/tools/Tools.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5239787">
-          <caret line="86" column="40" selection-start-line="86" selection-start-column="40" selection-end-line="86" selection-end-column="40" />
+        <state vertical-scroll-proportion="0.4937833">
+          <caret line="85" column="28" selection-start-line="85" selection-start-column="28" selection-end-line="85" selection-end-column="28" />
           <folding>
             <element signature="e#111#133#0#PHP" expanded="true" />
-            <element signature="e#7102#8444#0#PHP" expanded="false" />
-            <element signature="e#8451#9935#0#PHP" expanded="false" />
+            <element signature="e#7138#8480#0#PHP" expanded="false" />
+            <element signature="e#8487#9971#0#PHP" expanded="false" />
           </folding>
         </state>
       </provider>
