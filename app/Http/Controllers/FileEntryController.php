@@ -20,6 +20,9 @@ use pintegration\Commands\ProductsCsvSeedJob;
 class FileEntryController extends Controller
 {
     use DispatchesCommands;
+    public function __construct(){
+        $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *

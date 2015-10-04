@@ -44,13 +44,9 @@ class SyncPrestashopProducts extends Command
     {
         if(User::count()>0){
             $users = User::all();
-            //$bar = $this->output->createProgressBar(count($users));
-
             foreach ($users as $user) {
                 $this->getProducts($user);
-                //$bar->advance();
             }
-            //$bar->finish();
         }
     }
 
@@ -82,7 +78,6 @@ class SyncPrestashopProducts extends Command
                         'id_item_prestashop' => $resource->id,
                         'user_id'       => $user->id
                     );
-                    //dd($itemIdPrestashop);
                     $item = Item::firstOrCreate($itemIdPrestashop);
                     $item->name = $resource->name->language[0];
                     error_log($resource->reference.' - '.$resource->price);
@@ -91,7 +86,6 @@ class SyncPrestashopProducts extends Command
                         $item->code = $resource->reference;
                         $item->price = $resource->price;
                     }
-                    //$item->description = $resource->description->language[0];
                     $item->save();
                 } catch ( QueryException $e) {
                     var_dump($e->errorInfo);
@@ -110,21 +104,27 @@ class SyncPrestashopProducts extends Command
             if($item->id_item_pipedrive != NULL){
                 try {
 
-                    $res = $client->put('https://api.pipedrive.com/v1/products/'.$item->id_item_pipedrive.'?api_token='.$user->pipedrive_api, [
-                        'body' => [
+                    $product = [
+                        'body' => array(
                             'name' => $item->name,
+                            'active_flag' => '1',
+                            'visible_to' => '3',
                             'owner_id' => '867597',
-                            'prices' => array(
-                                'currency' => 'EUR',
-                                'price' => '200',
-                                'cost' => 'optional',
-                                'overhead_cost' => 'optional'
-                            )
-                        ]
-                    ]);
-                    dd($res);
+                            'code' => $item->code,
+                            'prices' => [
+                                array(
+                                    'price' => $item->price,
+                                    'currency' => 'EUR',
+                                    'overhead_cost' => '0',
+                                    'cost' => '0'
+                                )
+                            ]
+                        )
+                    ];
+                    $res = $client->put('https://api.pipedrive.com/v1/products/'.$item->id_item_pipedrive.'?api_token='.$user->pipedrive_api, $product);
+
                 }catch(GuzzleHttp\Exception\ClientException $e){
-                   // echo $e->getMessage();
+                    echo $e->getMessage();
                 }
 
                 if( $res!=null && $res->getStatusCode() == 200  ){
@@ -141,12 +141,13 @@ class SyncPrestashopProducts extends Command
                             'active_flag' => '1',
                             'visible_to' => '3',
                             'owner_id' => '867597',
+                            'code' => $item->code,
                             'prices' => [
                                 array(
-                                    'price' => '100',
+                                    'price' => $item->price,
                                     'currency' => 'EUR',
-                                    'overhead_cost' => '100',
-                                    'cost' => '100'
+                                    'overhead_cost' => '0',
+                                    'cost' => '0'
                                 )
                             ]
                         )
