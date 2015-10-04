@@ -9,9 +9,6 @@ use pintegration\Client;
 use PSWebS\PrestaShopWebservice;
 use XmlParser;
 
-define('DEBUG', false);                                          // Debug mode
-define('PS_SHOP_PATH', 'http://osteox.esy.es/prestashop/');       // Root path of your PrestaShop store
-define('PS_WS_AUTH_KEY', '5AWMFQ9B8AJG4NV88GS16NWUB1CXC7WS');   // Auth key (Get it in your Back Office)
 
 class SyncPipedrive extends Command{
     /**
