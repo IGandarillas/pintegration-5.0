@@ -114,7 +114,7 @@ class Tools
 
         $resources->id_address_delivery = $direccion->id_address_prestashop;
         $resources->id_address_invoice = $direccion->id_address_prestashop;
-        $resources->id_cart = '1';
+        $resources->id_cart = addCart($client,$order);
         $resources->id_currency = '1';
         $resources->id_lang='1';
         $resources->id_customer = $client->id_client_prestashop;
@@ -147,6 +147,41 @@ class Tools
             echo $ex->getMessage();
         }
     }
+
+    public function addCart($client,$order){
+        try
+        {   //Get Blank schema
+            $connectClient = $this->initConnection();
+            $xml = $connectClient->get(array('url' => 'http://osteox.esy.es/prestashop/api/carts?schema=blank'));
+            $resources = $xml->children()->children();
+        }
+        catch (PrestaShopWebserviceException $e)
+        { // Here we are dealing with errors
+            error_log($e->getMessage());
+        }
+        $direccion = $client->direccion;
+
+        $resources->id_currency = '1';
+        $resources->id_lang='1';
+        $item = Item::whereIdItemPipedrive($order['data'][0]['product_id'])->first();
+        error_log($order['data'][0]['product_id']);
+        $resources->associations->order_rows->order_row[0]->product_id = $item->id_item_prestashop;
+        $resources->associations->order_rows->order_row[0]->product_attribute_id = '1';
+        $resources->associations->order_rows->order_row[0]->product_quantity= '2';
+        try {
+            $opt = array('resource' => 'carts');
+            $opt['postXml'] = $xml->asXML();
+            $xml = $connectClient->add($opt);
+            return $xml->children()->children()->id;//Process response.
+
+        }
+        catch (PrestaShopWebserviceException $ex) {
+            // Here we are dealing with errors
+            echo $ex->getMessage();
+        }
+    }
+
+
     public function editClient($client){
 
         try
