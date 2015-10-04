@@ -48,6 +48,7 @@ class Tools
 
         $resources->passwd = $client->password;
         $resources->email = $client->email;
+        $resources->secure_key = md5(uniqid(rand(), true));
         error_log('client se pasa? : ' .$resources->email);
         try {
             $opt = array('resource' => 'customers');
@@ -110,7 +111,6 @@ class Tools
         }
         $direccion = $client->direccion;
         error_log($direccion->id_address_prestashop);
-
 
         $resources->id_address_delivery = $direccion->id_address_prestashop;
         $resources->id_address_invoice = $direccion->id_address_prestashop;
