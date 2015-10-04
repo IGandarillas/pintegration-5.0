@@ -134,7 +134,7 @@ class Tools
         $resources->total_paid_real = '72';
         $resources->total_products = '70';
         $resources->total_products_wt = '70';
-        $resources->conversion_rate = '2.0';
+        $resources->conversion_rate = '1.000';
 
         $item = Item::whereIdItemPipedrive($order['data'][0]['product_id'])->first();
         error_log($order['data'][0]['product_id']);
@@ -199,6 +199,7 @@ class Tools
 
         $resources->id_currency = '1';
         $resources->id_lang='1';
+        $resources->id_customer = $client->id_client_prestashop;
         $item = Item::whereIdItemPipedrive($order['data'][0]['product_id'])->first();
         error_log($order['data'][0]['product_id']);
         $resources->associations->cart_rows->cart_row[0]->id_product = $item->id_item_prestashop;
