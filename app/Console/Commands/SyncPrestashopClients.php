@@ -48,7 +48,7 @@ class SyncPrestashopClients extends Command
                 if(isset($user->prestashop_url,$user->prestashop_api,$user->pipedrive_api)) {
                     $date = Carbon::now()->addHours(2);
                     $this->getClients($user);
-                    $user->last_products_sync = $date;
+                    $user->last_clients_sync = $date;
                     $user->update();
                 }
 
