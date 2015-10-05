@@ -31,8 +31,9 @@ class Kernel extends ConsoleKernel {
 	{
 		$schedule->command('inspire')
 				 ->hourly();
+
 		$schedule->command('command:syncpsproducts')
-			->everyminute();
+			->everyFiveMinutes();
 		$schedule->command('command:syncpsclients')
 			->everyFiveMinutes();
 	}
