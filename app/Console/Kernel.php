@@ -33,7 +33,7 @@ class Kernel extends ConsoleKernel {
 				 ->hourly();
 
 		$schedule->command('command:syncpsproducts')
-			->everyFiveMinutes();
+			->everyminute();
 		$schedule->command('command:syncpsclients')
 			->everyFiveMinutes();
 	}
