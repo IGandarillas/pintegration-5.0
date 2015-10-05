@@ -133,11 +133,12 @@ class Tools
         $resources->id_lang='1';
         $resources->id_customer = $client->id_client_prestashop;
         $resources->id_carrier = '1';
-        $resources->module = 'bankwire';
+        $resources->module = 'cheque';
         $resources->secure_key = md5(uniqid(rand(), true));
         $resources->payment = 'Transferencia bancaria';
-        $resources->total_paid_tax_incl = '1.0';
-        $resources->total_paid = '2.0';
+        $resources->total_paid_tax_incl = '0.0';
+        $resources->total_paid_tax_excl = $price;
+        $resources->total_paid = $price*2;
         $resources->total_paid_real = '3.0';
         $resources->total_products = '4.0';
         $resources->total_products_wt = '5.0';
