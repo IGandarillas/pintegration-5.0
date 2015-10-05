@@ -39,7 +39,9 @@ class InsertClientFromPipedrive extends Command implements SelfHandling, ShouldB
 
         $dealId = $this->request['current']['id'];
         $orderData = $this->getOrderData($dealId);
-        //error_log($orderData['data'][0]);
+        error_log('AAAAA');
+        error_log($orderData->data[0]->product_id);
+        error_log('AAAAA');
         $tools->addOrder($client,$orderData);
         error_log("FIN");
 
