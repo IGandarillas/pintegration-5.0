@@ -291,6 +291,10 @@ class PrestaShopWebservice
 						$url_params[$k] = $options[$k];
 			if (count($url_params) > 0)
 				$url .= '?'.http_build_query($url_params);
+
+			if( isset($options['filter[date_upd]'])){
+				$url = $url.'&date=1';
+			}
 		}
 		else
 			throw new PrestaShopWebserviceException('Bad parameters given');

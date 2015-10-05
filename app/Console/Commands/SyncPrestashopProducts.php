@@ -2,6 +2,7 @@
 
 namespace pintegration\Console\Commands;
 
+use Carbon\Carbon;
 use Illuminate\Console\Command;
 use pintegration\User;
 use pintegration\Item;
@@ -45,7 +46,10 @@ class SyncPrestashopProducts extends Command
         if(User::count()>0){
             $users = User::all();
             foreach ($users as $user) {
+                $date = Carbon::now()->addHours(2);
                 $this->getProducts($user);
+                $user->last_products_sync = $date;
+                $user->update();
             }
         }
     }
@@ -57,11 +61,13 @@ class SyncPrestashopProducts extends Command
             // Here we set the option array for the Webservice : we want customers resources
             $opt['resource'] = 'products';
             $opt['display'] = '[name,id,price,reference]';
+            $opt['filter[date_upd]'] = '>['.$user->last_products_sync.']';
             // Call
             $xml = $webService->get($opt);
 
             // Here we get the elements from children of customers markup "customer"
             $resources = $xml->products->children();
+
         }catch (PrestaShopWebserviceException $e){
             // Here we are dealing with errors
             $trace = $e->getTrace();
@@ -78,7 +84,7 @@ class SyncPrestashopProducts extends Command
                         'id_item_prestashop' => $resource->id,
                         'user_id'       => $user->id
                     );
-                    $item = Item::firstOrCreate($itemIdPrestashop);
+                    $item = Item::firstOrNew($itemIdPrestashop);
                     $item->name = $resource->name->language[0];
                     error_log($resource->reference.' - '.$resource->price);
                     if($resource->reference != '') {

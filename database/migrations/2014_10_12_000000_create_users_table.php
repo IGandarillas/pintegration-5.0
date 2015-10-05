@@ -21,6 +21,9 @@ class CreateUsersTable extends Migration
             $table->string('address_field')->nullable();
             $table->string('email')->unique();
             $table->string('password', 60);
+            $table->dateTime('last_products_sync')->nullable()->default(\Carbon\Carbon::now());
+            $table->dateTime('last_clients_sync')->nullable()->default(\Carbon\Carbon::now());
+
             $table->rememberToken();
             $table->timestamps();
         });

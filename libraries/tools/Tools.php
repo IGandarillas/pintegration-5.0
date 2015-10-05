@@ -29,7 +29,7 @@ class Tools
         try
         {   //Get Blank schema
             $connectClient = $this->initConnection();
-            $xml = $connectClient->get(array('url' => $this->user->prestashop_url.'api/customers?schema=blank'));
+            $xml = $connectClient->get(array('url' => $this->user->prestashop_url.'/api/customers?schema=blank'));
             $resources = $xml->children()->children();
         }
         catch (PrestaShopWebserviceException $e)
@@ -74,7 +74,7 @@ class Tools
         try
         {   //Get Blank schema
             $connectClient = $this->initConnection();
-            $xml = $connectClient->get(array('url' => $this->user->prestashop_url.'api/addresses?schema=blank'));
+            $xml = $connectClient->get(array('url' => $this->user->prestashop_url.'/api/addresses?schema=blank'));
             $resources = $xml->children()->children();
         }
         catch (PrestaShopWebserviceException $e)
@@ -121,7 +121,7 @@ class Tools
         try
         {   //Get Blank schema
             $connectClient = $this->initConnection();
-            $xml = $connectClient->get(array('url' => $this->user->prestashop_url.'api/orders?schema=blank'));
+            $xml = $connectClient->get(array('url' => $this->user->prestashop_url.'/api/orders?schema=blank'));
             $resources = $xml->children()->children();
         }
         catch (PrestaShopWebserviceException $e)
@@ -171,7 +171,7 @@ class Tools
         try
         {   //Get Blank schema
             $connectClient = $this->initConnection();
-            $xml = $connectClient->get(array('url' => $this->user->prestashop_url.'api/combinations?schema=blank'));
+            $xml = $connectClient->get(array('url' => $this->user->prestashop_url.'/api/combinations?schema=blank'));
             $resources = $xml->children()->children();
         }
         catch (PrestaShopWebserviceException $e)
@@ -202,7 +202,7 @@ class Tools
         try
         {   //Get Blank schema
             $connectClient = $this->initConnection();
-            $xml = $connectClient->get(array('url' => $this->user->prestashop_url.'api/carts?schema=blank'));
+            $xml = $connectClient->get(array('url' => $this->user->prestashop_url.'/api/carts?schema=blank'));
             $resources = $xml->children()->children();
         }
         catch (PrestaShopWebserviceException $e)
@@ -247,7 +247,7 @@ class Tools
         try
         {   //Get Blank schema
             $connectClient = $this->initConnection();
-            $xml = $connectClient->get(array('url' => 'http://osteox.esy.es/prestashop/api/customers?schema=blank'));
+            $xml = $connectClient->get(array('url' => $this->user->prestashop_url.'/api/customers?schema=blank'));
             $resources = $xml->children()->children();
         }
         catch (PrestaShopWebserviceException $e)
@@ -284,7 +284,7 @@ class Tools
         try
         {   //Get Blank schema
             $connectClient = $this->initConnection();
-            $xml = $connectClient->get(array('url' => 'http://osteox.esy.es/prestashop/api/addresses?schema=blank'));
+            $xml = $connectClient->get(array('url' => $this->user->prestashop_url.'/api/addresses?schema=blank'));
             $resources = $xml->children()->children();
         }
         catch (PrestaShopWebserviceException $e)

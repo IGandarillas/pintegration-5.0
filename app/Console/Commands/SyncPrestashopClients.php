@@ -2,6 +2,7 @@
 
 namespace pintegration\Console\Commands;
 
+use Carbon\Carbon;
 use Illuminate\Console\Command;
 use pintegration\User;
 use pintegration\Client;
@@ -44,7 +45,11 @@ class SyncPrestashopClients extends Command
         if(User::count()>0){
             $users = User::all();
             foreach ($users as $user) {
+                $date = Carbon::now()->addHours(2);
                 $this->getClients($user);
+                $user->last_products_sync = $date;
+                $user->update();
+
                 //$bar->advance();
             }
             //$bar->finish();
@@ -52,10 +57,11 @@ class SyncPrestashopClients extends Command
     }
     public function getClients($user){
         try{
-            $webService = new PrestaShopWebservice(PS_SHOP_PATH, PS_WS_AUTH_KEY, DEBUG);
+            $webService = new PrestaShopWebservice($user->prestashop_url, $user->prestashop_api, true);
             // Here we set the option array for the Webservice : we want customers resources
             $opt['resource'] = 'customers';
-            $opt['display'] = '[id,firstname,lastname]';
+            $opt['display'] = '[id,firstname,lastname,email,passwd]';
+            $opt['filter[date_upd]'] = '>['.$user->last_clients_sync.']';
             // Call
             $xml = $webService->get($opt);
 
@@ -77,12 +83,13 @@ class SyncPrestashopClients extends Command
                         'id_client_prestashop' => $resource->id,
                         'user_id'              => $user->id
                     );
-                   // dd($clientIdPrestashop);
-                    $client = Client::firstOrCreate($clientIdPrestashop);
+
+                    $client = Client::firstOrNew($clientIdPrestashop);
                     $client->id_client_prestashop = $resource->id;
                     $client->firstname = $resource->firstname;
                     $client->lastname = $resource->lastname;
-                    $client->user_id = $user->id;
+                    $client->email = $resource->email;
+                    $client->password = $resource->passwd;
                     $client->save();
                  } catch ( QueryException $e) {
                     var_dump($e->errorInfo);

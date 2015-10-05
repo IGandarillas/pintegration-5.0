@@ -12,7 +12,6 @@ class Kernel extends ConsoleKernel {
 	 */
 	protected $commands = [
 		'pintegration\Console\Commands\Inspire',
-		'pintegration\Console\Commands\SyncPipedrive',
 		'pintegration\Console\Commands\SyncPrestashopClients',
 		'pintegration\Console\Commands\SyncPrestashopProducts',
 		'pintegration\Console\Commands\PsCreateOneClient',
@@ -32,6 +31,11 @@ class Kernel extends ConsoleKernel {
 	{
 		$schedule->command('inspire')
 				 ->hourly();
+
+		$schedule->command('command:syncpsproducts')
+			->everyFiveMinutes();
+		$schedule->command('command:syncpsclients')
+			->everyFiveMinutes();
 	}
 
 }

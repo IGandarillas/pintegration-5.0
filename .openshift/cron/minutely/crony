@@ -1,0 +1,2 @@
+ #!/bin/bash
+ * * * * * php ./app-deployments/2015-10-05_14-34-54.740/repo/artisan schedule:run 1>> /dev/null 2>&1
