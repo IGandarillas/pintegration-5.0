@@ -46,7 +46,7 @@ class PdDeleteProducts extends Command
     public function syncWithPipedrive(){
         $client = new GuzzleHttp\Client();
         $res=null;
-        for ($i = 32 ; $i <= 38; $i++) {
+        for ($i = 39 ; $i <= 45; $i++) {
 ;
             try {
                 // https://api.pipedrive.com/v1/

@@ -147,7 +147,7 @@ class SyncPrestashopProducts extends Command
                                     'price' => $item->price,
                                     'currency' => 'EUR',
                                     'overhead_cost' => '0',
-                                    'cost' => '0'
+                                    'cost' => $item->price
                                 )
                             ]
                         )
