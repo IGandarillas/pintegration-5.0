@@ -18,9 +18,14 @@ class ProductsCsvSeed extends CsvSeeder\CsvSeeder {
         $this->filename = $filePath;
         $this->csv_delimiter = ',';
         $this->mapping = [
-            0 => 'id_item_prestashop',
-            1 => 'code'
+            0 => 'id_item_pipedrive',
+            1 => 'name',
+            3 => 'code',
+            6 => 'price',
+            9 => 'id_item_prestashop'
+
         ];
+        dd($this->mapping );
         $this->offset_rows = 1;
         $this->customFields['user_id']=$user_id;
 

@@ -35,6 +35,7 @@ Route::resource('home','HomeController');
 
 
 //Route::get('/pipedrive/receipt', 'PipedriveReceipt@handlePipedriveReceipt');
+Route::get('/pipedrive/receipt', ['uses' =>'PipedriveReceip@handlePipedriveReceipt']);
 Route::post('/pipedrive/receipt', ['middleware' => 'auth.basic', 'uses' =>'PipedriveReceipt@handlePipedriveReceipt']);
 
 //Route::post('/home', 'HomeController@postHome');

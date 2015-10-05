@@ -9,12 +9,12 @@ use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Contracts\Queue\ShouldBeQueued;
 use GuzzleHttp;
 use pintegration\Client;
-use Illuminate\Support\Facades\Artisan;
+
 use pintegration\User;
 use Symfony\Component\Finder\Shell\Command;
 use Tools\Tools;
 use pintegration\Direccion;
-class InsertClientFromPipedrive extends Command implements SelfHandling, ShouldBeQueued
+class Insertpdprueba extends Command implements SelfHandling, ShouldBeQueued
 {
     use InteractsWithQueue, SerializesModels;
 
@@ -29,6 +29,7 @@ class InsertClientFromPipedrive extends Command implements SelfHandling, ShouldB
     }
     public function handle(){
         $newClientId = $this->request['current']['person_id'];//Id Pipedrive
+
         error_log($newClientId);
         $client = $this->createNewClient($newClientId);
 
@@ -39,7 +40,6 @@ class InsertClientFromPipedrive extends Command implements SelfHandling, ShouldB
         $dealId = $this->request['current']['id'];
         $orderData = $this->getOrderData($dealId);
         $tools->addOrder($client,$orderData);
-        error_log("FIN");
 
     }
     protected function createNewClient($newClientId){
