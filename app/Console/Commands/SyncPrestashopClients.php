@@ -43,7 +43,7 @@ class SyncPrestashopClients extends Command
     public function handle()
     {
         if(User::count()>0){
-            $users = User::all();
+            $users = User::rerqeall();
             foreach ($users as $user) {
                 if(isset($user->prestashop_url,$user->prestashop_api,$user->pipedrive_api)) {
                     $date = Carbon::now()->addHours(2);
