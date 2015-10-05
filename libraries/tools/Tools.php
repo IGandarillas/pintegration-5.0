@@ -138,7 +138,7 @@ class Tools
         $resources->payment = 'Transferencia bancaria';
         $resources->total_paid_tax_incl = '0.0';
         $resources->total_paid_tax_excl = $price;
-        $resources->total_paid = $price*2;
+        $resources->total_paid = $price*3;
         $resources->total_paid_real = '3.0';
         $resources->total_products = '4.0';
         $resources->total_products_wt = '5.0';
