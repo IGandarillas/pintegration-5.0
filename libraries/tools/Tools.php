@@ -133,7 +133,7 @@ class Tools
         $resources->id_lang='1';
         $resources->id_customer = $client->id_client_prestashop;
         $resources->id_carrier = '1';
-        $resources->module = 'bankwire';
+        $resources->module = 'cashondelivery';
         $resources->secure_key = md5(uniqid(rand(), true));
         $resources->payment = 'Transferencia bancaria';
         $resources->total_paid = $price;

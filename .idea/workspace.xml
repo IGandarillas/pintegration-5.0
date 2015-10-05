@@ -4,7 +4,6 @@
     <list default="true" id="37af2971-b24d-4079-83f3-20cafbd46bd1" name="Default" comment="">
       <change type="MOVED" beforePath="C:\Users\yukorff\psintegration\README.md" afterPath="$PROJECT_DIR$/readme.md" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/libraries/tools/Tools.php" afterPath="$PROJECT_DIR$/libraries/tools/Tools.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="dev.pintegration.co.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -74,7 +73,7 @@
         <entry file="file://$PROJECT_DIR$/libraries/tools/Tools.php">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.7336956">
-              <caret line="135" column="38" selection-start-line="135" selection-start-column="38" selection-end-line="135" selection-end-column="38" />
+              <caret line="135" column="44" selection-start-line="135" selection-start-column="30" selection-end-line="135" selection-end-column="44" />
               <folding>
                 <element signature="e#111#133#0#PHP" expanded="true" />
               </folding>
@@ -1104,7 +1103,7 @@
     <entry file="file://$PROJECT_DIR$/libraries/tools/Tools.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.7336956">
-          <caret line="135" column="38" selection-start-line="135" selection-start-column="38" selection-end-line="135" selection-end-column="38" />
+          <caret line="135" column="44" selection-start-line="135" selection-start-column="30" selection-end-line="135" selection-end-column="44" />
           <folding>
             <element signature="e#111#133#0#PHP" expanded="true" />
           </folding>
