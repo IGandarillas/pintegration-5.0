@@ -104,15 +104,8 @@ class Tools
             echo $ex->getMessage();
         }
     }
-    public function getTotalPrice($order){
-        $total = 0;
-        foreach($order->data as $product) {
-            error_log($product->product_id);
-            $item = Item::whereIdItemPipedrive($product->product_id );
-            $total += $item->price*$product->quantity;
-
-        }
-        return $total;
+    public function getTotalPrice($item,$quantity){
+        return $item->price*$quantity;
     }
     public function addOrder($client,$order){
 
@@ -126,9 +119,10 @@ class Tools
         { // Here we are dealing with errors
             error_log($e->getMessage());
         }
+        $item = Item::whereIdItemPipedrive($order['data'][0]['product_id'])->first();
+        $quantity = $order['data'][0]['quantity'];
         $direccion = $client->direccion;
-        error_log('Get total price');
-        $price = $this->getTotalPrice($order);
+        $price = $this->getTotalPrice($item,$quantity);
         error_log($direccion->id_address_prestashop);
 
         $resources->id_address_delivery = $direccion->id_address_prestashop;
@@ -149,6 +143,13 @@ class Tools
         $resources->total_products = '4.0';
         $resources->total_products_wt = '5.0';
         $resources->conversion_rate = '1.000';
+
+
+
+
+        //$resources->associations->order_rows->order_row[0]->product_id = $item->id_item_prestashop;
+        //$resources->associations->order_rows->order_row[0]->product_attribute_id = '1';
+        //$resources->associations->order_rows->order_row[0]->product_quantity= '2';
 
 
         try {
@@ -214,14 +215,12 @@ class Tools
         $resources->id_customer = $client->id_client_prestashop;
         $resources->id_carrier = '1';
 
-        $index = 0;
-        foreach($order->data as $product) {
-            $item = Item::whereIdItemPipedrive($product->product_id );
-            $resources->associations->cart_rows->cart_row[$index]->id_product = $item->id_item_prestashop;
-            $resources->associations->cart_rows->cart_row[$index]->id_address_delivery = $direccion->id_address_prestashop;
-            $resources->associations->cart_rows->cart_row[$index]->quantity = $product->quantity;
-            $index++;
-        }
+        $item = Item::whereIdItemPipedrive($order['data'][0]['product_id'])->first();
+        error_log($order['data'][0]['product_id']);
+        $resources->associations->cart_rows->cart_row[0]->id_product = $item->id_item_prestashop;
+        $resources->associations->cart_rows->cart_row[0]->id_address_delivery = $direccion->id_address_prestashop;
+        //$resources->associations->cart_rows->cart_row[0]->id_product_attribute  = '24';
+        $resources->associations->cart_rows->cart_row[0]->quantity = '2';
         try {
             $opt = array('resource' => 'carts');
             $opt['postXml'] = $xml->asXML();
