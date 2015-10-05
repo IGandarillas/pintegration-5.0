@@ -107,6 +107,7 @@ class Tools
     public function getTotalPrice($order){
         $total = 0;
         foreach($order->data as $product) {
+            error_log($product->product_id);
             $item = Item::whereIdItemPipedrive($product->product_id );
             $total += $item->price*$product->quantity;
 
