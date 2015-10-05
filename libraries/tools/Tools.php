@@ -119,11 +119,12 @@ class Tools
         { // Here we are dealing with errors
             error_log($e->getMessage());
         }
+        error_log('1 ////////////\\\\\\\\\\\\');
         $item = Item::whereIdItemPipedrive($order['data'][0]['product_id'])->first();
         $quantity = $order['data'][0]['quantity'];
         $direccion = $client->direccion;
         $price = $this->getTotalPrice($item,$quantity);
-        error_log($direccion->id_address_prestashop);
+        error_log('2 ////////////\\\\\\\\\\\\');
 
         $resources->id_address_delivery = $direccion->id_address_prestashop;
         $resources->id_address_invoice = $direccion->id_address_prestashop;
