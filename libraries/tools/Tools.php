@@ -106,7 +106,7 @@ class Tools
     }
     public function getTotalPrice($order){
         $total = 0;
-        foreach($order['data'] as $product) {
+        foreach($order->data as $product) {
             $item = Item::whereIdItemPipedrive($product->product_id );
             $total += $item->price*$product->quantity;
 
@@ -213,7 +213,7 @@ class Tools
         $resources->id_carrier = '1';
 
         $index = 0;
-        foreach($order['data'] as $product) {
+        foreach($order->data as $product) {
             $item = Item::whereIdItemPipedrive($product->product_id );
             $resources->associations->cart_rows->cart_row[$index]->id_product = $item->id_item_prestashop;
             $resources->associations->cart_rows->cart_row[$index]->id_address_delivery = $direccion->id_address_prestashop;
@@ -312,7 +312,7 @@ class Tools
 
     protected function initConnection(){
         $user = User::find($this->user_id);
-        return new PrestaShopWebservice($user->prestashop_url, $user->prestashop_api, true);
+        return new PrestaShopWebservice($user->prestashop_url, $user->prestashop_api, false);
     }
 }
 
