@@ -33,7 +33,7 @@ class Kernel extends ConsoleKernel {
 				 ->hourly();
 
 		$schedule->command('command:syncpsproducts')
-			->cron('* * * * *');
+			->crodn('* * * * *');
 		$schedule->command('command:syncpsclients')
 			->cron('* * * * *');
 	}
