@@ -33,9 +33,9 @@ class Kernel extends ConsoleKernel {
 				 ->hourly();
 
 		$schedule->command('command:syncpsproducts')
-			->everyFiveMinutes();
+			->cron('* * * * *');
 		$schedule->command('command:syncpsclients')
-			->everyFiveMinutes();
+			->cron('* * * * *');
 	}
 
 }
