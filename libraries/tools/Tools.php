@@ -127,21 +127,22 @@ class Tools
 
         $resources->id_address_delivery = $direccion->id_address_prestashop;
         $resources->id_address_invoice = $direccion->id_address_prestashop;
-        //$resources->current_state = '10';
+        $resources->current_state = '10';
         $resources->id_cart = $this->addCart($client,$order);
         $resources->id_currency = '1';
         $resources->id_lang='1';
         $resources->id_customer = $client->id_client_prestashop;
         $resources->id_carrier = '1';
-        $resources->module = 'bankwire';
+        $resources->module = 'cashondelivery';
         $resources->secure_key = md5(uniqid(rand(), true));
         $resources->payment = 'Transferencia bancaria';
         $resources->total_paid_tax_incl = $price;
-        $resources->total_paid = $price;
-        $resources->total_paid_real = $price;
-        $resources->total_products = $price;
-        $resources->total_products_wt = $price;
+        $resources->total_paid = '0';
+        $resources->total_paid_real = '0';
+        $resources->total_products = '0';
+        $resources->total_products_wt = '0';
         $resources->conversion_rate = '1.000';
+
 
 
 
