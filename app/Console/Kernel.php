@@ -31,7 +31,6 @@ class Kernel extends ConsoleKernel {
 	{
 		$schedule->command('inspire')
 				 ->hourly();
-
 		$schedule->command('command:syncpsproducts')
 			->everyminute();
 		$schedule->command('command:syncpsclients')
