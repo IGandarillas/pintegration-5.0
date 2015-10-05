@@ -4,6 +4,7 @@
     <list default="true" id="37af2971-b24d-4079-83f3-20cafbd46bd1" name="Default" comment="">
       <change type="MOVED" beforePath="C:\Users\yukorff\psintegration\README.md" afterPath="$PROJECT_DIR$/readme.md" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Commands/InsertClientFromPipedrive.php" afterPath="$PROJECT_DIR$/app/Commands/InsertClientFromPipedrive.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/libraries/tools/Tools.php" afterPath="$PROJECT_DIR$/libraries/tools/Tools.php" />
     </list>
     <ignored path="dev.pintegration.co.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -71,23 +72,24 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Tools.php" pinned="false" current-in-tab="false">
+      <file leaf-file-name="Tools.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/libraries/tools/Tools.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-45.072727">
-              <caret line="256" column="17" selection-start-line="256" selection-start-column="8" selection-end-line="256" selection-end-column="17" />
+            <state vertical-scroll-proportion="0.6666667">
+              <caret line="129" column="9" selection-start-line="129" selection-start-column="9" selection-end-line="129" selection-end-column="37" />
               <folding>
                 <element signature="e#111#133#0#PHP" expanded="true" />
+                <element signature="e#5947#7039#0#PHP" expanded="false" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="InsertClientFromPipedrive.php" pinned="false" current-in-tab="true">
+      <file leaf-file-name="InsertClientFromPipedrive.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/Commands/InsertClientFromPipedrive.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.8192771">
-              <caret line="43" column="27" selection-start-line="43" selection-start-column="27" selection-end-line="43" selection-end-column="27" />
+            <state vertical-scroll-proportion="-17.653847">
+              <caret line="42" column="22" selection-start-line="42" selection-start-column="22" selection-end-line="42" selection-end-column="22" />
               <folding>
                 <element signature="e#42#80#0#PHP" expanded="true" />
               </folding>
@@ -138,8 +140,8 @@
         <option value="$PROJECT_DIR$/app/Commands/UpdateClientFromPipedrive.php" />
         <option value="$PROJECT_DIR$/app/Console/Commands/SyncPrestashopProducts.php" />
         <option value="$PROJECT_DIR$/app/Console/Commands/PdDeleteProducts.php" />
-        <option value="$PROJECT_DIR$/libraries/tools/Tools.php" />
         <option value="$PROJECT_DIR$/app/Commands/InsertClientFromPipedrive.php" />
+        <option value="$PROJECT_DIR$/libraries/tools/Tools.php" />
       </list>
     </option>
   </component>
@@ -1133,22 +1135,23 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/libraries/tools/Tools.php">
+    <entry file="file://$PROJECT_DIR$/app/Commands/InsertClientFromPipedrive.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-45.072727">
-          <caret line="256" column="17" selection-start-line="256" selection-start-column="8" selection-end-line="256" selection-end-column="17" />
+        <state vertical-scroll-proportion="-17.653847">
+          <caret line="42" column="22" selection-start-line="42" selection-start-column="22" selection-end-line="42" selection-end-column="22" />
           <folding>
-            <element signature="e#111#133#0#PHP" expanded="true" />
+            <element signature="e#42#80#0#PHP" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/Commands/InsertClientFromPipedrive.php">
+    <entry file="file://$PROJECT_DIR$/libraries/tools/Tools.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.8192771">
-          <caret line="43" column="27" selection-start-line="43" selection-start-column="27" selection-end-line="43" selection-end-column="27" />
+        <state vertical-scroll-proportion="0.6666667">
+          <caret line="129" column="9" selection-start-line="129" selection-start-column="9" selection-end-line="129" selection-end-column="37" />
           <folding>
-            <element signature="e#42#80#0#PHP" expanded="true" />
+            <element signature="e#111#133#0#PHP" expanded="true" />
+            <element signature="e#5947#7039#0#PHP" expanded="false" />
           </folding>
         </state>
       </provider>
