@@ -3,8 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="37af2971-b24d-4079-83f3-20cafbd46bd1" name="Default" comment="">
       <change type="MOVED" beforePath="C:\Users\yukorff\psintegration\README.md" afterPath="$PROJECT_DIR$/readme.md" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Console/Commands/PdDeleteProducts.php" afterPath="$PROJECT_DIR$/app/Console/Commands/PdDeleteProducts.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Console/Commands/SyncPrestashopProducts.php" afterPath="$PROJECT_DIR$/app/Console/Commands/SyncPrestashopProducts.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/libraries/tools/Tools.php" afterPath="$PROJECT_DIR$/libraries/tools/Tools.php" />
     </list>
     <ignored path="dev.pintegration.co.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -29,7 +28,7 @@
       <file leaf-file-name="UpdateClientFromPipedrive.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/Commands/UpdateClientFromPipedrive.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-4.0">
+            <state vertical-scroll-proportion="5.8076925">
               <caret line="39" column="25" selection-start-line="39" selection-start-column="25" selection-end-line="39" selection-end-column="25" />
               <folding>
                 <element signature="e#40#86#0#PHP" expanded="true" />
@@ -50,20 +49,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="SyncPrestashopProducts.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/Console/Commands/SyncPrestashopProducts.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-14.5">
-              <caret line="149" column="58" selection-start-line="149" selection-start-column="58" selection-end-line="149" selection-end-column="58" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="PdDeleteProducts.php" pinned="false" current-in-tab="true">
+      <file leaf-file-name="PdDeleteProducts.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/Console/Commands/PdDeleteProducts.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.5851979">
+            <state vertical-scroll-proportion="-7.3076925">
               <caret line="48" column="31" selection-start-line="48" selection-start-column="31" selection-end-line="48" selection-end-column="31" />
               <folding>
                 <element signature="e#49#80#0#PHP" expanded="true" />
@@ -82,11 +71,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Tools.php" pinned="false" current-in-tab="false">
+      <file leaf-file-name="Tools.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/libraries/tools/Tools.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-17.0">
-              <caret line="139" column="49" selection-start-line="139" selection-start-column="49" selection-end-line="139" selection-end-column="49" />
+            <state vertical-scroll-proportion="1.442029">
+              <caret line="148" column="46" selection-start-line="148" selection-start-column="46" selection-end-line="148" selection-end-column="46" />
               <folding>
                 <element signature="e#111#133#0#PHP" expanded="true" />
               </folding>
@@ -148,9 +137,9 @@
         <option value="$PROJECT_DIR$/app/Console/Commands/Prueba.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/FileEntryController.php" />
         <option value="$PROJECT_DIR$/app/Commands/UpdateClientFromPipedrive.php" />
-        <option value="$PROJECT_DIR$/libraries/tools/Tools.php" />
         <option value="$PROJECT_DIR$/app/Console/Commands/SyncPrestashopProducts.php" />
         <option value="$PROJECT_DIR$/app/Console/Commands/PdDeleteProducts.php" />
+        <option value="$PROJECT_DIR$/libraries/tools/Tools.php" />
       </list>
     </option>
   </component>
@@ -746,13 +735,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/resources/views/auth/login.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Auth/PasswordController.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1081,16 +1063,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/Commands/UpdateClientFromPipedrive.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-4.0">
-          <caret line="39" column="25" selection-start-line="39" selection-start-column="25" selection-end-line="39" selection-end-column="25" />
-          <folding>
-            <element signature="e#40#86#0#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/database/migrations/2015_09_17_175004_create_clients_table.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.4755245">
@@ -1125,13 +1097,29 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/libraries/tools/Tools.php">
+    <entry file="file://$PROJECT_DIR$/app/Commands/SyncPipeDriveReceipt.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-17.0">
-          <caret line="139" column="49" selection-start-line="139" selection-start-column="49" selection-end-line="139" selection-end-column="49" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Console/Commands/PdDeleteProducts.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-7.3076925">
+          <caret line="48" column="31" selection-start-line="48" selection-start-column="31" selection-end-line="48" selection-end-column="31" />
           <folding>
-            <element signature="e#111#133#0#PHP" expanded="true" />
+            <element signature="e#49#80#0#PHP" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Console/Commands/SyncPrestashopProducts.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="2.989673">
+          <caret line="149" column="58" selection-start-line="149" selection-start-column="58" selection-end-line="149" selection-end-column="58" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1145,20 +1133,22 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/Console/Commands/SyncPrestashopProducts.php">
+    <entry file="file://$PROJECT_DIR$/app/Commands/UpdateClientFromPipedrive.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-14.5">
-          <caret line="149" column="58" selection-start-line="149" selection-start-column="58" selection-end-line="149" selection-end-column="58" />
-          <folding />
+        <state vertical-scroll-proportion="5.8076925">
+          <caret line="39" column="25" selection-start-line="39" selection-start-column="25" selection-end-line="39" selection-end-column="25" />
+          <folding>
+            <element signature="e#40#86#0#PHP" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/Console/Commands/PdDeleteProducts.php">
+    <entry file="file://$PROJECT_DIR$/libraries/tools/Tools.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5851979">
-          <caret line="48" column="31" selection-start-line="48" selection-start-column="31" selection-end-line="48" selection-end-column="31" />
+        <state vertical-scroll-proportion="1.442029">
+          <caret line="148" column="46" selection-start-line="148" selection-start-column="46" selection-end-line="148" selection-end-column="46" />
           <folding>
-            <element signature="e#49#80#0#PHP" expanded="true" />
+            <element signature="e#111#133#0#PHP" expanded="true" />
           </folding>
         </state>
       </provider>
