@@ -45,10 +45,12 @@ class SyncPrestashopClients extends Command
         if(User::count()>0){
             $users = User::all();
             foreach ($users as $user) {
-                $date = Carbon::now()->addHours(2);
-                $this->getClients($user);
-                $user->last_products_sync = $date;
-                $user->update();
+                if(isset($user->prestashop_url,$user->prestashop_api,$user->pipedrive_api)) {
+                    $date = Carbon::now()->addHours(2);
+                    $this->getClients($user);
+                    $user->last_products_sync = $date;
+                    $user->update();
+                }
 
                 //$bar->advance();
             }
