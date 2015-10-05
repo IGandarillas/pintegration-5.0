@@ -25,7 +25,7 @@ class ProductsCsvSeed extends CsvSeeder\CsvSeeder {
             9 => 'id_item_prestashop'
 
         ];
-        dd($this->mapping );
+        //dd($this->mapping );
         $this->offset_rows = 1;
         $this->customFields['user_id']=$user_id;
 
