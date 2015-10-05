@@ -45,6 +45,7 @@ class SyncPrestashopProducts extends Command
     {
         if(User::count()>0){
             $users = User::all();
+            if(User::all()->count() >= 1)
             foreach ($users as $user) {
                 $date = Carbon::now()->addHours(2);
                 $this->getProducts($user);
