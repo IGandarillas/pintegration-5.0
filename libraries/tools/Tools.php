@@ -136,7 +136,7 @@ class Tools
         $resources->module = 'bankwire';
         $resources->secure_key = md5(uniqid(rand(), true));
         $resources->payment = 'Transferencia bancaria';
-        $resources->total_paid_tax_incl = $price;
+        $resources->total_paid_tax_incl = '0';
         $resources->total_paid = '0.0';
         $resources->total_paid_real = '0.0';
         $resources->total_products = '0.0';
