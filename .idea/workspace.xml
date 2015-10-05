@@ -72,8 +72,8 @@
       <file leaf-file-name="Tools.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/libraries/tools/Tools.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.6413044">
-              <caret line="142" column="44" selection-start-line="142" selection-start-column="44" selection-end-line="142" selection-end-column="44" />
+            <state vertical-scroll-proportion="0.42572463">
+              <caret line="135" column="38" selection-start-line="135" selection-start-column="38" selection-end-line="135" selection-end-column="38" />
               <folding>
                 <element signature="e#111#133#0#PHP" expanded="true" />
               </folding>
@@ -1102,8 +1102,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/libraries/tools/Tools.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.6413044">
-          <caret line="142" column="44" selection-start-line="142" selection-start-column="44" selection-end-line="142" selection-end-column="44" />
+        <state vertical-scroll-proportion="0.42572463">
+          <caret line="135" column="38" selection-start-line="135" selection-start-column="38" selection-end-line="135" selection-end-column="38" />
           <folding>
             <element signature="e#111#133#0#PHP" expanded="true" />
           </folding>

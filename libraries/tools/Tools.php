@@ -137,10 +137,10 @@ class Tools
         $resources->secure_key = md5(uniqid(rand(), true));
         $resources->payment = 'Transferencia bancaria';
         $resources->total_paid_tax_incl = $price;
-        $resources->total_paid = '0.0';
-        $resources->total_paid_real = '0.0';
-        $resources->total_products = '0.0';
-        $resources->total_products_wt = '0.0';
+        $resources->total_paid = $price;
+        $resources->total_paid_real = $price;
+        $resources->total_products = $price;
+        $resources->total_products_wt = $price;
         $resources->conversion_rate = '1.000';
 
 
