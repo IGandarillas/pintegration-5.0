@@ -37,7 +37,7 @@ class UpdateClientFromPipedrive extends Command implements SelfHandling, ShouldB
 			$tools->editClient($client);
 			error_log('address');
 			$direccion = $client->direccion;
-			if(!isset($direccion->id_address_prestashop))
+			if(!isset($direccion, $direccion->id_address_prestashop) || $direccion->id_address_prestashop == 0)
 				$tools->addAddress($client);
 			else
 				$tools->editAddress($client);
@@ -85,8 +85,6 @@ class UpdateClientFromPipedrive extends Command implements SelfHandling, ShouldB
 				'city' => $clientData['data'][$this->user->address_field.'_locality']
 			);
 			Direccion::updateOrCreate($direccion);
-
-
 			return $updateClient;
 		}
 		error_log('Not config address');
