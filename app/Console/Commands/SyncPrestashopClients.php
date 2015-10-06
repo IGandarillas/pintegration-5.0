@@ -111,6 +111,7 @@ class SyncPrestashopClients extends Command
                     $res = $guzzleClient->put('https://api.pipedrive.com/v1/persons/'.$client->id_client_pipedrive.'?api_token='.$user->pipedrive_api, [
                         'body' => [
                             'name' => $client->firstname.' '.$client->lastname,
+                            'email' => $client->email,
                         ]
                     ]);
                 }catch(GuzzleHttp\Exception\ClientException $e){
@@ -130,6 +131,7 @@ class SyncPrestashopClients extends Command
                     $res = $guzzleClient->post('https://api.pipedrive.com/v1/persons?api_token='.$user->pipedrive_api, [
                         'body' => [
                             'name' => $client->firstname.' '.$client->lastname,
+                            'email' => $client->email,
                             'owner_id' => '830118',
                             'visible_to' => '3',
                         ]
