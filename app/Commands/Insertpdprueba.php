@@ -8,12 +8,15 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Contracts\Queue\ShouldBeQueued;
 use GuzzleHttp;
+use Illuminate\Support\Facades\Hash;
 use pintegration\Client;
 
 use pintegration\User;
 use Symfony\Component\Finder\Shell\Command;
 use Tools\Tools;
 use pintegration\Direccion;
+use Faker;
+
 class Insertpdprueba extends Command implements SelfHandling, ShouldBeQueued
 {
     use InteractsWithQueue, SerializesModels;
@@ -47,12 +50,14 @@ class Insertpdprueba extends Command implements SelfHandling, ShouldBeQueued
         error_log($clientData['data']['first_name']);
         error_log($clientData['data']['last_name']);
         error_log($clientData['data']['email'][0]['value']);
+        $faker = Faker\Factory::create();
+
         if($this->isAddress($clientData)) {
             $newClient = new Client();
             $newClient->firstname = $clientData['data']['first_name'];
             $newClient->lastname = $clientData['data']['last_name'];
             $newClient->email = $clientData['data']['email'][0]['value'];
-            $newClient->password = 'needAutoGenPass';
+            $newClient->password = $faker->password(6,10);
             $newClient->id_client_pipedrive = $newClientId;
             $newClient->user_id = '1';
             $newClient->save();

@@ -14,6 +14,7 @@ use pintegration\User;
 use Symfony\Component\Finder\Shell\Command;
 use Tools\Tools;
 use pintegration\Direccion;
+
 class InsertClientFromPipedrive extends Command implements SelfHandling, ShouldBeQueued
 {
     use InteractsWithQueue, SerializesModels;
@@ -47,6 +48,7 @@ class InsertClientFromPipedrive extends Command implements SelfHandling, ShouldB
         error_log($clientData['data']['first_name']);
         error_log($clientData['data']['last_name']);
         error_log($clientData['data']['email'][0]['value']);
+
         if($this->isAddress($clientData)) {
             $newClient = new Client();
             $newClient->firstname = $clientData['data']['first_name'];
