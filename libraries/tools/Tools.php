@@ -207,6 +207,7 @@ class Tools
         { // Here we are dealing with errors
             error_log($e->getMessage());
         }
+        error_log('1');
         $direccion = $client->direccion;
         $resources->id_address_delivery = $direccion->id_address_prestashop;
         $resources->id_address_invoice = $direccion->id_address_prestashop;
@@ -215,14 +216,17 @@ class Tools
         $resources->id_customer = $client->id_client_prestashop;
         $resources->id_carrier = '1';
         $resources->id_show_group = '1';
+        error_log('2');
         $resources->secure_key = $client->secure_key;
         $count = 0;
+        error_log('3');
         foreach($order['data'] as $product){
             $item = Item::whereIdItemPipedrive($product['product_id'])->first();
             $resources->associations->cart_rows->cart_row[$count]->id_product = $item->id_item_prestashop;
             $resources->associations->cart_rows->cart_row[$count]->id_address_delivery = $direccion->id_address_prestashop;
             $resources->associations->cart_rows->cart_row[$count]->quantity = $product['quantity'];
             $count++;
+            error_log('4');
         }
 
 
@@ -230,6 +234,7 @@ class Tools
             $opt = array('resource' => 'carts');
             $opt['postXml'] = $xml->asXML();
             $xml = $connectClient->add($opt);
+            error_log('5');
             return $xml->children()->children()->id;//Process response.
 
         }
