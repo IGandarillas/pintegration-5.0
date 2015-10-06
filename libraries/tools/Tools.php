@@ -60,6 +60,7 @@ class Tools
             $connectClient = $this->initConnection();
             $xml = $connectClient->add($opt);
             $client->id_client_prestashop = $xml->children()->children()->id;//Process response.
+            $client->id_client_prestashop = $xml->children()->children()->secure_key;
             $client->update();
         }
         catch (PrestaShopWebserviceException $ex)
