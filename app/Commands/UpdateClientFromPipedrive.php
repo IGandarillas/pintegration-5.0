@@ -27,20 +27,22 @@ class UpdateClientFromPipedrive extends Command implements SelfHandling, ShouldB
 		$this->user = User::find($user_id);
 	}
 	public function handle(){
+
 		$clientId = $this->request['current']['person_id'];//Id Pipedrive
 		error_log($clientId);
 		$client = $this->updateClient($clientId);
-		if($client != null) {
+		error_log('1');
+		if( !isset($client) ) {
+
 			$tools = new Tools($this->user_id);
 			$tools->editClient($client);
 			error_log('address');
 			$direccion = $client->direccion;
-			if(!isset($direccion->id_address_prestashop)){
-				$direccion->delete();
-				$clientData = $this->getClientData($client->id);
-				$tools->addAddress($client,$clientData);
-			}else
+			if(!isset($direccion->id_address_prestashop))
+				$tools->addAddress($client);
+			else
 				$tools->editAddress($client);
+
 			$dealId = $this->request['current']['id'];
 			$orderData = $this->getOrderData($dealId);
 			$tools->addCart($client,$orderData);
@@ -67,18 +69,12 @@ class UpdateClientFromPipedrive extends Command implements SelfHandling, ShouldB
 		error_log($clientData['data']['first_name']);
 		error_log($clientData['data']['last_name']);
 		error_log($clientData['data']['email'][0]['value']);
-		$updateClient = null;
 		error_log('1');
 		if($this->isAddress($clientData)) {
 			$updateClient = Client::whereIdClientPipedrive($clientId)->first();
 			$updateClient->firstname = $clientData['data']['first_name'];
 			$updateClient->lastname = $clientData['data']['last_name'];
 			$updateClient->email = $clientData['data']['email'][0]['value'];
-			if(isset($updateClient->secure_key)){
-				$updateClient->secure_key = md5(uniqid(rand(), true));
-			}
-			$updateClient->id_client_pipedrive = $clientId;
-			$updateClient->user_id = '1';
 			$updateClient->update();
 			error_log('2');
 
@@ -90,7 +86,8 @@ class UpdateClientFromPipedrive extends Command implements SelfHandling, ShouldB
 				'city' => $clientData['data'][$this->user->address_field.'_locality']
 			);
 			Direccion::updateOrCreate($direccion);
-			error_log('3');
+
+
 			return $updateClient;
 		}
 		error_log('Not config address');

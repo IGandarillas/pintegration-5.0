@@ -58,7 +58,7 @@ class InsertClientFromPipedrive extends Command implements SelfHandling, ShouldB
             $newClient->email = $clientData['data']['email'][0]['value'];
             $newClient->password = $faker->password(6,10);
             $newClient->id_client_pipedrive = $newClientId;
-            $newClient->user_id = '1';
+            $newClient->user_id = $this->user_id;
             $newClient->save();
             error_log('cliente creado');
             $this->createAddress($newClient,$clientData);
