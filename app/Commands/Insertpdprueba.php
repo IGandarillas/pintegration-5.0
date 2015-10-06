@@ -50,14 +50,13 @@ class Insertpdprueba extends Command implements SelfHandling, ShouldBeQueued
         error_log($clientData['data']['first_name']);
         error_log($clientData['data']['last_name']);
         error_log($clientData['data']['email'][0]['value']);
-        $faker = Faker\Factory::create();
-
+        
         if($this->isAddress($clientData)) {
             $newClient = new Client();
             $newClient->firstname = $clientData['data']['first_name'];
             $newClient->lastname = $clientData['data']['last_name'];
             $newClient->email = $clientData['data']['email'][0]['value'];
-            $newClient->password = $faker->password(6,10);
+
             $newClient->id_client_pipedrive = $newClientId;
             $newClient->user_id = '1';
             $newClient->save();
