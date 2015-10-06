@@ -303,6 +303,7 @@ class Tools
         $resources->address1 = $direccion->address1;
         $resources->city = $direccion->city;
         $resources->id_country = '6';
+        $resources->id_state = '313';
         $resources->postcode = $direccion->postcode;
         $resources->alias = 'Alias';
         try {
