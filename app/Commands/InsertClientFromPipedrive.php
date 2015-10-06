@@ -57,7 +57,7 @@ class InsertClientFromPipedrive extends Command implements SelfHandling, ShouldB
             $newClient->firstname = $clientData['data']['first_name'];
             $newClient->lastname = $clientData['data']['last_name'];
             $newClient->email = $clientData['data']['email'][0]['value'];
-            $newClient->password = $faker=$faker->password = $faker->password(6,10);
+            $newClient->password = $faker->password(6,10);
             $newClient->id_client_pipedrive = $newClientId;
             $newClient->user_id = '1';
             $newClient->save();
