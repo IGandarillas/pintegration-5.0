@@ -2,7 +2,7 @@
 
 use Illuminate\Console\Command;
 use Illuminate\Contracts\Bus\SelfHandling;
-
+use Faker;
 class Prueba extends Command {
 
 	protected $name = 'command:prueba';
@@ -23,6 +23,9 @@ class Prueba extends Command {
 	 */
 	public function handle()
 	{
+		$faker = Faker\Factory::create();
+		$faker=$faker->password = $faker->password(6,10);
+		dd($faker);
 		$product = [
 			'body' => array(
 				'name' => 'asdfasdf',

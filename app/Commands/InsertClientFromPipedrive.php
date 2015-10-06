@@ -14,7 +14,7 @@ use pintegration\User;
 use Symfony\Component\Finder\Shell\Command;
 use Tools\Tools;
 use pintegration\Direccion;
-
+use Faker;
 class InsertClientFromPipedrive extends Command implements SelfHandling, ShouldBeQueued
 {
     use InteractsWithQueue, SerializesModels;
@@ -23,7 +23,7 @@ class InsertClientFromPipedrive extends Command implements SelfHandling, ShouldB
     protected $user_id;
     protected $user;
 
-    public function __construct($request,$user_id)    {
+    public function __construct($request,$user_id){
         $this->request = $request;
         $this->user_id=$user_id;
         $this->user = User::find($user_id);
@@ -49,12 +49,14 @@ class InsertClientFromPipedrive extends Command implements SelfHandling, ShouldB
         error_log($clientData['data']['last_name']);
         error_log($clientData['data']['email'][0]['value']);
 
+        $faker = Faker\Factory::create();
+
         if($this->isAddress($clientData)) {
             $newClient = new Client();
             $newClient->firstname = $clientData['data']['first_name'];
             $newClient->lastname = $clientData['data']['last_name'];
             $newClient->email = $clientData['data']['email'][0]['value'];
-            $newClient->password = 'needAutoGenPass';
+            $newClient->password = $faker=$faker->password = $faker->password(6,10);
             $newClient->id_client_pipedrive = $newClientId;
             $newClient->user_id = '1';
             $newClient->save();

@@ -40,7 +40,7 @@ class PipedriveReceipt extends Controller
     public function handlePipedriveReceipt(\Illuminate\Http\Request $request)
     {
 
-        error_log("Request");
+
         $req = $request->all();
 
         //error_log(env(QUEUE_DRIVER));
@@ -58,7 +58,7 @@ class PipedriveReceipt extends Controller
                 Queue::later(Carbon::now()->addSeconds(1), $task);
             }else{
                 $task= new InsertClientFromPipedrive($req, Auth::user()->id);
-                error_log("job");
+                error_log("Insert");
                 Queue::later(Carbon::now()->addSeconds(1), $task);
             }
         }

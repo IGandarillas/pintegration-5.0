@@ -50,7 +50,7 @@ class Insertpdprueba extends Command implements SelfHandling, ShouldBeQueued
         error_log($clientData['data']['first_name']);
         error_log($clientData['data']['last_name']);
         error_log($clientData['data']['email'][0]['value']);
-        
+
         if($this->isAddress($clientData)) {
             $newClient = new Client();
             $newClient->firstname = $clientData['data']['first_name'];
