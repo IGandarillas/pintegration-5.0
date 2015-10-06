@@ -33,6 +33,7 @@ class UpdateClientFromPipedrive extends Command implements SelfHandling, ShouldB
 		if($client != null) {
 			$tools = new Tools($this->user_id);
 			$tools->editClient($client);
+			error_log('address');
 			$tools->editAddress($client);
 			$dealId = $this->request['current']['id'];
 			$orderData = $this->getOrderData($dealId);
@@ -50,7 +51,7 @@ class UpdateClientFromPipedrive extends Command implements SelfHandling, ShouldB
 		error_log($clientData['data']['last_name']);
 		error_log($clientData['data']['email'][0]['value']);
 		$updateClient = null;
-
+		error_log('1');
 		if($this->isAddress($clientData)) {
 			$updateClient = Client::whereIdClientPipedrive($clientId)->first();
 			$updateClient->firstname = $clientData['data']['first_name'];
@@ -62,7 +63,7 @@ class UpdateClientFromPipedrive extends Command implements SelfHandling, ShouldB
 			$updateClient->id_client_pipedrive = $clientId;
 			$updateClient->user_id = '1';
 			$updateClient->update();
-
+			error_log('2');
 
 			$direccion= array(
 				'client_id' => $updateClient->id,
@@ -72,7 +73,7 @@ class UpdateClientFromPipedrive extends Command implements SelfHandling, ShouldB
 				'city' => $clientData['data'][$this->user->address_field.'_locality']
 			);
 			Direccion::updateOrCreate($direccion);
-
+			error_log('3');
 			return $updateClient;
 		}
 	}
