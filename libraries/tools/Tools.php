@@ -49,7 +49,7 @@ class Tools
 
         $resources->passwd = $client->password;
         $resources->email = $client->email;
-        $resources->secure_key = md5(uniqid(rand(), true));
+        $resources->secure_key = $client->secure_key;
         $resources->active = true;
         $resources->id_default_group = '3';
         $resources->associations->groups->group->id = '3';
