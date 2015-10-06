@@ -224,7 +224,6 @@ class Tools
         foreach($order['data'] as $product){
             $item = Item::whereIdItemPipedrive($product['product_id'])->first();
             $resources->associations->cart_rows->cart_row[$count]->id_product = $item->id_item_prestashop;
-            $resources->associations->cart_rows->cart_row[$count]->id_product_attribute = '1';
             $resources->associations->cart_rows->cart_row[$count]->id_address_delivery = $direccion->id_address_prestashop;
             $resources->associations->cart_rows->cart_row[$count]->quantity = $product['quantity'];
             $count++;
