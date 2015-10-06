@@ -50,20 +50,20 @@ class InsertClientFromPipedrive extends Command implements SelfHandling, ShouldB
         error_log($clientData['data']['last_name']);
         error_log($clientData['data']['email'][0]['value']);
 
-        $faker = Faker\Factory::create();
+       // $faker = Faker\Factory::create();
 
         if($this->isAddress($clientData)) {
             $newClient = new Client();
             $newClient->firstname = $clientData['data']['first_name'];
             $newClient->lastname = $clientData['data']['last_name'];
             $newClient->email = $clientData['data']['email'][0]['value'];
-            $newClient->password = $faker->password(6,10);
+            $newClient->password = 'ersdfasdfsa';//$faker->password(6,10);
             $newClient->id_client_pipedrive = $newClientId;
             $newClient->user_id = '1';
             $newClient->save();
             error_log('cliente creado');
             $address = new Direccion();
-            $address->client_id = $newClient->id;//?
+            $address->client_id = $newClient->id;
             $address->address1 = $clientData['data'][$this->user->address_field];
             $address->country = $clientData['data'][$this->user->address_field.'_country'];
             $address->postcode = $clientData['data'][$this->user->address_field.'_postal_code'];
