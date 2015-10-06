@@ -62,20 +62,22 @@ class InsertClientFromPipedrive extends Command implements SelfHandling, ShouldB
             $newClient->user_id = '1';
             $newClient->save();
             error_log('cliente creado');
-            $address = new Direccion();
-            $address->client_id = $newClient->id;
-            $address->address1 = $clientData['data'][$this->user->address_field];
-            $address->country = $clientData['data'][$this->user->address_field.'_country'];
-            $address->postcode = $clientData['data'][$this->user->address_field.'_postal_code'];
-            $address->city = $clientData['data'][$this->user->address_field.'_locality'];
-            error_log($address->city);
-            error_log($address->client_id);
-            $address->save();
+            $this->createAddress($newClient,$clientData);
             return $newClient;
         }
         error_log('Have no address');
     }
-
+    protected function createAddress($newClient,$clientData){
+        $address = new Direccion();
+        $address->client_id = $newClient->id;
+        $address->address1 = $clientData['data'][$this->user->address_field];
+        $address->country = $clientData['data'][$this->user->address_field.'_country'];
+        $address->postcode = $clientData['data'][$this->user->address_field.'_postal_code'];
+        $address->city = $clientData['data'][$this->user->address_field.'_locality'];
+        error_log($address->city);
+        error_log($address->client_id);
+        $address->save();
+    }
     protected function getClientData($id)
     {
         $url = 'https://api.pipedrive.com/v1/persons/'.$id.'?api_token='.$this->user->pipedrive_api;

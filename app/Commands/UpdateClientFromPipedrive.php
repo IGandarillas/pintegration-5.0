@@ -34,7 +34,13 @@ class UpdateClientFromPipedrive extends Command implements SelfHandling, ShouldB
 			$tools = new Tools($this->user_id);
 			$tools->editClient($client);
 			error_log('address');
-			$tools->editAddress($client);
+			$direccion = $client->direccion;
+			if(!isset($direccion->id_address_prestashop)){
+				$direccion->delete();
+				$clientData = $this->getClientData($client->id);
+				$tools->addAddress($client,$clientData);
+			}else
+				$tools->editAddress($client);
 			$dealId = $this->request['current']['id'];
 			$orderData = $this->getOrderData($dealId);
 			$tools->addCart($client,$orderData);
@@ -43,6 +49,17 @@ class UpdateClientFromPipedrive extends Command implements SelfHandling, ShouldB
 		error_log("FIN");
 
 
+	}
+	protected function createAddress($newClient,$clientData){
+		$address = new Direccion();
+		$address->client_id = $newClient->id;
+		$address->address1 = $clientData['data'][$this->user->address_field];
+		$address->country = $clientData['data'][$this->user->address_field.'_country'];
+		$address->postcode = $clientData['data'][$this->user->address_field.'_postal_code'];
+		$address->city = $clientData['data'][$this->user->address_field.'_locality'];
+		error_log($address->city);
+		error_log($address->client_id);
+		$address->save();
 	}
 	protected function updateClient($clientId){
 
