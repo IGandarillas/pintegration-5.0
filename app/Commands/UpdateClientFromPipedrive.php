@@ -32,8 +32,7 @@ class UpdateClientFromPipedrive extends Command implements SelfHandling, ShouldB
 		error_log($clientId);
 		$client = $this->updateClient($clientId);
 		error_log('1');
-		if( !isset($client) ) {
-
+		if( isset($client) ) {
 			$tools = new Tools($this->user_id);
 			$tools->editClient($client);
 			error_log('address');
