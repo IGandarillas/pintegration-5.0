@@ -53,8 +53,6 @@ class Tools
         $resources->active = true;
         $resources->id_default_group = '3';
         $resources->associations->groups->group->id = '3';
-
-
         error_log('client se pasa? : ' .$resources->email);
         try {
             $opt = array('resource' => 'customers');
