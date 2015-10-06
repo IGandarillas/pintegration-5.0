@@ -265,6 +265,9 @@ class Tools
         $resources->id = $client->id_client_prestashop;
         $resources->passwd = $client->password;
         $resources->email = $client->email;
+        $resources->active = true;
+        $resources->id_default_group = '3';
+        $resources->associations->groups->group->id = '3';
         error_log('client se pasa? : ' .$resources->email);
         try {
             $opt = array(
@@ -313,8 +316,8 @@ class Tools
             );
             $opt['putXml'] = $xml->asXML();
             $xml = $connectClient->edit($opt);
-            //$direccion->id_address_prestashop = $xml->children()->children()->id;//Process response.
-            //$direccion->update();
+            $client->secure_key = $xml->children()->children()->secure_key;
+            $client->update();
         }
         catch (PrestaShopWebserviceException $ex) {
             // Here we are dealing with errors
