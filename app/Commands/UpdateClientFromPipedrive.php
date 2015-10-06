@@ -57,9 +57,7 @@ class UpdateClientFromPipedrive extends Command implements SelfHandling, ShouldB
 			$updateClient->firstname = $clientData['data']['first_name'];
 			$updateClient->lastname = $clientData['data']['last_name'];
 			$updateClient->email = $clientData['data']['email'][0]['value'];
-			if(isset($updateClient->secure_key)){
-				$updateClient->secure_key = md5(uniqid(rand(), true));
-			}
+
 			$updateClient->id_client_pipedrive = $clientId;
 			$updateClient->user_id = '1';
 			$updateClient->update();
@@ -76,6 +74,7 @@ class UpdateClientFromPipedrive extends Command implements SelfHandling, ShouldB
 			error_log('3');
 			return $updateClient;
 		}
+		error_log('Not config address');
 	}
 
 	protected function getClientData($id)

@@ -246,7 +246,7 @@ class Tools
 
 
     public function editClient($client){
-
+        error_log('4');
         try
         {   //Get Blank schema
             $connectClient = $this->initConnection();
@@ -257,7 +257,7 @@ class Tools
         { // Here we are dealing with errors
             error_log($e->getMessage());
         }
-
+        error_log('5');
         $resources->firstname = $client->firstname;
         $resources->lastname = $client->lastname;
 
