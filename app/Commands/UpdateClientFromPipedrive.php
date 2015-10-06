@@ -36,7 +36,8 @@ class UpdateClientFromPipedrive extends Command implements SelfHandling, ShouldB
 			$tools->editAddress($client);
 			$dealId = $this->request['current']['id'];
 			$orderData = $this->getOrderData($dealId);
-			$tools->addOrder($client,$orderData);
+			$tools->addCart($client,$orderData);
+			//$tools->addOrder($client,$orderData);
 		}
 		error_log("FIN");
 
@@ -55,7 +56,9 @@ class UpdateClientFromPipedrive extends Command implements SelfHandling, ShouldB
 			$updateClient->firstname = $clientData['data']['first_name'];
 			$updateClient->lastname = $clientData['data']['last_name'];
 			$updateClient->email = $clientData['data']['email'][0]['value'];
-			$updateClient->password = 'needAutoGenPass';
+			if(isset($updateClient->secure_key)){
+				$updateClient->secure_key = md5(uniqid(rand(), true));
+			}
 			$updateClient->id_client_pipedrive = $clientId;
 			$updateClient->user_id = '1';
 			$updateClient->update();

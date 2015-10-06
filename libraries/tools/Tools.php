@@ -215,7 +215,7 @@ class Tools
         $resources->id_customer = $client->id_client_prestashop;
         $resources->id_carrier = '1';
         $resources->id_show_group = '1';
-
+        $resources->secure_key = $client->secure_key;
         $count = 0;
         foreach($order['data'] as $product){
             $item = Item::whereIdItemPipedrive($product['product_id'])->first();
