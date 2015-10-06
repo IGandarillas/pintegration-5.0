@@ -52,12 +52,11 @@ class InsertClientFromPipedrive extends Command implements SelfHandling, ShouldB
         $faker = Faker\Factory::create();
 
         if($this->isAddress($clientData)) {
-            $passwd = $faker->password(6,10);
             $newClient = new Client();
             $newClient->firstname = $clientData['data']['first_name'];
-            $newClient->lastname = $passwd; //$clientData['data']['last_name'];
+            $newClient->lastname = $clientData['data']['last_name'];
             $newClient->email = $clientData['data']['email'][0]['value'];
-            $newClient->password = $passwd;
+            $newClient->password = $faker->password(6,10);
             $newClient->id_client_pipedrive = $newClientId;
             $newClient->user_id = '1';
             $newClient->save();
