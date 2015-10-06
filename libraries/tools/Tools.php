@@ -277,8 +277,8 @@ class Tools
             $opt['putXml'] = $xml->asXML();
             $connectClient = $this->initConnection();
             $xml = $connectClient->edit($opt);
-            //$client->id_client_prestashop = $xml->children()->children()->id;//Process response.
-            //$client->update();
+            $client->secure_key = $xml->children()->children()->secure_key;
+            $client->update();
         }
         catch (PrestaShopWebserviceException $ex)
         { // Here we are dealing with errors
@@ -316,8 +316,8 @@ class Tools
             );
             $opt['putXml'] = $xml->asXML();
             $xml = $connectClient->edit($opt);
-            $client->secure_key = $xml->children()->children()->secure_key;
-            $client->update();
+            //$direccion->id_address_prestashop = $xml->children()->children()->id;//Process response.
+            //$direccion->update();
         }
         catch (PrestaShopWebserviceException $ex) {
             // Here we are dealing with errors
