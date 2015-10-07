@@ -148,6 +148,7 @@ return [
 		'Collective\Html\HtmlServiceProvider',
 		'Orchestra\Parser\XmlServiceProvider',
 
+		'Maatwebsite\Excel\ExcelServiceProvider',
 		
 
 	],
@@ -202,6 +203,7 @@ return [
 		'PSWebS' => 'PSWebS\PrestaShopWebservice',
 		'Exception' => 'PSWebS\PrestaShopWebserviceException',
 		'XmlParser' => 'Orchestra\Parser\Xml\Facade',
+		'Excel' => 'Maatwebsite\Excel\Facades\Excel',
 
 	],
 

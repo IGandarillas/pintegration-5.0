@@ -10,6 +10,7 @@
 
 namespace Tools;
 use GuzzleHttp\Client;
+use Illuminate\Support\Facades\Queue;
 use pintegration\Item;
 use pintegration\User;
 use PSWebS\PrestaShopWebservice;
@@ -330,6 +331,44 @@ class Tools
     protected function initConnection(){
         $user = User::find($this->user_id);
         return new PrestaShopWebservice($user->prestashop_url, $user->prestashop_api, false);
+    }
+    public function addProductsFake($faker){
+
+        try
+        {   //Get Blank schema
+            $connectClient = $this->initConnection();
+            $xml = $connectClient->get(array('url' => $this->user->prestashop_url.'/api/products?schema=blank'));
+            $resources = $xml->children()->children();
+        }
+        catch (PrestaShopWebserviceException $e)
+        { // Here we are dealing with errors
+
+            error_log($e->getMessage());
+        }
+
+        try {
+
+            $opt = array('resource' => 'products');
+            $connectClient = $this->initConnection();
+            for($i=0; $i <= 10 ; $i++) {
+                $resources->quantity = $faker->numberBetween(0, 2000);
+                $resources->price =  $faker->randomFloat(3, 1, 550);
+                $resources->name->language[0] = $faker->name();
+                $resources->active = true;
+                $opt['postXml'] = $xml->asXML();
+
+                error_log("enter queue");
+                Queue::push(function () use ($opt,$connectClient) {
+                    dd($connectClient);
+                    $connectClient->add($opt);
+                });
+            }
+
+        }
+        catch (PrestaShopWebserviceException $ex)
+        { // Here we are dealing with errors
+            echo $ex->getMessage();
+        }
     }
 }
 

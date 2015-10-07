@@ -24,6 +24,7 @@ class CreateUsersTable extends Migration
             $table->dateTime('last_products_sync')->nullable()->default(\Carbon\Carbon::now());
             $table->dateTime('last_clients_sync')->nullable()->default(\Carbon\Carbon::now());
             $table->dateTime('last_addresses_sync')->nullable()->default(\Carbon\Carbon::now());
+
             $table->rememberToken();
             $table->timestamps();
         });

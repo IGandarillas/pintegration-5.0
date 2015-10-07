@@ -19,7 +19,8 @@ class Kernel extends ConsoleKernel {
 		'pintegration\Console\Commands\PdCreateProducts',
 		'pintegration\Console\Commands\PdDeleteProducts',
 		'pintegration\Console\Commands\Prueba',
-		'pintegration\Console\Commands\SeedPrestashop',
+		'pintegration\Console\Commands\SeedPrestashopCustomers',
+		'pintegration\Console\Commands\SeedPrestashopProducts',
 
 	];
 
@@ -31,12 +32,12 @@ class Kernel extends ConsoleKernel {
 	 */
 	protected function schedule(Schedule $schedule)
 	{
-		$schedule->command('command:syncpsproducts')
-			->cron('* * * * *');
-		$schedule->command('command:syncpsclients')
-			->cron('* * * * *');
-		$schedule->command('command:syncpsaddresses')
-			->cron('* * * * *');
+		//$schedule->command('command:syncpsproducts')
+		//	->cron('* * * * *');
+		//$schedule->command('command:syncpsclients')
+		//	->cron('* * * * *');
+		//$schedule->command('command:syncpsaddresses')
+		//	->cron('* * * * *');
 	}
 
 }

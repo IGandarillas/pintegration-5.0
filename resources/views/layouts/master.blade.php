@@ -27,6 +27,7 @@
     <ul class="nav navbar-nav navbar-left">
      @if(Auth::check())
        <li><a href="/products">Productos <b>{{\pintegration\Item::count()}}</b></a></li>
+      <li><a>Sincronizar productos</a></li>
      @endif
     </ul>
 
