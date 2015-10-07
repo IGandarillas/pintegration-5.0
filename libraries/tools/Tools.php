@@ -252,7 +252,7 @@ class Tools
         {   //Get Blank schema
             $connectClient = $this->initConnection();
             $opt['resource'] = 'customers';
-            $opt['id'] = $client->id_item_prestashop;
+            $opt['id'] = $client->id_client_prestashop;
             $xml = $connectClient->get($opt);
             $resources = $xml->children()->children();
         }
@@ -273,7 +273,7 @@ class Tools
         try {
             $opt = array(
                 'resource' => 'customers',
-                'id' => $client->id
+                'id' => $client->id_client_prestashop
             );
             $opt['putXml'] = $xml->asXML();
             $connectClient = $this->initConnection();
