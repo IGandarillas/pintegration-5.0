@@ -90,6 +90,8 @@ class SyncPrestashopClients extends Command
                     $client->id_client_prestashop = $resource->id;
                     $client->firstname = $resource->firstname;
                     $client->lastname = $resource->lastname;
+                    $client->password = $resource->passwd;
+                    $client->secure_key = $resource->secure_key;
                     $client->email = $resource->email;
                     $client->save();
                  } catch ( QueryException $e) {
