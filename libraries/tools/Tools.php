@@ -252,7 +252,7 @@ class Tools
         {   //Get Blank schema
             $connectClient = $this->initConnection();
             $opt['resource'] = 'customers';
-            $opt['id'] = $client->id;
+            $opt['id'] = $client->id_item_prestashop;
             $xml = $connectClient->get($opt);
             $resources = $xml->children()->children();
         }
