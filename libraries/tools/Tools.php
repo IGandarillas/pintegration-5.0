@@ -49,7 +49,6 @@ class Tools
 
         $resources->passwd = $client->password;
         $resources->email = $client->email;
-        $resources->secure_key = $client->secure_key;
         $resources->active = true;
         $resources->id_default_group = '3';
         $resources->associations->groups->group->id = '3';
@@ -265,6 +264,7 @@ class Tools
         $resources->email = $client->email;
         $resources->active = true;
         $resources->passwd = $client->password;
+        $client->secure_key = $client->secure_key;
         //Client group
         $resources->id_default_group = '3';
         $resources->associations->groups->group->id = '3';
@@ -278,7 +278,7 @@ class Tools
             $connectClient = $this->initConnection();
             $xml = $connectClient->edit($opt);
             //Get secure_key
-            $client->secure_key = $xml->children()->children()->secure_key;
+
             $client->update();
         }
         catch (PrestaShopWebserviceException $ex)

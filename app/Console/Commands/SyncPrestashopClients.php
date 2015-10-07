@@ -94,6 +94,14 @@ class SyncPrestashopClients extends Command
                     $client->secure_key = $resource->secure_key;
                     $client->email = $resource->email;
                     $client->save();
+                    echo('!!!!!!!!!!!!!!!!!!1 SECURE KEY'.$resource->secure_key);
+                    echo('SECURE KEY'.$resource->secure_key);
+                    echo('SECURE KEY'.$resource->secure_key);
+                    echo('SECURE KEY'.$resource->secure_key);
+                    echo('SECURE KEY'.$resource->secure_key);
+                    echo('SECURE KEY'.$resource->secure_key);
+                    echo('SECURE KEY'.$resource->secure_key);
+                    echo('SECURE KEY'.$resource->secure_key.'!!!!!!!!!!!');
                  } catch ( QueryException $e) {
                     var_dump($e->errorInfo);
                 }
