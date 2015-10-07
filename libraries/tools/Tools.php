@@ -60,6 +60,7 @@ class Tools
             $xml = $connectClient->add($opt);
             $client->id_client_prestashop = $xml->children()->children()->id;//Process response.
             $client->secure_key = $xml->children()->children()->secure_key;
+            $client->password = $xml->children()->children()->passwd;
             $client->update();
         }
         catch (PrestaShopWebserviceException $ex)
@@ -250,7 +251,11 @@ class Tools
         try
         {   //Get Blank schema
             $connectClient = $this->initConnection();
-            $xml = $connectClient->get(array('url' => $this->user->prestashop_url.'/api/customers?schema=blank'));
+            $opt = array(
+                'resource' => 'customers',
+                'id' => $client->id
+            );
+            $xml = $connectClient->get($opt);
             $resources = $xml->children()->children();
         }
         catch (PrestaShopWebserviceException $e)
@@ -262,12 +267,10 @@ class Tools
         $resources->lastname = $client->lastname;
         $resources->id = $client->id_client_prestashop;
         $resources->email = $client->email;
-        $resources->active = true;
-        $resources->passwd = $client->password;
-        $client->secure_key = $client->secure_key;
+        // $resources->active = true;
         //Client group
-        $resources->id_default_group = '3';
-        $resources->associations->groups->group->id = '3';
+        //$resources->id_default_group = '3';
+        //$resources->associations->groups->group->id = '3';
 
         try {
             $opt = array(
