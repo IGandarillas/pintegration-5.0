@@ -9,7 +9,7 @@ use pintegration\User;
 use pintegration\Client;
 use PSWebS\PrestaShopWebservice;
 use GuzzleHttp;
-class SyncPrestashopAdresses extends Command
+class SyncPrestashopAddresses extends Command
 {
     /**
      * The name and signature of the console command.
