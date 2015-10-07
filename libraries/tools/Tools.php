@@ -251,10 +251,8 @@ class Tools
         try
         {   //Get Blank schema
             $connectClient = $this->initConnection();
-            $opt = array(
-                'resource' => 'customers',
-                'id' => $client->id
-            );
+            $opt['resource'] = 'customers';
+            $opt['id'] = $client->id;
             $xml = $connectClient->get($opt);
             $resources = $xml->children()->children();
         }
