@@ -359,9 +359,10 @@ class Tools
 
                 error_log("enter queue");
                 Queue::push(function () use ($opt,$connectClient) {
-                    dd($connectClient);
+
                     $connectClient->add($opt);
                 });
+                error_log($i);
             }
 
         }
