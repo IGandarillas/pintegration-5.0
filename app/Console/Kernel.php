@@ -18,7 +18,8 @@ class Kernel extends ConsoleKernel {
 		'pintegration\Console\Commands\PsCreateOneClient',
 		'pintegration\Console\Commands\PdCreateProducts',
 		'pintegration\Console\Commands\PdDeleteProducts',
-		'pintegration\Console\Commands\Prueba'
+		'pintegration\Console\Commands\Prueba',
+		'pintegration\Console\Commands\SeedPrestashop',
 
 	];
 

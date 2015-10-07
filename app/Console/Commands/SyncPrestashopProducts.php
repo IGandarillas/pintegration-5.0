@@ -80,6 +80,8 @@ class SyncPrestashopProducts extends Command
         }
 
         if (isset($resources)){
+            $items = array();
+            $chunk = 0;
             foreach ($resources as $resource)
             {
                 try {
@@ -96,19 +98,24 @@ class SyncPrestashopProducts extends Command
                         $item->price = $resource->price;
                     }
                     $item->save();
+                    array_push($items, $item);
+                    $chunk++;
+                    if($chunk >= 50) {
+                        $this->syncWithPipedrive($user, $items);
+                        $addresses = array();
+                    }
                 } catch ( QueryException $e) {
                     var_dump($e->errorInfo);
                 }
 
             }
-            $this->syncWithPipedrive($user);
         }
     }
-    public function syncWithPipedrive($user){
-        $listItems = $user->items;
+    public function syncWithPipedrive($user,$items){
+
         $client = new GuzzleHttp\Client();
         $res=null;
-        foreach ($listItems as $item) {
+        foreach ($items as $item) {
 
             if($item->id_item_pipedrive != NULL){
                 try {
@@ -124,8 +131,6 @@ class SyncPrestashopProducts extends Command
                                 array(
                                     'price' => $item->price,
                                     'currency' => 'EUR',
-                                    'overhead_cost' => '0',
-                                    'cost' => '0'
                                 )
                             ]
                         )
@@ -155,8 +160,7 @@ class SyncPrestashopProducts extends Command
                                 array(
                                     'price' => $item->price,
                                     'currency' => 'EUR',
-                                    'overhead_cost' => '0',
-                                    'cost' => $item->price
+
                                 )
                             ]
                         )
