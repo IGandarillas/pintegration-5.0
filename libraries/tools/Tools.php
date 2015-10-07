@@ -247,7 +247,7 @@ class Tools
 
 
     public function editClient($client){
-        error_log('4');
+
         try
         {   //Get Blank schema
             $connectClient = $this->initConnection();
@@ -258,17 +258,17 @@ class Tools
         { // Here we are dealing with errors
             error_log($e->getMessage());
         }
-        error_log('5');
+
         $resources->firstname = $client->firstname;
         $resources->lastname = $client->lastname;
-
         $resources->id = $client->id_client_prestashop;
-        $resources->passwd = $client->password;
         $resources->email = $client->email;
         $resources->active = true;
-        $resources->id_default_group = '3';
-        $resources->associations->groups->group->id = '3';
-        error_log('client se pasa? : ' .$resources->email);
+
+        //Client group
+        //$resources->id_default_group = '3';
+        //$resources->associations->groups->group->id = '3';
+
         try {
             $opt = array(
                 'resource' => 'customers',
@@ -277,6 +277,7 @@ class Tools
             $opt['putXml'] = $xml->asXML();
             $connectClient = $this->initConnection();
             $xml = $connectClient->edit($opt);
+            //Get secure_key
             $client->secure_key = $xml->children()->children()->secure_key;
             $client->update();
         }
@@ -285,7 +286,6 @@ class Tools
             echo $ex->getMessage();
         }
     }
-
 
     public function editAddress($client){
         try
@@ -308,7 +308,7 @@ class Tools
         $resources->id_country = '6';
         $resources->id_state = '313';
         $resources->postcode = $direccion->postcode;
-        $resources->alias = 'Alias';
+        $resources->alias = 'Dirección';
         try {
             $opt = array(
                 'resource' => 'addresses',
