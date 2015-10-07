@@ -14,6 +14,7 @@ class Kernel extends ConsoleKernel {
 		'pintegration\Console\Commands\Inspire',
 		'pintegration\Console\Commands\SyncPrestashopClients',
 		'pintegration\Console\Commands\SyncPrestashopProducts',
+		'pintegration\Console\Commands\SyncPrestashopAddresses',
 		'pintegration\Console\Commands\PsCreateOneClient',
 		'pintegration\Console\Commands\PdCreateProducts',
 		'pintegration\Console\Commands\PdDeleteProducts',
@@ -32,6 +33,8 @@ class Kernel extends ConsoleKernel {
 		$schedule->command('command:syncpsproducts')
 			->cron('* * * * *');
 		$schedule->command('command:syncpsclients')
+			->cron('* * * * *');
+		$schedule->command('command:syncpsaddresses')
 			->cron('* * * * *');
 	}
 
