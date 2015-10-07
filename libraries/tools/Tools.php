@@ -312,7 +312,7 @@ class Tools
         try {
             $opt = array(
                 'resource' => 'addresses',
-                'id' => $direccion->id
+                'id' => $direccion->id_address_prestashop
             );
             $opt['putXml'] = $xml->asXML();
             $xml = $connectClient->edit($opt);
