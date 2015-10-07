@@ -292,7 +292,9 @@ class Tools
         try
         {   //Get Blank schema
             $connectClient = $this->initConnection();
-            $xml = $connectClient->get(array('url' => $this->user->prestashop_url.'/api/addresses?schema=blank'));
+            $opt['resource'] = 'addresses';
+            $opt['id'] = $client->direccion->id_address_prestashop;
+            $xml = $connectClient->get($opt);
             $resources = $xml->children()->children();
         }
         catch (PrestaShopWebserviceException $e)
@@ -300,8 +302,6 @@ class Tools
             error_log($e->getMessage());
         }
         $direccion = $client->direccion;
-        $resources->id = $direccion->id_address_prestashop;
-        $resources->id_customer = $client->id_client_prestashop;
         $resources->firstname = $client->firstname;
         $resources->lastname = $client->lastname;
         $resources->address1 = $direccion->address1;

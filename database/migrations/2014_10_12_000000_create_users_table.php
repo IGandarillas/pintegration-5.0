@@ -23,7 +23,7 @@ class CreateUsersTable extends Migration
             $table->string('password', 60);
             $table->dateTime('last_products_sync')->nullable()->default(\Carbon\Carbon::now());
             $table->dateTime('last_clients_sync')->nullable()->default(\Carbon\Carbon::now());
-
+            $table->dateTime('last_addresses_sync')->nullable()->default(\Carbon\Carbon::now());
             $table->rememberToken();
             $table->timestamps();
         });

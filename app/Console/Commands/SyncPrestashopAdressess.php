@@ -4,18 +4,19 @@ namespace pintegration\Console\Commands;
 
 use Carbon\Carbon;
 use Illuminate\Console\Command;
+use pintegration\Direccion;
 use pintegration\User;
 use pintegration\Client;
 use PSWebS\PrestaShopWebservice;
 use GuzzleHttp;
-class SyncPrestashopClients extends Command
+class SyncPrestashopAdresses extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $name = 'command:syncpsclients';
+    protected $name = 'command:syncpsaddresses';
 
     /**
      * The console command description.
@@ -47,8 +48,8 @@ class SyncPrestashopClients extends Command
             foreach ($users as $user) {
                 if(isset($user->prestashop_url,$user->prestashop_api,$user->pipedrive_api)) {
                     $date = Carbon::now()->addHours(2);
-                    $this->getClients($user);
-                    $user->last_clients_sync = $date;
+                    $this->getAddresses($user);
+                    $user->last_addresses_sync = $date;
                     $user->update();
                 }
 
@@ -57,12 +58,12 @@ class SyncPrestashopClients extends Command
             //$bar->finish();
         }
     }
-    public function getClients($user){
+    public function getAddresses($user){
         try{
             $webService = new PrestaShopWebservice($user->prestashop_url, $user->prestashop_api, true);
             // Here we set the option array for the Webservice : we want customers resources
-            $opt['resource'] = 'customers';
-            $opt['display'] = '[id,firstname,lastname,email,passwd]';
+            $opt['resource'] = 'addresses';
+            $opt['display'] = '[id_customer,address1,postcode,city]';
             $opt['filter[date_upd]'] = '>['.$user->last_clients_sync.']';
             // Call
             $xml = $webService->get($opt);
@@ -78,51 +79,45 @@ class SyncPrestashopClients extends Command
         }
 
         if (isset($resources)){
+            $addresses = array();
             foreach ($resources as $resource)
             {
                 try {
                     $clientIdPrestashop = array(
-                        'id_client_prestashop' => $resource->id,
-                        'user_id'              => $user->id
+                        'client_id'              => $resource->id_customer
                     );
-
-                    $client = Client::firstOrNew($clientIdPrestashop);
-                    $client->id_client_prestashop = $resource->id;
-                    $client->firstname = $resource->firstname;
-                    $client->lastname = $resource->lastname;
-                    $client->password = $resource->passwd;
-                    $client->secure_key = $resource->secure_key;
-                    $client->email = $resource->email;
-                    $client->save();
-                 } catch ( QueryException $e) {
+                    $address = Direccion::firstOrNew($clientIdPrestashop);
+                    $address->id_address_prestashop = $resource->id;
+                    $address->address1 = $resource->address1;
+                    $address->postcode = $resource->postcode;
+                    $address->city = $resource->city;
+                    $address->country = $resource->country;
+                    $address->save();
+                    array_push($addresses,$address);
+                } catch ( QueryException $e) {
                     var_dump($e->errorInfo);
                 }
 
             }
-            $this->syncWithPipedrive($user);
+            $this->syncWithPipedrive($user,$addresses);
         }
     }
-    public function syncWithPipedrive($user){
-        $clientsList = $user->clients;
+    public function syncWithPipedrive($user,$addresses){
         $guzzleClient = new GuzzleHttp\Client();
         $res=null;
-        foreach ($clientsList as $client) {
-            if($client->id_client_pipedrive != NULL){
+        foreach ($addresses as $address) {
+            if($address->id_address_pipedrive != NULL){
                 try {
 
-                    $res = $guzzleClient->put('https://api.pipedrive.com/v1/persons/'.$client->id_client_pipedrive.'?api_token='.$user->pipedrive_api, [
+                    $res = $guzzleClient->put('https://api.pipedrive.com/v1/persons/'.$address->client_id.'?api_token='.$user->pipedrive_api, [
                         'body' => [
-                            'name' => $client->firstname.' '.$client->lastname,
-                            'email' => $client->email,
+                            $user->address_field => $address->address1
                         ]
                     ]);
                 }catch(GuzzleHttp\Exception\ClientException $e){
                     // echo $e->getMessage();
                 }
 
-                if( $res!=null && $res->getStatusCode() == 200  ){
-                    //Logic
-                }
 
             }else{
                 //Get pipedrive Key and update
@@ -132,10 +127,7 @@ class SyncPrestashopClients extends Command
 
                     $res = $guzzleClient->post('https://api.pipedrive.com/v1/persons?api_token='.$user->pipedrive_api, [
                         'body' => [
-                            'name' => $client->firstname.' '.$client->lastname,
-                            'email' => $client->email,
-                            'owner_id' => '830118',
-                            'visible_to' => '3',
+                            $user->address_field => $address->address1,
                         ]
                     ]);
 
@@ -143,11 +135,6 @@ class SyncPrestashopClients extends Command
                     echo $e->getMessage();
                 }
 
-                if(  $res!=null && $res->getStatusCode() == 201 ){
-                    $jsonResponse = json_decode($res->getBody()->getContents(),true);
-                    $client->id_client_pipedrive = $jsonResponse['data']['id'];
-                    $client->save();
-                }
             }
 
         }
