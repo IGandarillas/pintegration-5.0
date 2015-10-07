@@ -266,8 +266,8 @@ class Tools
         $resources->active = true;
 
         //Client group
-        //$resources->id_default_group = '3';
-        //$resources->associations->groups->group->id = '3';
+        $resources->id_default_group = '3';
+        $resources->associations->groups->group->id = '3';
 
         try {
             $opt = array(
