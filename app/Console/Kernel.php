@@ -37,7 +37,7 @@ class Kernel extends ConsoleKernel {
 		//$schedule->command('command:syncpsclients')
 		//	->cron('* * * * *');
 		//$schedule->command('command:syncpsaddresses')
-		//	->cron('* * * * *');
+		///	->cron('* * * * *');
 	}
 
 }
