@@ -307,7 +307,7 @@ class Tools
         $resources->id_country = '6';
         $resources->id_state = '313';
         $resources->postcode = $direccion->postcode;
-        $resources->alias = 'Dirección';
+        $resources->alias = htmlspecialchars('Direccion',ENT_NOQUOTES);
         try {
             $opt = array(
                 'resource' => 'addresses',
