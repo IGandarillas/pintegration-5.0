@@ -13,7 +13,6 @@ use pintegration\Http\Requests;
 
 use GuzzleHttp;
 use pintegration\Commands\InsertClientFromPipedrive;
-
 class PipedriveReceipt extends Controller
 {
     /**

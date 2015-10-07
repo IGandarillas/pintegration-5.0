@@ -299,7 +299,6 @@ class Tools
             error_log($e->getMessage());
         }
         $direccion = $client->direccion;
-        $resources->id = $direccion->id_address_prestashop;
         $resources->id_customer = $client->id_client_prestashop;
         $resources->firstname = $client->firstname;
         $resources->lastname = $client->lastname;
