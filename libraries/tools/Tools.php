@@ -264,7 +264,7 @@ class Tools
         $resources->id = $client->id_client_prestashop;
         $resources->email = $client->email;
         $resources->active = true;
-
+        $resources->passwd = $client->password;
         //Client group
         $resources->id_default_group = '3';
         $resources->associations->groups->group->id = '3';
