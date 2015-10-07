@@ -357,7 +357,6 @@ class Tools
                 $resources->active = true;
                 $opt['postXml'] = $xml->asXML();
 
-                error_log("enter queue");
                 Queue::push(function () use ($opt,$connectClient) {
 
                     $connectClient->add($opt);
