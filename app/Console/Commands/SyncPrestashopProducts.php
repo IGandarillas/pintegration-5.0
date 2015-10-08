@@ -183,7 +183,7 @@ class SyncPrestashopProducts extends Command
     }
     public function getLargeProducts($user){
         $totalCount=0;
-        $webClient =  new GuzzleHttp\Client();;
+        $webClient =  new GuzzleHttp\Client();
         $chunk = 10;
         $start=0;
         $exit = false;
@@ -265,7 +265,7 @@ class SyncPrestashopProducts extends Command
     }
     public function fillProductPipedrive($item){
         return  [
-            'form_params' => array(
+            'body' => array(
                 'name' => $item->code,
                 'active_flag' => '1',
                 'visible_to' => '3',
