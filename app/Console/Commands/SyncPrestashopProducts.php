@@ -4,10 +4,11 @@ namespace pintegration\Console\Commands;
 
 use Carbon\Carbon;
 use Illuminate\Console\Command;
+use GuzzleHttp;
 use pintegration\User;
 use pintegration\Item;
-use GuzzleHttp;
 use PSWebS\PrestaShopWebservice;
+use PSWebS\PrestaShopWebserviceException;
 
 
 class SyncPrestashopProducts extends Command
@@ -49,7 +50,7 @@ class SyncPrestashopProducts extends Command
             foreach ($users as $user) {
                 if(isset($user->prestashop_url,$user->prestashop_api,$user->pipedrive_api)) {
                     $date = Carbon::now()->addHours(2);
-                    $this->getProducts($user);
+                    $this->getLargeProducts($user);
                     $user->last_products_sync = $date;
                     $user->update();
                 }
@@ -179,5 +180,105 @@ class SyncPrestashopProducts extends Command
             }
 
         }
+    }
+    public function getLargeProducts($user){
+        $totalCount=0;
+        $webClient =  new GuzzleHttp\Client();;
+        $chunk = 10;
+        $start=0;
+        $exit = false;
+        while(!$exit){
+            $totalCount++;
+            $webService = new PrestaShopWebservice($user->prestashop_url, $user->prestashop_api, false);
+            $opt['resource'] = 'products';
+            $opt['display'] = '[id,name,price]';
+            $opt['limit'] = $start.','.$chunk;
+            $opt['output_format'] = 'JSON';
+            try {
+                $json = $webService->get($opt);
+            }catch(PrestaShopWebserviceException $e){
+                echo $e->getMessage();
+            }
+            $json = json_decode($json,true);
+            if( count($json['products']) < $chunk )
+                $exit=true;
+            $count=0;
+            foreach($json['products'] as $product){
+                echo 'Count: '.$totalCount.' -> '.$count++."\n";
+                $itemIdPrestashop = array(
+                    'id_item_prestashop' => $product['id'],
+                    'user_id'       => $user->id
+                );
+                $item = Item::firstOrNew($itemIdPrestashop);
+                $item->code = str_replace(' ','_',strtolower($product['name'][0]['value']).$product['id']);
+                $item->price = $product['price'];
+                $item->save();
+                $this->addProductToPipedrive($user,$item,$webClient);
+            }
+            $start += $chunk;
+        }
+
+    }
+    public function addProductToPipedrive($user,$item,$client){
+
+        $res=null;
+            if($item->id_item_pipedrive != NULL)
+                try {
+                    $product = $this->fillProductPipedrive($item);
+                    $client->put('https://api.pipedrive.com/v1/products/'.$item->id_item_pipedrive.'?api_token='.$user->pipedrive_api, $product);
+                }catch(GuzzleHttp\Exception\ClientException $e){
+                    echo $e->getMessage();
+                }
+            else{
+                try {
+                    $product = $this->fillProductPipedrive($item);
+                    $res = $client->post('https://api.pipedrive.com/v1/products?api_token='.$user->pipedrive_api,$product);
+                }catch(GuzzleHttp\Exception\ClientException $e){
+                    echo $e->getMessage();
+                }
+                if( $res!=null && $res->getStatusCode() == 201 ){
+                    $jsonResponse = json_decode($res->getBody()->getContents(),true);
+                    $item->id_item_pipedrive = $jsonResponse['data']['id'];
+                    $item->save();
+                }
+            }
+    }
+    public function multipleConnections(){
+        $client = new GuzzleHttp\Client('http://graph.facebook.com');
+
+        try {
+            $responses = $client->send(array(
+                $client->get('/' . urlencode('http://tech.vg.no')),
+                $client->get('/' . urlencode('http://www.vg.no')),
+            ));
+
+            foreach ($responses as $response) {
+                echo $response->getBody();
+            }
+        } catch (MultiTransferException $e) {
+            echo 'The following exceptions were encountered:' . PHP_EOL;
+            foreach ($e as $exception) {
+                echo $exception->getMessage() . PHP_EOL;
+            }
+
+        }
+    }
+    public function fillProductPipedrive($item){
+        return  [
+            'form_params' => array(
+                'name' => $item->code,
+                'active_flag' => '1',
+                'visible_to' => '3',
+                'owner_id' => '867597',
+                'code' => $item->code,
+                'prices' => [
+                    array(
+                        'price' => $item->price,
+                        'currency' => 'EUR',
+                    )
+                ]
+            )
+        ];
+
     }
 }

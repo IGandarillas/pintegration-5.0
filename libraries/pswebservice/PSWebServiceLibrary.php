@@ -196,6 +196,24 @@ class PrestaShopWebservice
 	 * @param string $response String from a CURL response
 	 * @return SimpleXMLElement status_code, response
 	 */
+	protected function parseJSON($response){
+		if ($response != '')
+		{
+			libxml_clear_errors();
+			libxml_use_internal_errors(true);
+			$xml = simplexml_load_string($response,'SimpleXMLElement', LIBXML_NOCDATA);
+			if (libxml_get_errors())
+			{
+				$msg = var_export(libxml_get_errors(), true);
+				libxml_clear_errors();
+				throw new PrestaShopWebserviceException('HTTP XML response is not parsable: '.$msg);
+			}
+			return $xml;
+		}
+		else
+			throw new PrestaShopWebserviceException('HTTP response is empty');
+	}
+
 	protected function parseXML($response)
 	{
 		if ($response != '')
@@ -242,6 +260,7 @@ class PrestaShopWebservice
 		$request = self::executeRequest($url, array(CURLOPT_CUSTOMREQUEST => 'POST', CURLOPT_POSTFIELDS => $xml));
 
 		self::checkStatusCode($request['status_code']);
+
 		return self::parseXML($request['response']);
 	}
 
@@ -277,32 +296,35 @@ class PrestaShopWebservice
 	{
 		if (isset($options['url']))
 			$url = $options['url'];
-		elseif (isset($options['resource']))
-		{
-			$url = $this->url.'/api/'.$options['resource'];
+		elseif (isset($options['resource'])) {
+			$url = $this->url . '/api/' . $options['resource'];
 			$url_params = array();
 			if (isset($options['id']))
-				$url .= '/'.$options['id'];
+				$url .= '/' . $options['id'];
 
-			$params = array('filter', 'display', 'sort', 'limit', 'id_shop', 'id_group_shop');
+			$params = array('filter', 'display', 'sort', 'limit', 'id_shop', 'id_group_shop', 'output_format');
 			foreach ($params as $p)
 				foreach ($options as $k => $o)
 					if (strpos($k, $p) !== false)
 						$url_params[$k] = $options[$k];
 			if (count($url_params) > 0)
-				$url .= '?'.http_build_query($url_params);
+				$url .= '?' . http_build_query($url_params);
 
-			if( isset($options['filter[date_upd]'])){
-				$url = $url.'&date=1';
+			if (isset($options['filter[date_upd]'])) {
+				$url = $url . '&date=1';
 			}
-		}
-		else
+		} else
 			throw new PrestaShopWebserviceException('Bad parameters given');
 		error_log($url);
 		$request = self::executeRequest($url, array(CURLOPT_CUSTOMREQUEST => 'GET'));
 
-		self::checkStatusCode($request['status_code']);// check the response validity
-		return self::parseXML($request['response']);
+
+		if (!isset($options['output_format'])) {
+			self::checkStatusCode($request['status_code']);// check the response validity
+			 return self::parseXML($request['response']);
+		} else {
+			return $request['response'];
+		}
 	}
 
 	/**

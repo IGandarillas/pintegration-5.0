@@ -29,6 +29,7 @@ class SeedPrestashopProducts extends Command  {
 	public static function handle()
 	{
 		$faker = Faker\Factory::create();
+
 		$tools = new Tools('1');
 		$tools->addProductsFake($faker);
 

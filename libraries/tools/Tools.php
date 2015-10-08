@@ -16,6 +16,7 @@ use pintegration\User;
 use PSWebS\PrestaShopWebservice;
 
 use Auth;
+use PSWebS\PrestaShopWebserviceException;
 
 class Tools
 {
@@ -350,18 +351,63 @@ class Tools
 
             $opt = array('resource' => 'products');
             $connectClient = $this->initConnection();
-            for($i=0; $i <= 10 ; $i++) {
-                $resources->quantity = $faker->numberBetween(0, 2000);
+            unset($resources -> id);
+            unset($resources -> position_in_category);
+            unset($resources -> id_shop_default);
+            unset($resources -> date_add);
+            unset($resources -> date_upd);
+            unset($resources->associations->combinations);
+            unset($resources->associations->product_options_values);
+            unset($resources->associations->product_features);
+            unset($resources->associations->stock_availables->stock_available->id_product_attribute);
+            for($i=0; $i <= 100000 ; $i++) {
+                //$resources->quantity = $faker->numberBetween(0, 2000);
+                if($i%70==0){
+                    echo "Reload\n";
+                    $opt = array('resource' => 'products');
+                    $connectClient = $this->initConnection();
+                    unset($resources -> id);
+                    unset($resources -> position_in_category);
+                    unset($resources -> id_shop_default);
+                    unset($resources -> date_add);
+                    unset($resources -> date_upd);
+                    unset($resources->associations->combinations);
+                    unset($resources->associations->product_options_values);
+                    unset($resources->associations->product_features);
+                    unset($resources->associations->stock_availables->stock_available->id_product_attribute);
+                }
                 $resources->price =  $faker->randomFloat(3, 1, 550);
                 $resources->name->language[0] = $faker->name();
                 $resources->active = true;
+
+                $resources->link_rewrite->language[0][0] = $faker->word();
+
+                $name = $faker->name();
+                $node = dom_import_simplexml($resources->name->language[0][0]);
+                $no = $node->ownerDocument;
+                $node->appendChild($no->createCDATASection($name));
+                $resources->name->language[0][0] = $name;
+                $description = $faker->name();
+                $node = dom_import_simplexml($resources->description->language[0][0]);
+                $no = $node->ownerDocument;
+                $node->appendChild($no->createCDATASection($description));
+                $resources -> description -> language[0][0] = $description;
+                $node = dom_import_simplexml($resources->description_short->language[0][0]);
+                $no = $node->ownerDocument;
+                $node->appendChild($no->createCDATASection($description));
+                $resources->description_short->language[0][0] = $description; //
+
+                // $resources->associations = '';
                 $opt['postXml'] = $xml->asXML();
-
-                Queue::push(function () use ($opt,$connectClient) {
-
+                //dd($opt);
+                try {
                     $connectClient->add($opt);
-                });
-                error_log($i);
+                }catch(PrestaShopWebserviceException $e) {
+                    echo $e->getMessage();
+                }
+
+                echo $i."\n";
+                //error_log($i);
             }
 
         }
