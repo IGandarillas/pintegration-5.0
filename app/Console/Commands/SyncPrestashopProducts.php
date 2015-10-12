@@ -5,6 +5,7 @@ namespace pintegration\Console\Commands;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 use GuzzleHttp;
+use Illuminate\Support\Facades\Log;
 use pintegration\User;
 use pintegration\Item;
 use PSWebS\PrestaShopWebservice;
@@ -184,11 +185,11 @@ class SyncPrestashopProducts extends Command
     public function getAllProducts($user){
         $totalCount = 0;
         $chunk = 1000;
-        $start=0;
+        $start=11000;
         $exit = false;
         $items = array();
         while(!$exit){
-            $totalCount++;
+
             $webService = new PrestaShopWebservice($user->prestashop_url, $user->prestashop_api, false);
             $opt['resource'] = 'products';
             $opt['display'] = '[id,reference,price]';
@@ -204,6 +205,7 @@ class SyncPrestashopProducts extends Command
                 $exit=true;
             $count=0;
             foreach($json['products'] as $product){
+                $totalCount++;
                 $itemIdPrestashop = array(
                     'id_item_prestashop' => $product['id'],
                     'user_id'       => $user->id
@@ -211,15 +213,23 @@ class SyncPrestashopProducts extends Command
                 //dd($product);
                 $item = Item::firstOrNew($itemIdPrestashop);
                 $item->code = str_replace(' ','_',strtolower($product['reference']).$product['id']);
-
                 $item->price = $product['price'];
                 $item->save();
                 array_push($items,$item);
-                if(count($items)%100==0){
+                $itemsCount = count($items);
+                if($itemsCount%100==0){
+                        Log::info("Total: ".$totalCount." Last product reference: ".$item->code);
                         if($start!=0)
                             sleep(10);
                         $this->addProductToPipedrive($user, $items);
                         $items = array();
+                }
+                if($exit && $itemsCount<100 && $json['products'][$itemsCount-1]==$product){
+                    Log::info("Total: ".$totalCount." Last product reference: ".$item->code);
+                    if($start!=0)
+                        sleep(10);
+                    $this->addProductToPipedrive($user, $items);
+                    $items = array();
                 }
             }
             $start += $chunk;
