@@ -149,7 +149,7 @@ return [
 		'Orchestra\Parser\XmlServiceProvider',
 
 		'Maatwebsite\Excel\ExcelServiceProvider',
-		
+		'Rap2hpoutre\LaravelLogViewer\LaravelLogViewerServiceProvider',
 
 	],
 

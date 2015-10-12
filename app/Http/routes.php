@@ -45,6 +45,7 @@ Route::get('/initsynchronization', function(){
         'OK' => 'Sincronizando...'
     ]);
 });
+Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
 //Route::post('/home', 'HomeController@postHome');
 /*
 Route::get('password/email', 'PasswordController@getEmail');
