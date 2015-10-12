@@ -133,27 +133,7 @@ class SyncPrestashopAddresses extends Command
                     dd('Actualizar '.$e->getMessage());
                     // echo $e->getMessage();
                 }
-
-
-            }/*else{
-                //Get pipedrive Key and update
-
-                try {
-                    // https://api.pipedrive.com/v1/
-
-                    $res = $guzzleClient->post('https://api.pipedrive.com/v1/persons?api_token='.$user->pipedrive_api, [
-                        'body' => [
-                            $user->address_field => htmlspecialchars($address->address1,ENT_NOQUOTES),
-                            'owner_id' => '830118'
-                        ]
-                    ]);
-
-                }catch(GuzzleHttp\Exception\ClientException $e){
-                    echo $e->getMessage();
-                }
-
-            }*/
-
+            }
         }
     }
 }

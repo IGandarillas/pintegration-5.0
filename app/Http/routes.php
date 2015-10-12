@@ -38,6 +38,10 @@ Route::resource('home','HomeController');
 Route::get('/pipedrive/receipt', ['uses' =>'PipedriveReceip@handlePipedriveReceipt']);
 Route::post('/pipedrive/receipt', ['middleware' => 'auth.basic', 'uses' =>'PipedriveReceipt@handlePipedriveReceipt']);
 Route::get('/pipedrive/receipt', ['uses' =>'PipedriveReceip@handlePipedriveReceipt']);
+Route::get('/initsynchronization', function(){
+    \Illuminate\Queue\Queue::later(Carbon::now()->addSeconds(1), new \pintegration\Console\Commands\SyncPrestashopProducts());
+    \Illuminate\Queue\Queue::later(Carbon::now()->addSeconds(1), new \pintegration\Console\Commands\SyncPrestashopClients());
+});
 //Route::post('/home', 'HomeController@postHome');
 /*
 Route::get('password/email', 'PasswordController@getEmail');
