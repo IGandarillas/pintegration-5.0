@@ -182,14 +182,16 @@ class SyncPrestashopProducts extends Command
         }
     }
     public function getAllProducts($user){
+        $totalCount = 0;
         $chunk = 1000;
         $start=0;
         $exit = false;
         $items = array();
         while(!$exit){
+            $totalCount++;
             $webService = new PrestaShopWebservice($user->prestashop_url, $user->prestashop_api, false);
             $opt['resource'] = 'products';
-            $opt['display'] = '[id,code,price]';
+            $opt['display'] = '[id,reference,price]';
             $opt['limit'] = $start.','.$chunk;
             $opt['output_format'] = 'JSON';
             try {
@@ -206,9 +208,10 @@ class SyncPrestashopProducts extends Command
                     'id_item_prestashop' => $product['id'],
                     'user_id'       => $user->id
                 );
+                //dd($product);
                 $item = Item::firstOrNew($itemIdPrestashop);
-                $item->name = $name =  str_replace(' ','_',strtolower($product['name'][0]['value']).$product['id']);
-                $item->code = $name;
+                $item->code = str_replace(' ','_',strtolower($product['reference']).$product['id']);
+
                 $item->price = $product['price'];
                 $item->save();
                 array_push($items,$item);
@@ -223,7 +226,7 @@ class SyncPrestashopProducts extends Command
         }
 
     }
-    public function addProductToPipedrive($user,$items,$client){
+    public function addProductToPipedrive($user,$items){
         $options = array();
         $res=null;
         foreach($items as $item) {
@@ -258,6 +261,10 @@ class SyncPrestashopProducts extends Command
                 curl_setopt($ch, CURLOPT_POST, true);
                 curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
             }else if($item['verb'] == 'PUT') {
+                curl_setopt($ch, CURLOPT_PUT, true);
+                curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT");
+            }
+
                 curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
                 curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
@@ -266,7 +273,7 @@ class SyncPrestashopProducts extends Command
                         'Content-Type: application/json',
                         'Content-Length: ' . strlen($data))
                 );
-            }
+
             curl_multi_add_handle($multi, $ch);
             $channels[$item['id']] = $ch;
         }
@@ -295,7 +302,7 @@ class SyncPrestashopProducts extends Command
            // dd($channel);
             $response = curl_multi_getcontent($channel);
             $response = json_decode($response,true);
-            //dd($items);
+
             foreach($items as $item){
                 if($item->id==$id)
                     $item->id_item_pipedrive = $response['data']['id'];
