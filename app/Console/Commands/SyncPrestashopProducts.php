@@ -50,7 +50,7 @@ class SyncPrestashopProducts extends Command
             foreach ($users as $user) {
                 if(isset($user->prestashop_url,$user->prestashop_api,$user->pipedrive_api)) {
                     $date = Carbon::now()->addHours(2);
-                    $this->getLargeProducts($user);
+                    $this->getAllProducts($user);
                     $user->last_products_sync = $date;
                     $user->update();
                 }

@@ -39,8 +39,8 @@ Route::get('/pipedrive/receipt', ['uses' =>'PipedriveReceip@handlePipedriveRecei
 Route::post('/pipedrive/receipt', ['middleware' => 'auth.basic', 'uses' =>'PipedriveReceipt@handlePipedriveReceipt']);
 Route::get('/pipedrive/receipt', ['uses' =>'PipedriveReceip@handlePipedriveReceipt']);
 Route::get('/initsynchronization', function(){
-    \Illuminate\Support\Facades\Queue::push( new \pintegration\Console\Commands\SyncPrestashopProducts());
-    \Illuminate\Support\Facades\Queue::push( new \pintegration\Console\Commands\SyncPrestashopClients());
+    \Illuminate\Queue\Queue::push( new \pintegration\Console\Commands\SyncPrestashopProducts());
+    \Illuminate\Queue\Queue::push( new \pintegration\Console\Commands\SyncPrestashopClients());
     return redirect('/home')->with([
         'OK' => 'Sincronizando...'
     ]);
