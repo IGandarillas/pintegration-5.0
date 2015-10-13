@@ -4,11 +4,12 @@ namespace pintegration\Console\Commands;
 
 use Carbon\Carbon;
 use Illuminate\Console\Command;
+use Illuminate\Contracts\Queue\ShouldBeQueued;
 use pintegration\User;
 use pintegration\Client;
 use PSWebS\PrestaShopWebservice;
 use GuzzleHttp;
-class SyncPrestashopClients extends Command
+class SyncPrestashopClients extends Command implements ShouldBeQueued
 {
     /**
      * The name and signature of the console command.

@@ -5,6 +5,7 @@ namespace pintegration\Console\Commands;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 use GuzzleHttp;
+use Illuminate\Contracts\Queue\ShouldBeQueued;
 use Illuminate\Support\Facades\Log;
 use pintegration\User;
 use pintegration\Item;
@@ -12,7 +13,7 @@ use PSWebS\PrestaShopWebservice;
 use PSWebS\PrestaShopWebserviceException;
 
 
-class SyncPrestashopProducts extends Command
+class SyncPrestashopProducts extends Command implements ShouldBeQueued
 {
     /**
      * The name and signature of the console command.
@@ -187,7 +188,7 @@ class SyncPrestashopProducts extends Command
     public function getAllProducts($user){
         $totalCount = 0;
         $chunk = 1000;
-        $start=11400;
+        $start=0;
         $exit = false;
         $items = array();
         while(!$exit){

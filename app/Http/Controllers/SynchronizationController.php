@@ -2,6 +2,8 @@
 
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Queue;
+use pintegration\Console\Commands\SyncPrestashopClients;
+use pintegration\Console\Commands\SyncPrestashopProducts;
 use pintegration\Http\Requests;
 use pintegration\Http\Controllers\Controller;
 
@@ -19,8 +21,8 @@ class SynchronizationController extends Controller {
 	 */
 	public function index()
 	{
-		Queue::later(Carbon::now()->addSeconds(1), new \pintegration\Console\Commands\SyncPrestashopProducts());
-		Queue::later(Carbon::now()->addSeconds(1), new \pintegration\Console\Commands\SyncPrestashopClients());
+		Queue::later(Carbon::now()->addSeconds(1),new SyncPrestashopProducts());
+		Queue::later(Carbon::now()->addSeconds(1), new SyncPrestashopClients());
 		return redirect('/home')->with([
 			'OK' => 'Sincronizando...'
 		]);
