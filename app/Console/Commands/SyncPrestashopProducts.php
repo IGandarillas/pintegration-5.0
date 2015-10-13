@@ -40,7 +40,6 @@ class SyncPrestashopProducts extends Command implements SelfHandling,ShouldBeQue
      */
     public function __construct()
     {
-        Log::info('Entrado');
         parent::__construct();
     }
 

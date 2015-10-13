@@ -21,8 +21,8 @@ class SynchronizationController extends Controller {
 	 */
 	public function index()
 	{
-		Queue::later(Carbon::now()->addSeconds(1),new SyncPrestashopProducts());
-		Queue::later(Carbon::now()->addSeconds(1), new SyncPrestashopClients());
+		Queue::push(Carbon::now()->addSeconds(1),new SyncPrestashopProducts());
+		Queue::push(Carbon::now()->addSeconds(1), new SyncPrestashopClients());
 		return redirect('/home')->with([
 			'OK' => 'Sincronizando...'
 		]);
