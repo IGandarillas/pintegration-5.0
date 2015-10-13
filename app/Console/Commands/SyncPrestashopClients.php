@@ -67,7 +67,7 @@ class SyncPrestashopClients extends Command implements SelfHandling,ShouldBeQueu
             $webService = new PrestaShopWebservice($user->prestashop_url, $user->prestashop_api, true);
             // Here we set the option array for the Webservice : we want customers resources
             $opt['resource'] = 'customers';
-            $opt['display'] = '[id,firstname,lastname,email,passwd]';
+            $opt['display'] = '[id,firstname,lastname,email,passwd,secure_key]';
             $opt['filter[date_upd]'] = '>['.$user->last_clients_sync.']';
             // Call
             $xml = $webService->get($opt);

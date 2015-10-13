@@ -245,7 +245,7 @@ class SyncPrestashopProducts extends Command implements SelfHandling,ShouldBeQue
         $options = array();
         $res=null;
         foreach($items as $item) {
-            $option['data']  = $this->fillProductPipedrive($item);
+            $option['data']  = $this->fillProductPipedrive($item,$user);
             $option['id'] = $item->id;
             if ($item->id_item_pipedrive != NULL) {
 
@@ -328,12 +328,12 @@ class SyncPrestashopProducts extends Command implements SelfHandling,ShouldBeQue
         // dd($channels);
         return $channels;
     }
-    public function fillProductPipedrive($item){
+    public function fillProductPipedrive($item,$user){
         return  array(
                 'name' => utf8_encode($item->code),
                 'active_flag' => '1',
                 'visible_to' => '3',
-                'owner_id' => '867597',
+                //'owner_id' => '867597',
                 'prices' => [
                     array(
                         'price' => $item->price,
