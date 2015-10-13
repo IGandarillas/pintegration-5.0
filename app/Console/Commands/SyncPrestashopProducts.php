@@ -264,7 +264,6 @@ class SyncPrestashopProducts extends Command implements SelfHandling,ShouldBeQue
     //http://tech.vg.no/2013/07/23/php-perform-requests-in-parallel/
     public function multipleConnections($options,$items){
 
-
         $multi = curl_multi_init();
         $channels = array();
         // Loop through the URLs, create curl-handles
@@ -282,14 +281,14 @@ class SyncPrestashopProducts extends Command implements SelfHandling,ShouldBeQue
                 curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT");
             }
 
-                curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
-                curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-                curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-                        'Content-Type: application/json',
-                        'Content-Length: ' . strlen($data))
-                );
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+                    'Content-Type: application/json',
+                    'Content-Length: ' . strlen($data))
+            );
 
             curl_multi_add_handle($multi, $ch);
             $channels[$item['id']] = $ch;
@@ -321,13 +320,13 @@ class SyncPrestashopProducts extends Command implements SelfHandling,ShouldBeQue
             foreach($items as $item){
                 if($item->id==$id)
                     $item->id_item_pipedrive = $response['data']['id'];
-                    $item->save();
+                $item->save();
             }
             curl_multi_remove_handle($multi, $channel);
         }
         // Close the multi-handle and return our results
         curl_multi_close($multi);
-       // dd($channels);
+        // dd($channels);
         return $channels;
     }
     public function fillProductPipedrive($item){

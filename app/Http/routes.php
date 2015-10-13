@@ -39,7 +39,7 @@ Route::get('/pipedrive/receipt', ['uses' =>'PipedriveReceip@handlePipedriveRecei
 Route::post('/pipedrive/receipt', ['middleware' => 'auth.basic', 'uses' =>'PipedriveReceipt@handlePipedriveReceipt']);
 Route::get('/pipedrive/receipt', ['uses' =>'PipedriveReceip@handlePipedriveReceipt']);
 Route::get('/initsynchronization', 'SynchronizationController@index');
-Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
+Route::get('logs', 'LogController@index');
 //Route::post('/home', 'HomeController@postHome');
 /*
 Route::get('password/email', 'PasswordController@getEmail');

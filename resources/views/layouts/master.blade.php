@@ -26,8 +26,11 @@
 
     <ul class="nav navbar-nav navbar-left">
      @if(Auth::check())
-       <li><a href="/products">Productos <b>{{\pintegration\Item::count()}}</b></a></li>
-      <li><a href="/initsynchronization">Sincronizar productos</a></li>
+      <li class="nav-item" ><a class="nav-title" href="/products">Productos </a><a class="nav-subtitle"><b>{{\pintegration\Item::count()}}</b></a></li>
+
+      <li class="nav-item" ><a class="nav-title">Clientes </a><a class="nav-subtitle"><b>{{\pintegration\Client::count()}}</b></a></li>
+      <li><a href="/initsynchronization">Sincronizar</a></li>
+      <li><a href="/logs">Logs</a></li>
      @endif
     </ul>
 

@@ -7,6 +7,13 @@ html {
 body {
   margin: 0;
 }
+.nav-item{
+  display:block!important;
+
+}
+.nav-item a{
+  padding: 0!important;
+}
 article,
 aside,
 details,
