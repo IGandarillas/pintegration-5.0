@@ -224,7 +224,7 @@ class SyncPrestashopProducts extends Command implements SelfHandling,ShouldBeQue
                 $item->save();
                 array_push($items,$item);
                 $itemsCount = count($json['products']);
-                if($itemsCount%100==0){
+                if($totalCount%100==0){
                         Log::info("Total:".$exit." ".$totalCount." Last product reference: ".$item->code);
                         if($start!=0)
                             sleep(10);
