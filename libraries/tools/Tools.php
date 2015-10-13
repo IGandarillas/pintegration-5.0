@@ -87,9 +87,9 @@ class Tools
         $resources->firstname = $client->firstname;
         $resources->lastname = $client->lastname;
         $resources->address1 = $direccion->address1;
-        $resources->city = 'Cantabria';//$direccion->city;
+        $resources->city = $direccion->city;
         $resources->id_country = '6';
-        $resources->id_state = '313';
+        $resources->id_state = '0';
         $resources->postcode = $direccion->postcode;
         $resources->phone = '645621321';
         $resources->alias = 'Alias';

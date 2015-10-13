@@ -50,7 +50,6 @@ class SyncPrestashopProducts extends Command implements SelfHandling,ShouldBeQue
      */
     public function handle()
     {
-        Log::info('Edntrado');
         if(User::count()>0){
             $users = User::all();
 

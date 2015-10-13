@@ -28,7 +28,7 @@
      @if(Auth::check())
       <li class="nav-item" ><a class="nav-title" href="/products">Productos </a><a class="nav-subtitle"><b>{{\pintegration\Item::count()}}</b></a></li>
 
-      <li class="nav-item" ><a class="nav-title">Clientes </a><a class="nav-subtitle"><b>{{\pintegration\Client::count()}}</b></a></li>
+      <li class="nav-item" ><a class="nav-title">Clientes / Direcciones </a><a class="nav-subtitle"><b>{{\pintegration\Client::count()}} / {{\pintegration\Direccion::count()}}</b></a></li>
       <li><a href="/initsynchronization">Sincronizar</a></li>
       <li><a href="/logs">Logs</a></li>
      @endif

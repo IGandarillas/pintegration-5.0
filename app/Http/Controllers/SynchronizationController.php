@@ -3,6 +3,7 @@
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Queue;
+use pintegration\Console\Commands\SyncPrestashopAddresses;
 use pintegration\Console\Commands\SyncPrestashopClients;
 use pintegration\Console\Commands\SyncPrestashopProducts;
 use pintegration\Http\Requests;
@@ -27,6 +28,7 @@ class SynchronizationController extends Controller {
 		if($user->now_sync) {
 			Queue::push(new SyncPrestashopProducts());
 			Queue::push(new SyncPrestashopClients());
+			Queue::push(new SyncPrestashopAddresses());
 			Queue::push(function () use ($user) {
 				$user->now_sync = false;
 			});
