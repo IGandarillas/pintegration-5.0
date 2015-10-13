@@ -5,7 +5,10 @@ namespace pintegration\Console\Commands;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 use GuzzleHttp;
+use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Contracts\Queue\ShouldBeQueued;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Log;
 use pintegration\User;
 use pintegration\Item;
@@ -13,8 +16,9 @@ use PSWebS\PrestaShopWebservice;
 use PSWebS\PrestaShopWebserviceException;
 
 
-class SyncPrestashopProducts extends Command implements ShouldBeQueued
+class SyncPrestashopProducts extends Command implements SelfHandling,ShouldBeQueued
 {
+    use InteractsWithQueue,SerializesModels;
     /**
      * The name and signature of the console command.
      *
