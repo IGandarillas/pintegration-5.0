@@ -35,6 +35,7 @@ class SyncPrestashopProducts extends Command
      */
     public function __construct()
     {
+        Log::info('Entrado');
         parent::__construct();
     }
 
@@ -45,6 +46,7 @@ class SyncPrestashopProducts extends Command
      */
     public function handle()
     {
+        Log::info('Edntrado');
         if(User::count()>0){
             $users = User::all();
 
@@ -224,7 +226,7 @@ class SyncPrestashopProducts extends Command
                         $this->addProductToPipedrive($user, $items);
                         $items = array();
                 }
-                if($exit && $itemsCount<100 && $json['products'][$itemsCount-1]['id']==$product['id']){
+                if($exit && $json['products'][$itemsCount-1]['id']==$product['id']){
                     Log::info("Total: ".$totalCount." Last product reference: ".$item->code);
                     if($start!=0)
                         sleep(10);
