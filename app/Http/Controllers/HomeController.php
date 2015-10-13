@@ -49,6 +49,7 @@ class HomeController extends Controller
         $user->pipedrive_api = $request->get('pipedrive_api');
         $user->prestashop_url = $request->get('prestashop_url');
         $user->address_field = $request->get('address_field');
+        $user->pipedrive_owner_id = $request->get('owner_id_field');
         $user->save();
         return view('home.createOrUpdate',compact('user'));
     }
@@ -116,6 +117,8 @@ class HomeController extends Controller
         $user->pipedrive_api = $request->get('pipedrive_api');
         $user->prestashop_url = $request->get('prestashop_url');
         $user->address_field = $request->get('address_field');
+        $user->pipedrive_owner_id = $request->get('owner_id_field');
+
         $user->update();
         return redirect('home')->with('message', 'Campos actualizados!');
        
