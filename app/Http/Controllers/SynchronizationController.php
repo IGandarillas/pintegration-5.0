@@ -25,6 +25,7 @@ class SynchronizationController extends Controller {
 	{
 		$user = Auth::user();
 		$user->now_sync = true;
+		$user->update();
 		if($user->now_sync) {
 			//Usar queue closure a modo callback en lugar de incluir operaciones en el handle
 			//Queue::push(new SyncPrestashopProducts());

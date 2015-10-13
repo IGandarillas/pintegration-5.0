@@ -52,16 +52,16 @@ class SyncPrestashopProducts extends Command implements SelfHandling,ShouldBeQue
     {
         if(User::count()>0){
             $users = User::all();
-
             foreach ($users as $user) {
                 if(isset($user->prestashop_url,$user->prestashop_api,$user->pipedrive_api)) {
                     $date = Carbon::now()->addHours(2);
                     $this->getAllProducts($user);
                     $user->last_products_sync = $date;
+                    $user->now_sync = false;
                     $user->update();
                 }
             }
-            $user->now_sync = false;
+
         }
     }
 
