@@ -26,12 +26,15 @@ class SynchronizationController extends Controller {
 		$user = Auth::user();
 		$user->now_sync = true;
 		if($user->now_sync) {
-			Queue::push(new SyncPrestashopProducts());
-			Queue::push(new SyncPrestashopClients());
-			Queue::push(new SyncPrestashopAddresses());
 			Queue::push(function () use ($user) {
+				new SyncPrestashopProducts();
 				$user->now_sync = false;
 			});
+			Queue::push(function(){
+				new SyncPrestashopClients();
+				new SyncPrestashopAddresses();
+			});
+			
 			return redirect('/home')->with([
 				'OK' => 'Sincronizando...'
 			]);
