@@ -187,7 +187,7 @@ class SyncPrestashopProducts extends Command
     public function getAllProducts($user){
         $totalCount = 0;
         $chunk = 1000;
-        $start=0;
+        $start=11400;
         $exit = false;
         $items = array();
         while(!$exit){
