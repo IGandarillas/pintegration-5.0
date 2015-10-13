@@ -1,5 +1,6 @@
 <?php namespace pintegration\Http\Controllers;
 
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Queue;
 use pintegration\Http\Requests;
 use pintegration\Http\Controllers\Controller;
@@ -8,6 +9,9 @@ use Illuminate\Http\Request;
 
 class SynchronizationController extends Controller {
 
+	public function __construct(){
+		$this->middleware('auth');
+	}
 	/**
 	 * Display a listing of the resource.
 	 *
