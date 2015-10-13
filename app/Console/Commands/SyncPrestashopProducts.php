@@ -243,6 +243,7 @@ class SyncPrestashopProducts extends Command
             $option['data']  = $this->fillProductPipedrive($item);
             $option['id'] = $item->id;
             if ($item->id_item_pipedrive != NULL) {
+
                 $option['url'] = 'https://api.pipedrive.com/v1/products/' . $item->id_item_pipedrive . '?api_token=' . $user->pipedrive_api;
                 $option['verb'] = 'PUT';
                 array_push($options, $option);
@@ -271,7 +272,7 @@ class SyncPrestashopProducts extends Command
                 curl_setopt($ch, CURLOPT_POST, true);
                 curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
             }else if($item['verb'] == 'PUT') {
-                curl_setopt($ch, CURLOPT_PUT, true);
+                //curl_setopt($ch, CURLOPT_PUT, true);
                 curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT");
             }
 
@@ -312,7 +313,7 @@ class SyncPrestashopProducts extends Command
            // dd($channel);
             $response = curl_multi_getcontent($channel);
             $response = json_decode($response,true);
-
+            dd($response);
             foreach($items as $item){
                 if($item->id==$id)
                     $item->id_item_pipedrive = $response['data']['id'];
