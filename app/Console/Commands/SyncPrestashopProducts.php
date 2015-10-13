@@ -310,10 +310,8 @@ class SyncPrestashopProducts extends Command
 // Loop through the channels and retrieve the received
 // content, then remove the handle from the multi-handle
         foreach ($channels as $id => $channel) {
-           // dd($channel);
             $response = curl_multi_getcontent($channel);
             $response = json_decode($response,true);
-            dd($response);
             foreach($items as $item){
                 if($item->id==$id)
                     $item->id_item_pipedrive = $response['data']['id'];
