@@ -9,7 +9,6 @@
 		"laravelcollective/html": "~5.0",
 		"guzzlehttp/guzzle": "~4.0",
         "orchestra/parser": "~3.0",
-		//"fzaninotto/faker": "^1.5",
 	  	"maatwebsite/excel": "~2.0.0",
 		"rap2hpoutre/laravel-log-viewer": "^0.4.2"
 	},
