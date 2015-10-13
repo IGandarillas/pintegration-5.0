@@ -38,13 +38,7 @@ Route::resource('home','HomeController');
 Route::get('/pipedrive/receipt', ['uses' =>'PipedriveReceip@handlePipedriveReceipt']);
 Route::post('/pipedrive/receipt', ['middleware' => 'auth.basic', 'uses' =>'PipedriveReceipt@handlePipedriveReceipt']);
 Route::get('/pipedrive/receipt', ['uses' =>'PipedriveReceip@handlePipedriveReceipt']);
-Route::get('/initsynchronization', function(){
-    \Illuminate\Support\Facades\Queue::later(Carbon::now()->addSeconds(1), new \pintegration\Console\Commands\SyncPrestashopProducts());
-    \Illuminate\Support\Facades\Queue::later(Carbon::now()->addSeconds(1), new \pintegration\Console\Commands\SyncPrestashopClients());
-    return redirect('/home')->with([
-        'OK' => 'Sincronizando...'
-    ]);
-});
+Route::get('/initsynchronization', 'SynchronizationController@index');
 Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
 //Route::post('/home', 'HomeController@postHome');
 /*

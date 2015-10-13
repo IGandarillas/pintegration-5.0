@@ -102,6 +102,7 @@ class SyncPrestashopClients extends Command
             $this->syncWithPipedrive($user);
         }
     }
+
     public function syncWithPipedrive($user){
         $clientsList = $user->clients;
         $guzzleClient = new GuzzleHttp\Client();
