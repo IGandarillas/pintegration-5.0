@@ -61,6 +61,7 @@ class SyncPrestashopProducts extends Command implements SelfHandling,ShouldBeQue
                     $user->update();
                 }
             }
+            $user->now_sync = false;
         }
     }
 

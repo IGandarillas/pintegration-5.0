@@ -59,6 +59,8 @@ class SyncPrestashopClients extends Command implements SelfHandling,ShouldBeQueu
 
                 //$bar->advance();
             }
+            $addresses = new SyncPrestashopAddresses();
+            $addresses->handle();
             //$bar->finish();
         }
     }

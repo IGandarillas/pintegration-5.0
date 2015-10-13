@@ -26,17 +26,9 @@ class SynchronizationController extends Controller {
 		$user = Auth::user();
 		$user->now_sync = true;
 		if($user->now_sync) {
-			Queue::push(function () use ($user) {
-				$items = new SyncPrestashopProducts();
-				$items->handle();
-				$user->now_sync = false;
-			});
-			Queue::push(function(){
-				$clients = new SyncPrestashopClients();
-				$clients->handle();
-				$addresses = new SyncPrestashopAddresses();
-				$addresses->handle();
-			});
+			//Usar queue closure a modo callback en lugar de incluir operaciones en el handle
+			Queue::push(new SyncPrestashopProducts());
+			Queue::push(new SyncPrestashopClients());
 
 			return redirect('/home')->with([
 				'OK' => 'Sincronizando...'
