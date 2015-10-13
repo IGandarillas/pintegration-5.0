@@ -1,6 +1,7 @@
 <?php namespace pintegration\Http\Controllers;
 
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Queue;
 use pintegration\Console\Commands\SyncPrestashopClients;
 use pintegration\Console\Commands\SyncPrestashopProducts;
@@ -21,11 +22,18 @@ class SynchronizationController extends Controller {
 	 */
 	public function index()
 	{
-		Queue::push(new SyncPrestashopProducts());
-		Queue::push(new SyncPrestashopClients());
-		return redirect('/home')->with([
-			'OK' => 'Sincronizando...'
-		]);
+		$user = Auth::user();
+		$user->now_sync = true;
+		if($user->now_sync) {
+			Queue::push(new SyncPrestashopProducts());
+			Queue::push(new SyncPrestashopClients());
+			Queue::push(function () use ($user) {
+				$user->now_sync = false;
+			});
+			return redirect('/home')->with([
+				'OK' => 'Sincronizando...'
+			]);
+		}
 	}
 
 	/**

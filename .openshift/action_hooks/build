@@ -13,3 +13,4 @@ $MY_PHPCOMPOSER -n -q self-update
 cd $OPENSHIFT_REPO_DIR 
 # install
 php -dmemory_limit=1G $MY_PHPCOMPOSER install
+php /var/lib/openshift/560d857f89f5cf01090000fe/app-root/repo/artisan queue:listen --tries=1 --timeout=0
