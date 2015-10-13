@@ -27,12 +27,15 @@ class SynchronizationController extends Controller {
 		$user->now_sync = true;
 		if($user->now_sync) {
 			Queue::push(function () use ($user) {
-				new SyncPrestashopProducts();
+				$items = new SyncPrestashopProducts();
+				$items->handle();
 				$user->now_sync = false;
 			});
 			Queue::push(function(){
-				new SyncPrestashopClients();
-				new SyncPrestashopAddresses();
+				$clients = new SyncPrestashopClients();
+				$clients->handle();
+				$addresses = new SyncPrestashopAddresses();
+				$addresses->handle();
 			});
 
 			return redirect('/home')->with([
