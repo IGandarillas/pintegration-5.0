@@ -185,7 +185,7 @@ class SyncPrestashopProducts extends Command
     public function getAllProducts($user){
         $totalCount = 0;
         $chunk = 1000;
-        $start=11000;
+        $start=11400;
         $exit = false;
         $items = array();
         while(!$exit){
@@ -224,7 +224,7 @@ class SyncPrestashopProducts extends Command
                         $this->addProductToPipedrive($user, $items);
                         $items = array();
                 }
-                if($exit && $itemsCount<100 && $json['products'][$itemsCount-1]==$product){
+                if($exit && $itemsCount<100 && $json['products'][$itemsCount-1]['id']==$product['id']){
                     Log::info("Total: ".$totalCount." Last product reference: ".$item->code);
                     if($start!=0)
                         sleep(10);
