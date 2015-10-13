@@ -34,7 +34,7 @@ class SynchronizationController extends Controller {
 				new SyncPrestashopClients();
 				new SyncPrestashopAddresses();
 			});
-			
+
 			return redirect('/home')->with([
 				'OK' => 'Sincronizando...'
 			]);
