@@ -53,11 +53,11 @@ class PipedriveReceip extends Controller
     "v": 1,
     "action": "updated",
     "object": "deal",
-    "id": 21,
+    "id": 27,
     "company_id": 623011,
     "user_id": 867597,
     "host": "igandarillas2.pipedrive.com",
-    "timestamp": 1444755162,
+    "timestamp": 1444827483,
     "permitted_user_ids": [
       867597
     ],
@@ -71,16 +71,16 @@ class PipedriveReceip extends Controller
   },
   "retry": 0,
   "current": {
-    "id": 21,
+    "id": 27,
     "user_id": 867597,
-    "person_id": 904,
+    "person_id": 3398,
     "org_id": null,
     "stage_id": 1,
-    "title": "Gwendolyn Baumbach deal",
-    "value": 17.51,
+    "title": "Billy Predovic deal",
+    "value": 286847,
     "currency": "EUR",
-    "add_time": "2015-10-13 16:28:04",
-    "update_time": "2015-10-13 16:52:42",
+    "add_time": "2015-10-14 12:57:35",
+    "update_time": "2015-10-14 12:58:03",
     "stage_change_time": null,
     "active": false,
     "deleted": false,
@@ -92,9 +92,9 @@ class PipedriveReceip extends Controller
     "last_activity_date": null,
     "lost_reason": null,
     "visible_to": "3",
-    "close_time": "2015-10-13 16:52:42",
+    "close_time": "2015-10-14 12:58:03",
     "pipeline_id": 1,
-    "won_time": "2015-10-13 16:52:42",
+    "won_time": "2015-10-14 12:58:03",
     "lost_time": null,
     "products_count": 1,
     "files_count": null,
@@ -108,32 +108,32 @@ class PipedriveReceip extends Controller
     "participants_count": 1,
     "expected_close_date": null,
     "stage_order_nr": 1,
-    "person_name": "Gwendolyn Baumbach",
+    "person_name": "Billy Predovic",
     "org_name": null,
     "next_activity_subject": null,
     "next_activity_type": null,
     "next_activity_duration": null,
     "next_activity_note": null,
-    "formatted_value": "17,51 €",
+    "formatted_value": "286.847 €",
     "rotten_time": null,
-    "weighted_value": 17.51,
-    "formatted_weighted_value": "17,51 €",
+    "weighted_value": 286847,
+    "formatted_weighted_value": "286.847 €",
     "owner_name": "Ismael Gandarillas Pérez",
-    "cc_email": "igandarillas2+deal21@pipedrivemail.com",
+    "cc_email": "igandarillas2+deal27@pipedrivemail.com",
     "org_hidden": false,
     "person_hidden": false
   },
   "previous": {
-    "id": 21,
+    "id": 27,
     "user_id": 867597,
-    "person_id": 904,
+    "person_id": 3398,
     "org_id": null,
     "stage_id": 1,
-    "title": "Gwendolyn Baumbach deal",
-    "value": 17.51,
+    "title": "Billy Predovic deal",
+    "value": 286847,
     "currency": "EUR",
-    "add_time": "2015-10-13 16:28:04",
-    "update_time": "2015-10-13 16:52:41",
+    "add_time": "2015-10-14 12:57:35",
+    "update_time": "2015-10-14 12:57:35",
     "stage_change_time": null,
     "active": true,
     "deleted": false,
@@ -161,18 +161,18 @@ class PipedriveReceip extends Controller
     "participants_count": 1,
     "expected_close_date": null,
     "stage_order_nr": 1,
-    "person_name": "Gwendolyn Baumbach",
+    "person_name": "Billy Predovic",
     "org_name": null,
     "next_activity_subject": null,
     "next_activity_type": null,
     "next_activity_duration": null,
     "next_activity_note": null,
-    "formatted_value": "17,51 €",
-    "weighted_value": 17.51,
-    "formatted_weighted_value": "17,51 €",
+    "formatted_value": "286.847 €",
+    "weighted_value": 286847,
+    "formatted_weighted_value": "286.847 €",
     "rotten_time": null,
     "owner_name": "Ismael Gandarillas Pérez",
-    "cc_email": "igandarillas2+deal21@pipedrivemail.com",
+    "cc_email": "igandarillas2+deal27@pipedrivemail.com",
     "org_hidden": false,
     "person_hidden": false
   },
@@ -184,16 +184,24 @@ class PipedriveReceip extends Controller
 
         //error_log(env(QUEUE_DRIVER));
         //$this->dispatchFrom('App\Jobs\SyncPipedriveDeals',$request);
-
+      error_log("Job ");
+      dd($req);
         if($req['current']['status'] == 'won' && $req['previous']['status'] != 'won'){
 
             $clientIdPipedrive= array(
                 'id_client_pipedrive' => $req['current']['person_id']
             );
 
+          if(  Client::whereIdClientPipedrive($clientIdPipedrive)->first() != null  ){
+            $task= new UpdateClientFromPipedrive($req, Auth::user()->id);
+            error_log("Job Update");
+            $task->handle();
+          }else{
+            $task= new InsertClientFromPipedrive($req, Auth::user()->id);
+            error_log("Insert");
+            $task->handle();
+          }
 
-                $task= new Insertpdprueba($req, '1');
-                $task->handle();
 
 
             //
