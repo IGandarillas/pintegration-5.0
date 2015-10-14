@@ -327,7 +327,6 @@ class Tools
             echo $ex->getMessage();
         }
     }
-
     protected function initConnection(){
         $user = User::find($this->user_id);
         return new PrestaShopWebservice($user->prestashop_url, $user->prestashop_api, false);
