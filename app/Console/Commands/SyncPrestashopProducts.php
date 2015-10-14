@@ -57,7 +57,6 @@ class SyncPrestashopProducts extends Command implements SelfHandling,ShouldBeQue
                     $date = Carbon::now()->addHours(2);
                     $this->getAllProducts($user);
                     $user->last_products_sync = $date;
-                    $user->now_sync = false;
                     $user->update();
                 }
             }
@@ -197,7 +196,7 @@ class SyncPrestashopProducts extends Command implements SelfHandling,ShouldBeQue
         while(!$exit){
             $webService = new PrestaShopWebservice($user->prestashop_url, $user->prestashop_api, false);
             $opt['resource'] = 'products';
-            $opt['display'] = '[id,reference,price]';
+            $opt['display'] = '[id,reference,price,name]';
             $opt['limit'] = $start.','.$chunk;
             $opt['output_format'] = 'JSON';
             try {
@@ -329,7 +328,8 @@ class SyncPrestashopProducts extends Command implements SelfHandling,ShouldBeQue
     }
     public function fillProductPipedrive($item,$user){
         return  array(
-                'name' => utf8_encode($item->code),
+                'name' => utf8_encode($item->name),
+                'code' => utf8_encode($item->code),
                 'active_flag' => '1',
                 'visible_to' => '3',
                 //'owner_id' => '867597',
