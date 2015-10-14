@@ -194,8 +194,7 @@ class SyncPrestashopProducts extends Command implements SelfHandling,ShouldBeQue
         $start=0;
         $exit = false;
         $items = array();
-        while(!$exit){
-
+        while(!$exit){ 
             $webService = new PrestaShopWebservice($user->prestashop_url, $user->prestashop_api, false);
             $opt['resource'] = 'products';
             $opt['display'] = '[id,reference,price]';
