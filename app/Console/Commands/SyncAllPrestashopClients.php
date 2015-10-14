@@ -41,7 +41,6 @@ class SyncAllPrestashopClients extends Command implements SelfHandling, ShouldBe
 	{
 		parent::__construct();
 	}
-
 	/**
 	 * Execute the console command.
 	 *
