@@ -8,6 +8,7 @@ use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Contracts\Queue\ShouldBeQueued;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use pintegration\Commands\SyncPrestashopStates;
 use pintegration\User;
 use pintegration\Client;
 use PSWebS\PrestaShopWebservice;
@@ -57,6 +58,8 @@ class SyncPrestashopClients extends Command implements SelfHandling,ShouldBeQueu
                     $user->update();
                 }
             }
+            $states = new SyncPrestashopStates();
+            $states->handle();
             $addresses = new SyncPrestashopAddresses();
             $addresses->handle();
         }

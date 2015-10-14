@@ -5,6 +5,7 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Bus\SelfHandling;
 use GuzzleHttp;
+use Monolog\Handler\NullHandlerTest;
 use pintegration\Client;
 use Illuminate\Support\Facades\Artisan;
 use pintegration\User;
@@ -71,23 +72,23 @@ class UpdateClientFromPipedrive extends Command implements SelfHandling, ShouldB
 		error_log($clientData['data']['email'][0]['value']);
 		error_log('1');
 		if($this->isAddress($clientData)) {
+
 			$updateClient = Client::whereIdClientPipedrive($clientId)->first();
 			$updateClient->firstname = $clientData['data']['first_name'];
 			$updateClient->lastname = $clientData['data']['last_name'];
 			$updateClient->email = $clientData['data']['email'][0]['value'];
 			$updateClient->update();
 			error_log('2');
-
-			$direccion= array(
-				'client_id' => $updateClient->id,
-				'address1' => $clientData['data'][$this->user->address_field],
-				'country' => $clientData['data'][$this->user->address_field.'_country'],
-				'postcode' => $clientData['data'][$this->user->address_field.'_postal_code'],
-				'city' => $clientData['data'][$this->user->address_field.'_locality']
-			);
-
-			$dir = Direccion::firstOrNew($direccion);
-
+			if($this->isCompleteAddress($clientData)) {
+				$direccion = array(
+					'client_id' => $updateClient->id,
+					'address1' => $clientData['data'][$this->user->address_field],
+					'country' => $clientData['data'][$this->user->address_field . '_country'],
+					'postcode' => $clientData['data'][$this->user->address_field . '_postal_code'],
+					'city' => $clientData['data'][$this->user->address_field . '_locality']
+				);
+				$dir = Direccion::firstOrNew($direccion);
+			}
 			return $updateClient;
 		}
 
@@ -114,6 +115,14 @@ class UpdateClientFromPipedrive extends Command implements SelfHandling, ShouldB
 		return ($clientData['data'][$this->user->address_field] != NULL);
 	}
 
+	//Null fields mean malformed address.
+	protected function isCompleteAddress($clientData){
+		return (
+			 $clientData['data'][$this->user->address_field.'_country'] != NULL &&
+			 $clientData['data'][$this->user->address_field.'_postal_code'] != NULL &&
+			 $clientData['data'][$this->user->address_field.'_locality'] != NULL
+		);
+	}
 	protected function getData($url){
 		error_log($url);
 		$guzzleClient = new GuzzleHttp\Client();

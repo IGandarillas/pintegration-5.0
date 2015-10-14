@@ -61,7 +61,9 @@ class InsertClientFromPipedrive extends Command implements SelfHandling, ShouldB
             $newClient->user_id = $this->user_id;
             $newClient->save();
             error_log('cliente creado');
-            $this->createAddress($newClient,$clientData);
+            if($this->isCompleteAddress($clientData)) {
+                $this->createAddress($newClient, $clientData);
+            }
             return $newClient;
         }
         error_log('Have no address');
@@ -94,7 +96,14 @@ class InsertClientFromPipedrive extends Command implements SelfHandling, ShouldB
     protected function isAddress($clientData){
         return ($clientData['data'][$this->user->address_field.'_formatted_address'] != NULL);
     }
-
+    //Null fields mean malformed address.
+    protected function isCompleteAddress($clientData){
+        return (
+            $clientData['data'][$this->user->address_field.'_country'] != NULL &&
+            $clientData['data'][$this->user->address_field.'_postal_code'] != NULL &&
+            $clientData['data'][$this->user->address_field.'_locality'] != NULL
+        );
+    }
     protected function getData($url){
         error_log($url);
         $guzzleClient = new GuzzleHttp\Client();

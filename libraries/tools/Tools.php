@@ -91,8 +91,8 @@ class Tools
         $resources->id_country = '6';
         $resources->id_state = '0';
         $resources->postcode = $direccion->postcode;
-        $resources->phone = '645621321';
-        $resources->alias = 'Alias';
+        $resources->phone = '0';
+        $resources->alias = 'Address';
         try {
             $opt = array('resource' => 'addresses');
             $opt['postXml'] = $xml->asXML();
