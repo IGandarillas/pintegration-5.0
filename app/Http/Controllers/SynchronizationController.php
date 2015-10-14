@@ -3,7 +3,6 @@
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Queue;
-use pintegration\Console\Commands\SyncPrestashopAddresses;
 use pintegration\Console\Commands\SyncPrestashopClients;
 use pintegration\Console\Commands\SyncPrestashopProducts;
 use pintegration\Http\Requests;
@@ -28,7 +27,7 @@ class SynchronizationController extends Controller {
 		$user->update();
 		if($user->now_sync) {
 			//Usar queue closure a modo callback en lugar de incluir operaciones en el handle
-			//Queue::push(new SyncPrestashopProducts());
+			Queue::push(new SyncPrestashopProducts());
 			Queue::push(new SyncPrestashopClients());
 
 			return redirect('/home')->with([

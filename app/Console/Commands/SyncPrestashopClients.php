@@ -56,12 +56,9 @@ class SyncPrestashopClients extends Command implements SelfHandling,ShouldBeQueu
                     $user->last_clients_sync = $date;
                     $user->update();
                 }
-
-                //$bar->advance();
             }
             $addresses = new SyncPrestashopAddresses();
             $addresses->handle();
-            //$bar->finish();
         }
     }
     public function getClients($user){
