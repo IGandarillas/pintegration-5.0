@@ -11,7 +11,6 @@ class Kernel extends ConsoleKernel {
 	 * @var array
 	 */
 	protected $commands = [
-		'pintegration\Console\Commands\Inspire',
 		'pintegration\Console\Commands\SyncPrestashopClients',
 		'pintegration\Console\Commands\SyncPrestashopProducts',
 		'pintegration\Console\Commands\SyncPrestashopAddresses',
