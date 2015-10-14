@@ -16,7 +16,7 @@ class CreateDireccionsTable extends Migration
             $table->increments('id');
             $table->integer('id_address_prestashop');
             $table->string('address1');
-            $table->integer('country');
+            $table->string('country');
             $table->string('postcode');
             $table->string('city');
             $table->timestamps();

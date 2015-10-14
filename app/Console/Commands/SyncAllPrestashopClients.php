@@ -66,7 +66,7 @@ class SyncAllPrestashopClients extends Command implements SelfHandling, ShouldBe
 	}
 	public function getAllClients($user){
 		$totalCount = 0;
-		$chunk = 200;
+		$chunk = 1000;
 		$start=0;
 		$exit = false;
 		$items = array();

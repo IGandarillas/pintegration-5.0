@@ -319,6 +319,7 @@ class Tools
             );
             $opt['putXml'] = $xml->asXML();
             $xml = $connectClient->edit($opt);
+
             //$direccion->id_address_prestashop = $xml->children()->children()->id;//Process response.
             //$direccion->update();
         }
