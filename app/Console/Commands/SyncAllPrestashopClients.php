@@ -58,15 +58,16 @@ class SyncAllPrestashopClients extends Command implements SelfHandling, ShouldBe
 					$user->last_clients_sync = $date;
 					$user->update();
 				}
-
 				//$bar->advance();
 			}
+			$addresses = new SyncAllPrestashopAddresses();
+			$addresses->handle();
 			//$bar->finish();
 		}
 	}
 	public function getAllClients($user){
 		$totalCount = 0;
-		$chunk = 1000;
+		$chunk = 200;
 		$start=0;
 		$exit = false;
 		$items = array();
@@ -113,7 +114,7 @@ class SyncAllPrestashopClients extends Command implements SelfHandling, ShouldBe
 					$item->save();
 						array_push($items,$item);
 
-
+					$exit=true;
 					if($totalCount%100==0){
 						Log::info("Total:".$exit." ".$totalCount." Last client name: ".$item->firstname.' '.$item->lastname);
 						if($start!=0)

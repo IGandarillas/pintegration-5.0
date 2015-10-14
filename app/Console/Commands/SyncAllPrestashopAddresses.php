@@ -89,7 +89,7 @@ class SyncAllPrestashopAddresses extends Command
                 $exit=true;
 
             foreach ($resources['addresses'] as $resource) {
-
+                    $totalCount++;
                     $client = Client::whereIdClientPrestashop($resource['id_customer'])->first();
 
                     if (isset($client) && $client->id_client_pipedrive != 0) {
