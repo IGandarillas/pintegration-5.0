@@ -194,7 +194,7 @@ class SyncPrestashopProducts extends Command implements SelfHandling,ShouldBeQue
         $start=0;
         $exit = false;
         $items = array();
-        while(!$exit){ 
+        while(!$exit){
             $webService = new PrestaShopWebservice($user->prestashop_url, $user->prestashop_api, false);
             $opt['resource'] = 'products';
             $opt['display'] = '[id,reference,price]';
@@ -215,7 +215,6 @@ class SyncPrestashopProducts extends Command implements SelfHandling,ShouldBeQue
                     'id_item_prestashop' => $product['id'],
                     'user_id'       => $user->id
                 );
-                //dd($product);
                 $item = Item::firstOrNew($itemIdPrestashop);
                 $item->code = str_replace(' ','_',strtolower($product['reference']).$product['id']);
                 $item->price = $product['price'];
@@ -253,9 +252,9 @@ class SyncPrestashopProducts extends Command implements SelfHandling,ShouldBeQue
                 $option['verb'] = 'PUT';
                 array_push($options, $option);
             }else {
-                    $option['url'] = 'https://api.pipedrive.com/v1/products?api_token=' . $user->pipedrive_api;
-                    $option['verb'] = 'POST';
-                    array_push($options,$option);
+                $option['url'] = 'https://api.pipedrive.com/v1/products?api_token=' . $user->pipedrive_api;
+                $option['verb'] = 'POST';
+                array_push($options,$option);
             }
         }
          $this->multipleConnections($options,$items);
