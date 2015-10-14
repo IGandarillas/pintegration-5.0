@@ -220,7 +220,7 @@ class Tools
         $resources->id_carrier = '1';
         $resources->id_show_group = '1';
         error_log('2');
-        //$resources->secure_key = $client->secure_key;
+        $resources->secure_key = $client->secure_key;
         $count = 0;
         error_log('3');
         foreach($order['data'] as $product){
