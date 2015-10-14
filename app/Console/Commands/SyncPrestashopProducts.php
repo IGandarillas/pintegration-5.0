@@ -215,20 +215,22 @@ class SyncPrestashopProducts extends Command implements SelfHandling,ShouldBeQue
                     'user_id'       => $user->id
                 );
                 $item = Item::firstOrNew($itemIdPrestashop);
+
+                $item->name = $product['name'][0]['value'];
                 $item->code = str_replace(' ','_',strtolower($product['reference']).$product['id']);
                 $item->price = $product['price'];
                 $item->save();
                 array_push($items,$item);
                 $itemsCount = count($json['products']);
                 if($totalCount%100==0){
-                        Log::info("Total:".$exit." ".$totalCount." Last product reference: ".$item->code);
+                        Log::info("Total:".$exit." ".$totalCount." Product => reference: ".$item->code ."\n name: ".$item->name);
                         if($start!=0)
                             sleep(10);
                         $this->addProductToPipedrive($user, $items);
                         $items = array();
                 }
                 else if($exit && $json['products'][$itemsCount-1]['id']==$product['id']){
-                    Log::info("Total:".$exit." ".$totalCount." Last product reference: ".$item->code);
+                    Log::info("Total:".$exit." ".$totalCount." Product => reference: ".$item->code);
                     if($start!=0)
                         sleep(10);
                     $this->addProductToPipedrive($user, $items);
