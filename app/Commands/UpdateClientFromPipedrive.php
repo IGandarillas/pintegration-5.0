@@ -88,7 +88,7 @@ class UpdateClientFromPipedrive extends Command implements SelfHandling, ShouldB
 			error_log('2');
 
 			if($this->isCompleteAddress($clientData)) {
-				dd('complete');
+
 				$direccion = array(
 					'client_id' => $updateClient->id,
 					'address1' => $clientData['data'][$this->user->address_field],
@@ -98,7 +98,6 @@ class UpdateClientFromPipedrive extends Command implements SelfHandling, ShouldB
 				);
 				$dir = Direccion::firstOrNew($direccion);
 			}
-			dd('dir');
 			return $updateClient;
 		}
 
