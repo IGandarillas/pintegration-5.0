@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Log;
 use Monolog\Handler\NullHandlerTest;
 use pintegration\Client;
 use Illuminate\Support\Facades\Artisan;
+use pintegration\State;
 use pintegration\User;
 use Symfony\Component\Finder\Shell\Command;
 use Tools\Tools;
@@ -33,7 +34,7 @@ class UpdateClientFromPipedrive extends Command implements SelfHandling, ShouldB
 		$clientId = $this->request['current']['person_id'];//Id Pipedrive
 		error_log($clientId);
 		$client = $this->updateClient($clientId);
-		dd($client);
+
 		error_log('1');
 		if( isset($client) ) {
 			$tools = new Tools($this->user_id);
@@ -49,11 +50,12 @@ class UpdateClientFromPipedrive extends Command implements SelfHandling, ShouldB
 			$dealId = $this->request['current']['id'];
 			$orderData = $this->getOrderData($dealId);
 			 $tools->addCart($client,$orderData);
-			/*if(isset($idCart) && $idCart != 0 && $idCart != NULL){
+
+			if(isset($idCart) && $idCart != 0 && $idCart != NULL){
 				Log::info('Added cart => id: '.$idCart."\n Client => id: ".$client->firstname.' '.$client->lastname);
 			}else{
-				Log::warn("Not added cart. Client => id: ".$client->firstname.' '.$client->lastname);
-			}*/
+				Log::warning("Not added cart. Client => id: ".$client->firstname.' '.$client->lastname);
+			}
 			//$tools->addOrder($client,$orderData);
 		}
 		error_log("FIN");
@@ -79,7 +81,6 @@ class UpdateClientFromPipedrive extends Command implements SelfHandling, ShouldB
 		error_log($clientData['data']['email'][0]['value']);
 		error_log('1');
 		if($this->isAddress($clientData)) {
-
 			$updateClient = Client::whereIdClientPipedrive($clientId)->first();
 			$updateClient->firstname = $clientData['data']['first_name'];
 			$updateClient->lastname = $clientData['data']['last_name'];
@@ -90,13 +91,15 @@ class UpdateClientFromPipedrive extends Command implements SelfHandling, ShouldB
 			if($this->isCompleteAddress($clientData)) {
 
 				$direccion = array(
-					'client_id' => $updateClient->id,
-					'address1' => $clientData['data'][$this->user->address_field],
-					'country' => $clientData['data'][$this->user->address_field . '_country'],
-					'postcode' => $clientData['data'][$this->user->address_field . '_postal_code'],
-					'city' => $clientData['data'][$this->user->address_field . '_locality']
+					'client_id' => $updateClient->id
 				);
 				$dir = Direccion::firstOrNew($direccion);
+				$dir->address1 =  $clientData['data'][$this->user->address_field];
+				$dir->country = $clientData['data'][$this->user->address_field . '_country'];
+				$dir->postcode = $clientData['data'][$this->user->address_field . '_postal_code'];
+				$dir->city = $clientData['data'][$this->user->address_field . '_locality'];
+				$dir->id_state = $this->getState($clientData);
+				$dir->save();
 			}
 			return $updateClient;
 		}
@@ -131,6 +134,15 @@ class UpdateClientFromPipedrive extends Command implements SelfHandling, ShouldB
 			 $clientData['data'][$this->user->address_field.'_postal_code'] != NULL &&
 			 $clientData['data'][$this->user->address_field.'_locality'] != NULL
 		);
+	}
+	protected function getState($clientData){
+		$state = $clientData['data'][$this->user->address_field.'_admin_area_level_1'];
+		if( $state != NULL ){
+			$idState = State::whereName($state)->first()->id_prestashop;
+			if(isset($idState) && $idState != NULL)
+				return $idState;
+		}
+		return 0;
 	}
 	protected function getData($url){
 		error_log($url);

@@ -11,4 +11,7 @@ class Direccion extends Model
     public function client(){
         return $this->belongsTo('pintegration\Client');
     }
+    public function state(){
+        return $this->hasOne('pintegration\State');
+    }
 }

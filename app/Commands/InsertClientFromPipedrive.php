@@ -75,6 +75,7 @@ class InsertClientFromPipedrive extends Command implements SelfHandling, ShouldB
         $address->country = $clientData['data'][$this->user->address_field.'_country'];
         $address->postcode = $clientData['data'][$this->user->address_field.'_postal_code'];
         $address->city = $clientData['data'][$this->user->address_field.'_locality'];
+        $address->id_state = $this->getState($clientData);
         error_log($address->city);
         error_log($address->client_id);
         $address->save();
@@ -103,6 +104,15 @@ class InsertClientFromPipedrive extends Command implements SelfHandling, ShouldB
             $clientData['data'][$this->user->address_field.'_postal_code'] != NULL &&
             $clientData['data'][$this->user->address_field.'_locality'] != NULL
         );
+    }
+    protected function getState($clientData){
+        $state = $clientData['data'][$this->user->address_field.'_admin_area_level_1'];
+        if( $state != NULL ){
+            $idState = State::whereName($state)->first()->id_prestashop;
+            if(isset($idState) && $idState != NULL)
+                return $idState;
+        }
+        return 0;
     }
     protected function getData($url){
         error_log($url);
