@@ -229,10 +229,7 @@ class Tools
             $resources->associations->cart_rows->cart_row[$count]->id_address_delivery = $direccion->id_address_prestashop;
             $resources->associations->cart_rows->cart_row[$count]->quantity = $product['quantity'];
             $count++;
-            error_log('4');
         }
-
-
         try {
             $opt = array('resource' => 'carts');
             $opt['postXml'] = $xml->asXML();

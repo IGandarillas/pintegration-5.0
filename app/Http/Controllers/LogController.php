@@ -27,7 +27,7 @@ class LogController extends Controller
 			return Redirect::to(Request::url());
 		}
 
-		$logs = LaravelLogViewer::all();
+		$logs = LaravelLogViewer::info();
 
 		return View::make('log.log', [
 			'logs' => $logs,

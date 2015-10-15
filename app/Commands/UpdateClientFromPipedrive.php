@@ -5,6 +5,7 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Bus\SelfHandling;
 use GuzzleHttp;
+use Illuminate\Support\Facades\Log;
 use Monolog\Handler\NullHandlerTest;
 use pintegration\Client;
 use Illuminate\Support\Facades\Artisan;
@@ -32,6 +33,7 @@ class UpdateClientFromPipedrive extends Command implements SelfHandling, ShouldB
 		$clientId = $this->request['current']['person_id'];//Id Pipedrive
 		error_log($clientId);
 		$client = $this->updateClient($clientId);
+		dd($client);
 		error_log('1');
 		if( isset($client) ) {
 			$tools = new Tools($this->user_id);
@@ -46,7 +48,12 @@ class UpdateClientFromPipedrive extends Command implements SelfHandling, ShouldB
 
 			$dealId = $this->request['current']['id'];
 			$orderData = $this->getOrderData($dealId);
-			$tools->addCart($client,$orderData);
+			$idCart = $tools->addCart($client,$orderData);
+			if(isset($idCart) && $idCart != 0 && $idCart != NULL){
+				Log::info('Added cart => id: '.$idCart."\n Client => id: ".$client->firstname.' '.$client->lastname);
+			}else{
+				Log::warn("Not added cart. Client => id: ".$client->firstname.' '.$client->lastname);
+			}
 			//$tools->addOrder($client,$orderData);
 		}
 		error_log("FIN");
@@ -79,7 +86,9 @@ class UpdateClientFromPipedrive extends Command implements SelfHandling, ShouldB
 			$updateClient->email = $clientData['data']['email'][0]['value'];
 			$updateClient->update();
 			error_log('2');
+
 			if($this->isCompleteAddress($clientData)) {
+				dd('complete');
 				$direccion = array(
 					'client_id' => $updateClient->id,
 					'address1' => $clientData['data'][$this->user->address_field],
@@ -89,6 +98,7 @@ class UpdateClientFromPipedrive extends Command implements SelfHandling, ShouldB
 				);
 				$dir = Direccion::firstOrNew($direccion);
 			}
+			dd('dir');
 			return $updateClient;
 		}
 
