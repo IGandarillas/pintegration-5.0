@@ -48,12 +48,12 @@ class UpdateClientFromPipedrive extends Command implements SelfHandling, ShouldB
 
 			$dealId = $this->request['current']['id'];
 			$orderData = $this->getOrderData($dealId);
-			$idCart = $tools->addCart($client,$orderData);
-			if(isset($idCart) && $idCart != 0 && $idCart != NULL){
+			 $tools->addCart($client,$orderData);
+			/*if(isset($idCart) && $idCart != 0 && $idCart != NULL){
 				Log::info('Added cart => id: '.$idCart."\n Client => id: ".$client->firstname.' '.$client->lastname);
 			}else{
 				Log::warn("Not added cart. Client => id: ".$client->firstname.' '.$client->lastname);
-			}
+			}*/
 			//$tools->addOrder($client,$orderData);
 		}
 		error_log("FIN");
@@ -101,7 +101,7 @@ class UpdateClientFromPipedrive extends Command implements SelfHandling, ShouldB
 			return $updateClient;
 		}
 
-		error_log('Not config address');
+		Log::error('No hay direccion: '.$clientData['data']['first_name']);
 	}
 
 	protected function getClientData($id)
