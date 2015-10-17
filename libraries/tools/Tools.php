@@ -9,6 +9,7 @@
  */
 
 namespace Tools;
+use Carbon\Carbon;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Queue;
 use pintegration\Item;
@@ -344,67 +345,88 @@ class Tools
         }
 
         try {
-
+            $opts = array();
             $opt = array('resource' => 'products');
             $connectClient = $this->initConnection();
-            unset($resources -> id);
-            unset($resources -> position_in_category);
-            unset($resources -> id_shop_default);
-            unset($resources -> date_add);
-            unset($resources -> date_upd);
-            unset($resources->associations->combinations);
-            unset($resources->associations->product_options_values);
-            unset($resources->associations->product_features);
-            unset($resources->associations->stock_availables->stock_available->id_product_attribute);
-            for($i=0; $i <= 100000 ; $i++) {
-                //$resources->quantity = $faker->numberBetween(0, 2000);
-                if($i%70==0){
-                    echo "Reload\n";
-                    $opt = array('resource' => 'products');
-                    $connectClient = $this->initConnection();
-                    unset($resources -> id);
-                    unset($resources -> position_in_category);
-                    unset($resources -> id_shop_default);
-                    unset($resources -> date_add);
-                    unset($resources -> date_upd);
-                    unset($resources->associations->combinations);
-                    unset($resources->associations->product_options_values);
-                    unset($resources->associations->product_features);
-                    unset($resources->associations->stock_availables->stock_available->id_product_attribute);
+            $inicio = Carbon::now();
+            $anterior = 0;
+                for ($i = 0; $i < 1000000; $i++) {
+                    //$resources->quantity = $faker->numberBetween(0, 2000);
+                        $opt = array('resource' => 'products');
+
+                        unset($resources->id);
+                        unset($resources->position_in_category);
+                        unset($resources->id_shop_default);
+                        unset($resources->date_add);
+                        unset($resources->date_upd);
+                        unset($resources->associations->combinations);
+                        unset($resources->associations->product_options_values);
+                        unset($resources->associations->product_features);
+                        unset($resources->associations->stock_availables->stock_available->id_product_attribute);
+                    $price = $faker->randomFloat(3, 1, 550);
+                    $resources->price = $price;
+                    $resources->name->language[0] = $faker->name();
+                    $resources->active = true;
+
+                    $resources->link_rewrite->language[0][0] = $faker->word();
+
+                    $name = $faker->name();
+                    $node = dom_import_simplexml($resources->name->language[0][0]);
+                    $no = $node->ownerDocument;
+                    $node->appendChild($no->createCDATASection($name));
+                    $resources->name->language[0][0] = $name;
+                    $description = $faker->name();
+                    $node = dom_import_simplexml($resources->description->language[0][0]);
+                    $no = $node->ownerDocument;
+                    $node->appendChild($no->createCDATASection($description));
+                    $resources->description->language[0][0] = $description;
+                    $node = dom_import_simplexml($resources->description_short->language[0][0]);
+                    $no = $node->ownerDocument;
+                    $node->appendChild($no->createCDATASection($description));
+                    $resources->description_short->language[0][0] = $description; //
+                    $opt['postXml'] = $xml->asXML();
+                    $opt['price'] = $price;
+                    array_push($opts,$opt);
+
+                    if($i%60==0) {
+                        $connectClient = $this->initConnection();
+                        $sleep_time = 5;
+                        if($i!=0) {
+                            echo "\nTiempo de espera: " . $sleep_time . " segundos \n";
+                            sleep($sleep_time);
+                        }
+                        $current = Carbon::now();
+                        echo "\nStart at: ".$inicio.' - Last 100 items init reqs hour: '.$anterior.' - current hour is: '. Carbon::now()."\n" ;
+                        $anterior = $current->addSeconds($sleep_time);
+                    }
+                    echo  $i ."\n";
+
+                    if($i%15==0) {
+                        if ($i != 0) {
+                            sleep(5);
+                            try {
+
+                                echo "\nInit multiple request \n";
+                                //    dd($opts);
+                                $connectClient->addMultiple($opts);
+                            } catch (PrestaShopWebserviceException $e) {
+                                echo $e->getMessage();
+                            }
+                            $opts = array();
+                        }
+                    }
                 }
-                $resources->price =  $faker->randomFloat(3, 1, 550);
-                $resources->name->language[0] = $faker->name();
-                $resources->active = true;
-
-                $resources->link_rewrite->language[0][0] = $faker->word();
-
-                $name = $faker->name();
-                $node = dom_import_simplexml($resources->name->language[0][0]);
-                $no = $node->ownerDocument;
-                $node->appendChild($no->createCDATASection($name));
-                $resources->name->language[0][0] = $name;
-                $description = $faker->name();
-                $node = dom_import_simplexml($resources->description->language[0][0]);
-                $no = $node->ownerDocument;
-                $node->appendChild($no->createCDATASection($description));
-                $resources -> description -> language[0][0] = $description;
-                $node = dom_import_simplexml($resources->description_short->language[0][0]);
-                $no = $node->ownerDocument;
-                $node->appendChild($no->createCDATASection($description));
-                $resources->description_short->language[0][0] = $description; //
 
                 // $resources->associations = '';
-                $opt['postXml'] = $xml->asXML();
-                //dd($opt);
-                try {
-                    $connectClient->add($opt);
-                }catch(PrestaShopWebserviceException $e) {
-                    echo $e->getMessage();
-                }
 
-                echo $i."\n";
+
+                //dd($opt);
+
+
+
                 //error_log($i);
-            }
+
+
 
         }
         catch (PrestaShopWebserviceException $ex)

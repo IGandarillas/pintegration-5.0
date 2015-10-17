@@ -71,7 +71,7 @@ class SyncAllPrestashopAddresses extends Command
             $webService = new PrestaShopWebservice($user->prestashop_url, $user->prestashop_api, false);
             // Here we set the option array for the Webservice : we want customers resources
             $opt['resource'] = 'addresses';
-            $opt['display'] = '[id,id_customer,address1,postcode,city,id_country]';
+            $opt['display'] = '[id,id_customer,address1,postcode,city,id_country,id_state]';
             $opt['limit'] = $start . ',' . $chunk;
             $opt['output_format'] = 'JSON';
             // Call
@@ -102,6 +102,7 @@ class SyncAllPrestashopAddresses extends Command
                         $address->postcode = $resource['postcode'];
                         $address->city = $resource['city'];
                         $address->country = $resource['id_country'];
+                        $address->id_state = $resource['id_state'];
                         $address->save();
 
                         array_push($addresses, $address);
@@ -132,15 +133,13 @@ class SyncAllPrestashopAddresses extends Command
             $client = Client::find($address->client_id);
             if(isset($client)){
                 try {
-
                     $res = $guzzleClient->put('https://api.pipedrive.com/v1/persons/'.$client->id_client_pipedrive.'?api_token='.$user->pipedrive_api, [
                         'body' => [
                             $user->address_field => htmlspecialchars($address->address1,ENT_NOQUOTES)
                         ]
                     ]);
-                    dd($res);
                 }catch(GuzzleHttp\Exception\ClientException $e){
-                    dd('Actualizar '.$e->getMessage());
+                    echo $e->getMessage();
                 }
             }
         }
@@ -154,7 +153,6 @@ class SyncAllPrestashopAddresses extends Command
                 $option['data'] = $this->fillAddressPipedrive($item, $client, $user);
                 $option['id'] = $item->id;
                 $option['url'] = 'https://api.pipedrive.com/v1/persons/' . $client->id_client_pipedrive . '?api_token=' . $user->pipedrive_api;
-
                 $option['verb'] = 'PUT';
                 array_push($options, $option);
             }
@@ -180,7 +178,6 @@ class SyncAllPrestashopAddresses extends Command
                 //curl_setopt($ch, CURLOPT_PUT, true);
                 curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT");
             }
-
             curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
@@ -213,8 +210,8 @@ class SyncAllPrestashopAddresses extends Command
             } while ($mrc == CURLM_CALL_MULTI_PERFORM);
         }
 
-// Loop through the channels and retrieve the received
-// content, then remove the handle from the multi-handle
+        // Loop through the channels and retrieve the received
+        // content, then remove the handle from the multi-handle
         foreach ($channels as $id => $channel) {
             $response = curl_multi_getcontent($channel);
             curl_multi_remove_handle($multi, $channel);

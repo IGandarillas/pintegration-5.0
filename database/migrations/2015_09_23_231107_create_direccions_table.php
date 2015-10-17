@@ -21,7 +21,7 @@ class CreateDireccionsTable extends Migration
             $table->string('city');
             $table->timestamps();
 
-            $table->integer('id_state')->unsigned()->nullable()->unique();
+            $table->integer('id_state')->unsigned()->nullable();
             $table->foreign('id_state')
                 ->references('id')->on('states')
                 ->onDelete('cascade')->onUpdate('cascade');

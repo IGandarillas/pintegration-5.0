@@ -131,6 +131,9 @@ class PrestaShopWebservice
 				$curl_options[$defkey] = $curl_params[$defkey];
 
 		curl_setopt_array($session, $curl_options);
+
+
+
 		$response = curl_exec($session);
 
 		$index = strpos($response, "\r\n\r\n");
@@ -180,7 +183,82 @@ class PrestaShopWebservice
 		}
 		return array('status_code' => $status_code, 'response' => $body, 'header' => $header);
 	}
+	protected function executeMultipleRequest($url, $curl_params = array(),$items)
+	{
+		$url = 'http://38HAF8YBRMSZB1KDQHUNB6N4DJGPVI6C@prestashop-igandarillas.rhcloud.com/api/products';
+		$multi = curl_multi_init();
+		$channels = array();
+		foreach ($items as $item) {
 
+			$ch = curl_init($url);
+			$defaultParams = array(
+				CURLOPT_HEADER => TRUE,
+				CURLOPT_RETURNTRANSFER => TRUE,
+				CURLOPT_CUSTOMREQUEST => 'POST',
+				CURLINFO_HEADER_OUT => TRUE,
+				CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
+				CURLOPT_USERPWD => $this->key.':',
+				CURLOPT_HTTPHEADER => array( 'Expect:' ),
+				CURLOPT_POSTFIELDS => $item['postXml']
+
+			);
+			curl_setopt($ch, CURLOPT_POST, true);
+			$curl_options = array();
+			foreach ($defaultParams as $defkey => $defval) {
+				if (isset($curl_params[$defkey]))
+					$curl_options[$defkey] = $curl_params[$defkey];
+				else
+					$curl_options[$defkey] = $defaultParams[$defkey];
+			}
+			foreach ($curl_params as $defkey => $defval)
+				if (!isset($curl_options[$defkey]))
+					$curl_options[$defkey] = $curl_params[$defkey];
+
+			curl_setopt_array($ch, $curl_options);
+
+			curl_multi_add_handle($multi, $ch);
+			$channels[$item['price']] = $ch;
+		}
+
+		// While we're still active, execute curl
+		$active = null;
+		do {
+			$mrc = curl_multi_exec($multi, $running);
+			curl_multi_select($multi);
+		} while ($running > 0);
+
+		while ($active && $mrc == CURLM_OK) {
+			// Wait for activity on any curl-connection
+			if (curl_multi_select($multi) == -1) {
+				continue;
+			}
+
+			// Continue to exec until curl is ready to
+			// give us more data
+			do {
+				$mrc = curl_multi_exec($multi, $active);
+			} while ($mrc == CURLM_CALL_MULTI_PERFORM);
+		}
+		//dd($channels);
+		// Loop through the channels and retrieve the received
+		// content, then remove the handle from the multi-handle
+		$multiple_status = array();
+		foreach ($channels as $channel) {
+
+			curl_multi_remove_handle($multi, $channel);
+
+			$status_code = curl_getinfo($channel, CURLINFO_HTTP_CODE);
+			array_push($multiple_status,$status_code);
+		if ($status_code === 0)
+			throw new PrestaShopWebserviceException('CURL Error: '.curl_error($channel));
+		// Close the multi-handle and return our results
+		}
+		curl_multi_close($multi);
+		// dd($channels);
+		//dd($channels);
+		return $multiple_status;
+
+	}
 	public function printDebug($title, $content)
 	{
 		echo '<div style="display:table;background:#CCC;font-size:8pt;padding:7px"><h6 style="font-size:9pt;margin:0">'.$title.'</h6><pre>'.htmlentities($content).'</pre></div>';
@@ -232,7 +310,39 @@ class PrestaShopWebservice
 		else
 			throw new PrestaShopWebserviceException('HTTP response is empty');
 	}
+	/**
+	 * Add (POST) a resource
+	 * <p>Unique parameter must take : <br><br>
+	 * 'resource' => Resource name<br>
+	 * 'postXml' => Full XML string to add resource<br><br>
+	 * Examples are given in the tutorial</p>
+	 * @param array $options
+	 * @return SimpleXMLElement status_code, response
+	 */
+	public function addMultiple($optionss)
+	{
 
+		$xml = '';
+		foreach($optionss as $options) {
+			if (isset($options['resource'], $options['postXml']) || isset($options['url'], $options['postXml'])) {
+				$url = (isset($options['resource']) ? $this->url . '/api/' . $options['resource'] : $options['url']);
+				$xml = $options['postXml'];
+				if (isset($options['id_shop']))
+					$url .= '&id_shop=' . $options['id_shop'];
+				if (isset($options['id_group_shop']))
+					$url .= '&id_group_shop=' . $options['id_group_shop'];
+			} else
+				throw new PrestaShopWebserviceException('Bad parameters given');
+
+		}
+		$request = self::executeMultipleRequest($url,  array(),$optionss);
+		foreach($request as $status){
+			self::checkStatusCode($status);
+			echo 'OK';
+		}
+
+		//return self::parseXML($request['response']);
+	}
 	/**
 	 * Add (POST) a resource
 	 * <p>Unique parameter must take : <br><br>

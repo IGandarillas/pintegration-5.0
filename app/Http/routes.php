@@ -40,6 +40,10 @@ Route::post('/pipedrive/receipt', ['middleware' => 'auth.basic', 'uses' =>'Piped
 Route::get('/pipedrive/receipt', ['uses' =>'PipedriveReceip@handlePipedriveReceipt']);
 Route::get('/initsynchronization', 'SynchronizationController@index');
 Route::get('logs', 'LogController@index');
+Route::get('/seed', function()
+{
+    pintegration\Console\Commands\SeedPrestashopProducts::handle();
+});
 //Route::post('/home', 'HomeController@postHome');
 /*
 Route::get('password/email', 'PasswordController@getEmail');

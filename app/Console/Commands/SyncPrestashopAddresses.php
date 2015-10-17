@@ -99,6 +99,7 @@ class SyncPrestashopAddresses extends Command
                         $address->postcode = $resource->postcode;
                         $address->city = $resource->city;
                         $address->country = $resource->country;
+
                         $address->save();
                         array_push($addresses, $address);
                         $chunk++;
