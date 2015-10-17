@@ -189,11 +189,10 @@ class PrestaShopWebservice
 		$multi = curl_multi_init();
 		$channels = array();
 		foreach ($items as $item) {
-
+//CURLOPT_RETURNTRANSFER => TRUE,
 			$ch = curl_init($url);
 			$defaultParams = array(
-				CURLOPT_HEADER => TRUE,
-				CURLOPT_RETURNTRANSFER => TRUE,
+				CURLOPT_HEADER => FALSE,
 				CURLOPT_CUSTOMREQUEST => 'POST',
 				CURLINFO_HEADER_OUT => TRUE,
 				CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
@@ -243,20 +242,20 @@ class PrestaShopWebservice
 		// Loop through the channels and retrieve the received
 		// content, then remove the handle from the multi-handle
 		$multiple_status = array();
-		foreach ($channels as $channel) {
+		//foreach ($channels as $channel) {
 
-			curl_multi_remove_handle($multi, $channel);
+		//	curl_multi_remove_handle($multi, $channel);
 
-			$status_code = curl_getinfo($channel, CURLINFO_HTTP_CODE);
+			/*$status_code = curl_getinfo($channel, CURLINFO_HTTP_CODE);
 			array_push($multiple_status,$status_code);
 		if ($status_code === 0)
 			throw new PrestaShopWebserviceException('CURL Error: '.curl_error($channel));
-		// Close the multi-handle and return our results
-		}
+		// Close the multi-handle and return our results*/
+		//}
 		curl_multi_close($multi);
 		// dd($channels);
 		//dd($channels);
-		return $multiple_status;
+		//return $multiple_status;
 
 	}
 	public function printDebug($title, $content)
@@ -336,10 +335,10 @@ class PrestaShopWebservice
 
 		}
 		$request = self::executeMultipleRequest($url,  array(),$optionss);
-		foreach($request as $status){
+		/*foreach($request as $status){
 			self::checkStatusCode($status);
 			echo 'OK';
-		}
+		}*/
 
 		//return self::parseXML($request['response']);
 	}

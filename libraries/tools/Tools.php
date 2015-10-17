@@ -401,16 +401,16 @@ class Tools
                     }
                     echo  $i ."\n";
 
-                    if($i%15==0) {
+                    if($i%5==0) {
                         if ($i != 0) {
-                            sleep(5);
+                            sleep(1);
                             try {
 
                                 echo "\nInit multiple request \n";
                                 //    dd($opts);
                                 $connectClient->addMultiple($opts);
                             } catch (PrestaShopWebserviceException $e) {
-                                echo $e->getMessage();
+                                //echo $e->getMessage();
                             }
                             $opts = array();
                         }
