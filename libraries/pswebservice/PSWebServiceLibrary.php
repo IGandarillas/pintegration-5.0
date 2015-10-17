@@ -189,15 +189,17 @@ class PrestaShopWebservice
 		$multi = curl_multi_init();
 		$channels = array();
 		foreach ($items as $item) {
-//CURLOPT_RETURNTRANSFER => TRUE,
+
 			$ch = curl_init($url);
 			$defaultParams = array(
-				CURLOPT_HEADER => FALSE,
+				//CURLOPT_HEADER => FALSE,
 				CURLOPT_CUSTOMREQUEST => 'POST',
-				CURLINFO_HEADER_OUT => TRUE,
-				CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
-				CURLOPT_USERPWD => $this->key.':',
-				CURLOPT_HTTPHEADER => array( 'Expect:' ),
+				//CURLOPT_CONNECTTIMEOUT_MS => '0',
+				CURLOPT_RETURNTRANSFER => TRUE,
+				//CURLINFO_HEADER_OUT => TRUE,
+				//CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
+				//CURLOPT_USERPWD => $this->key.':',
+				//CURLOPT_HTTPHEADER => array( 'Expect:' ),
 				CURLOPT_POSTFIELDS => $item['postXml']
 
 			);
@@ -216,7 +218,7 @@ class PrestaShopWebservice
 			curl_setopt_array($ch, $curl_options);
 
 			curl_multi_add_handle($multi, $ch);
-			$channels[$item['price']] = $ch;
+			//$channels[$item['price']] = $ch;
 		}
 
 		// While we're still active, execute curl
@@ -252,11 +254,11 @@ class PrestaShopWebservice
 			throw new PrestaShopWebserviceException('CURL Error: '.curl_error($channel));
 		// Close the multi-handle and return our results*/
 		//}
-		curl_multi_close($multi);
+		//curl_multi_close($multi);
 		// dd($channels);
 		//dd($channels);
 		//return $multiple_status;
-
+		return ;
 	}
 	public function printDebug($title, $content)
 	{
@@ -354,15 +356,16 @@ class PrestaShopWebservice
 	public function add($options)
 	{
 		$xml = '';
-
 		if (isset($options['resource'], $options['postXml']) || isset($options['url'], $options['postXml']))
 		{
+
 			$url = (isset($options['resource']) ? $this->url.'/api/'.$options['resource'] : $options['url']);
 			$xml = $options['postXml'];
 			if (isset($options['id_shop']))
 				$url .= '&id_shop='.$options['id_shop'];
 			if (isset($options['id_group_shop']))
 				$url .= '&id_group_shop='.$options['id_group_shop'];
+
 		}
 		else
 			throw new PrestaShopWebserviceException('Bad parameters given');

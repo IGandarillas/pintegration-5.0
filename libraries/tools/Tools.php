@@ -345,14 +345,13 @@ class Tools
         }
 
         try {
+
             $opts = array();
             $opt = array('resource' => 'products');
-            $connectClient = $this->initConnection();
             $inicio = Carbon::now();
             $anterior = 0;
-                for ($i = 0; $i < 1000000; $i++) {
+                for ($i = 0; $i < 10000; $i++) {
                     //$resources->quantity = $faker->numberBetween(0, 2000);
-                        $opt = array('resource' => 'products');
 
                         unset($resources->id);
                         unset($resources->position_in_category);
@@ -385,36 +384,38 @@ class Tools
                     $node->appendChild($no->createCDATASection($description));
                     $resources->description_short->language[0][0] = $description; //
                     $opt['postXml'] = $xml->asXML();
-                    $opt['price'] = $price;
-                    array_push($opts,$opt);
+                    //array_push($opts,$opt);
 
-                    if($i%60==0) {
+                    if($i%10==0) {
                         $connectClient = $this->initConnection();
-                        $sleep_time = 5;
+                        $sleep_time = 10;
                         if($i!=0) {
                             echo "\nTiempo de espera: " . $sleep_time . " segundos \n";
                             sleep($sleep_time);
                         }
                         $current = Carbon::now();
                         echo "\nStart at: ".$inicio.' - Last 100 items init reqs hour: '.$anterior.' - current hour is: '. Carbon::now()."\n" ;
-                        $anterior = $current->addSeconds($sleep_time);
+                        $anterior = $current;
                     }
                     echo  $i ."\n";
 
-                    if($i%5==0) {
-                        if ($i != 0) {
-                            sleep(1);
+                    //if($i%30==0) {
+                      //  if ($i != 0) {
+                            //sleep(1);
                             try {
 
-                                echo "\nInit multiple request \n";
-                                //    dd($opts);
-                                $connectClient->addMultiple($opts);
+                               //echo "\nInit multiple request \n";
+                                //   dd($opts);
+                            Queue::push(function() use($connectClient,$opt) {
+                                $connectClient->add($opt);
+                            });
+
                             } catch (PrestaShopWebserviceException $e) {
                                 //echo $e->getMessage();
                             }
-                            $opts = array();
-                        }
-                    }
+
+                        //}
+                    //}
                 }
 
                 // $resources->associations = '';
