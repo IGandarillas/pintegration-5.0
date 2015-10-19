@@ -2,6 +2,8 @@
 
 namespace pintegration\Http\Controllers;
 
+
+
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\View;
@@ -10,10 +12,10 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Response;
 use Rap2hpoutre\LaravelLogViewer\LaravelLogViewer;
+use Rap2hpoutre\LaravelLogViewer\LogViewerController;
 
-class LogController extends Controller
+class LogController extends LogViewerController
 {
-
 	public function __construct(){
 		$this->middleware('auth');
 	}
