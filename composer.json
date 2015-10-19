@@ -11,8 +11,7 @@
         "orchestra/parser": "~3.0",
 	  	"maatwebsite/excel": "~2.0.0",
 	 	"fzaninotto/faker": "^1.5",
-		"rap2hpoutre/laravel-log-viewer": "^0.4.2",
-		"barryvdh/laravel-debugbar": "^2.0"
+		"rap2hpoutre/laravel-log-viewer": "^0.4.2"
 	},
 	"require-dev": {
 	  	"phpunit/phpunit": "~4.0",
