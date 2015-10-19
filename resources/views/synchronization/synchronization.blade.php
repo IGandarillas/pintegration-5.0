@@ -7,7 +7,7 @@
                 <div class="row">
                     <div class='col-sm-6 col-sm-offset-3'>
 
-                        <h5 class="">Sincronizar desde una fecha concreta. Por defecto, fecha de la ultima actualizacion.</h5>
+                        <h5 class="">Sincronizar desde una fecha concreta.</h5>
                         <div class="jumbotron">
                             @if(isset($user))
                                 {!! Form::model($user, ['route' => ['synchronization.syncproductssince', $user->id], 'method' => 'put'] ) !!}
@@ -17,7 +17,6 @@
 
                             @endif
 
-                            {!! Form::label('Primera sincronización.') !!}
                         <div class="form-group">
                             <div class="inline-group">
                                 {!! Form::submit('Sincronizar productos', array('class' => 'btn btn-default btn-width')) !!}
@@ -38,7 +37,7 @@
 
                                 @endif
 
-                                {!! Form::label('Primera sincronización.') !!}
+
                         <div class="form-group">
                             <div class="inline-group ">
                                 {!! Form::submit('Sincronizar clientes',array('class' => 'btn btn-default btn-width')) !!}
@@ -64,7 +63,7 @@
                             {!!  Form::open(array('route' => 'synchronization.store','class'=>'form')) !!}
 
                         @endif
-                        <h5>Frecuencia de sincronizacion con prestashop.</h5>
+                        <h5>Frecuencia de sincronizacion con Prestashop.</h5>
                         <div class="jumbotron ">
                             <div class="form-group ">
                                 {!! Form::label('Productos',null,['class'=>'btn-width']) !!}
@@ -97,10 +96,9 @@
                 </div>
                 <div class="row">
                     <div class='col-sm-6 col-sm-offset-3'>
-                        <h5>Primer uso</h5>
+                        <h5>Todos. (Es recomendable utilizarlo solo la primeara vez. 200000 productos ~ 7 horas)</h5>
                         <div class="jumbotron">
                             <div class="form-group">
-
                                 {!! link_to_route('synchronization.syncallproducts','Sincronizar productos',null,array('class' => 'btn btn-default')) !!}
                                 {!! link_to_route('synchronization.syncallclients','Sincronizar clientes',null,array('class' => 'btn btn-default')) !!}
 
