@@ -30,7 +30,7 @@ class SyncPrestashopAddresses extends Command
      *
      * @return void
      */
-
+    protected $datetime;
     public function __construct()
     {
         parent::__construct();
@@ -48,7 +48,6 @@ class SyncPrestashopAddresses extends Command
             foreach ($users as $user) {
                 if(isset($user->prestashop_url,$user->prestashop_api,$user->pipedrive_api)) {
                     $date = Carbon::now()->addHours(2);
-
                     $this->getAddresses($user);
                     $user->last_addresses_sync = $date;
                     $user->update();

@@ -102,7 +102,9 @@ class SyncAllPrestashopAddresses extends Command
                         $address->postcode = $resource['postcode'];
                         $address->city = $resource['city'];
                         $address->country = $resource['id_country'];
-                        $address->id_state = $resource['id_state'];
+                        if($resource['id_state']!=0) {
+                            $address->id_state = $resource['id_state'];
+                        }
                         $address->save();
 
                         array_push($addresses, $address);

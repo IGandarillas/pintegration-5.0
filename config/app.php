@@ -146,7 +146,7 @@ return [
 		'pintegration\Providers\EventServiceProvider',
 		'pintegration\Providers\RouteServiceProvider',
 
-		'Collective\Html\HtmlServiceProvider',
+		'pintegration\Services\Html\HtmlServiceProvider',
 		'Orchestra\Parser\XmlServiceProvider',
 
 		'Maatwebsite\Excel\ExcelServiceProvider',
@@ -199,7 +199,7 @@ return [
 		'URL'       => 'Illuminate\Support\Facades\URL',
 		'Validator' => 'Illuminate\Support\Facades\Validator',
 		'View'      => 'Illuminate\Support\Facades\View',
-		'Form' => 'Collective\Html\FormFacade',
+		'Form'      => 'Collective\Html\FormFacade',
 		'Html' => 'Collective\Html\HtmlFacade',
 		'PSWebS' => 'PSWebS\PrestaShopWebservice',
 		'Exception' => 'PSWebS\PrestaShopWebserviceException',

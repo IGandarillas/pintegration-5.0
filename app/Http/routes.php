@@ -38,12 +38,15 @@ Route::resource('home','HomeController');
 Route::get('/pipedrive/receipt', ['uses' =>'PipedriveReceip@handlePipedriveReceipt']);
 Route::post('/pipedrive/receipt', ['middleware' => 'auth.basic', 'uses' =>'PipedriveReceipt@handlePipedriveReceipt']);
 Route::get('/pipedrive/receipt', ['uses' =>'PipedriveReceip@handlePipedriveReceipt']);
-Route::get('/initsynchronization', 'SynchronizationController@index');
+Route::get('/sync', 'SynchronizationController@index');
+Route::get('/syncallproducts', 'SynchronizationController@syncallproducts');
+Route::get('/syncallclients', 'SynchronizationController@syncallclients');
+Route::resource('synchronization','SynchronizationController');
+//Route::any('SynchronizationController');
+
 Route::get('logs', 'LogController@index');
-Route::get('/seed', function()
-{
-    pintegration\Console\Commands\SeedPrestashopProducts::handle();
-});
+
+
 //Route::post('/home', 'HomeController@postHome');
 /*
 Route::get('password/email', 'PasswordController@getEmail');

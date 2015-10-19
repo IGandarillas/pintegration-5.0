@@ -391,7 +391,7 @@ class Tools
                         $sleep_time = 10;
                         if($i!=0) {
                             echo "\nTiempo de espera: " . $sleep_time . " segundos \n";
-                            sleep($sleep_time);
+                         //   sleep($sleep_time);
                         }
                         $current = Carbon::now();
                         echo "\nStart at: ".$inicio.' - Last 100 items init reqs hour: '.$anterior.' - current hour is: '. Carbon::now()."\n" ;

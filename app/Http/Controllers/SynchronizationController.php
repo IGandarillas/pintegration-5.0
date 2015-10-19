@@ -8,8 +8,8 @@ use pintegration\Console\Commands\SyncPrestashopClients;
 use pintegration\Console\Commands\SyncPrestashopProducts;
 use pintegration\Http\Requests;
 use pintegration\Http\Controllers\Controller;
-
 use Illuminate\Http\Request;
+use pintegration\User;
 
 class SynchronizationController extends Controller {
 
@@ -23,38 +23,52 @@ class SynchronizationController extends Controller {
 	 */
 	public function index()
 	{
-		$user = Auth::user();
+		$user = User::find(\Auth::id());
 		//$user->now_sync = true;
-		$user->update();
+		//$user->update();
 		//if($user->now_sync) {
 			//Usar queue closure a modo callback en lugar de incluir operaciones en el handle
-			Queue::push(new SyncPrestashopProducts());
-			Queue::push(new SyncAllPrestashopClients());
+			//Queue::push(new SyncPrestashopProducts());
+			//Queue::push(new SyncAllPrestashopClients());
 
-			return redirect('/home')->with([
+		//return view('home.createOrUpdate'
+		return view('synchronization.synchronization',compact('user'));
+			/*return redirect('/home')->with([
 				'OK' => 'Sincronizando...'
-			]);
+			]);*/
 		//}
 	}
 
-	/**
-	 * Show the form for creating a new resource.
-	 *
-	 * @return Response
-	 */
-	public function create()
+	public function syncallproducts()
 	{
-		//
+		$user = User::find(\Auth::id());
+		Queue::push(new SyncPrestashopProducts());
+		return redirect('/sync')->with([
+			'OK' => 'Sincronizando...'
+		]);
 	}
-
+	public function syncallclients()
+	{
+		$user = User::find(\Auth::id());
+		Queue::push(new SyncAllPrestashopClients());
+		return redirect('/sync')->with([
+			'OK' => 'Sincronizando...'
+		]);
+	}
 	/**
 	 * Store a newly created resource in storage.
 	 *
 	 * @return Response
 	 */
-	public function store()
+	public function store(Request $request)
 	{
-		//
+		$user = User::find(\Auth::id());
+		$config = $user->configuration;
+		$config->freq_products = $request->get('freq_products');
+		$config->freq_clients = $request->get('freq_clients');
+		$config->update();
+		return view('synchronization.synchronization',compact('user'));
+
 	}
 
 	/**
@@ -85,10 +99,17 @@ class SynchronizationController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function update($id)
+	public function update(Request $request)
 	{
-		//
+		$user = User::find(\Auth::id());
+		$config = $user->configuration;
+		$config->freq_products = $request->get('freq_products');
+		$config->freq_clients = $request->get('freq_clients');
+		$config->update();
+		return view('synchronization.synchronization',compact('user'));
+
 	}
+
 
 	/**
 	 * Remove the specified resource from storage.

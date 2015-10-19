@@ -217,7 +217,7 @@ class SyncPrestashopProducts extends Command implements SelfHandling,ShouldBeQue
                 $item = Item::firstOrNew($itemIdPrestashop);
 
                 $item->name = $product['name'][0]['value'];
-                $item->code = str_replace(' ','_',strtolower($product['reference']).$product['id']);
+                $item->code = str_replace(' ','_',strtolower($product['reference']));
                 $item->price = $product['price'];
                 $item->save();
                 array_push($items,$item);

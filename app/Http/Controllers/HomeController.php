@@ -111,7 +111,7 @@ class HomeController extends Controller
      */
     public function update(Request $request, $id)
     {
-  
+
         $user = User::find(\Auth::id());
         $user->prestashop_api = $request->get('prestashop_api');
         $user->pipedrive_api = $request->get('pipedrive_api');

@@ -1,5 +1,6 @@
 <?php namespace pintegration\Services;
 
+use pintegration\Configuration;
 use pintegration\User;
 use Validator;
 use Illuminate\Contracts\Auth\Registrar as RegistrarContract;
@@ -29,11 +30,16 @@ class Registrar implements RegistrarContract {
 	 */
 	public function create(array $data)
 	{
-		return User::create([
+
+		$user = new User([
 			'name' => $data['name'],
 			'email' => $data['email'],
 			'password' => bcrypt($data['password']),
 		]);
+		$user->save();
+		$configuration = new Configuration();
+		$configuration = $user->configuration()->save($configuration);
+		return $user;
 	}
 
 }

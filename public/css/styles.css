@@ -1,0 +1,47 @@
+.vertical-center {
+  min-height: 100%;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+.nav-title{
+  padding-top:15px!important;
+  padding-bottom: 0 !important;
+}
+.nav-item{
+  display:block!important;
+
+}
+.nav-subtitle{
+  padding: 2px 0 10px!important;
+  text-align: center;
+}
+#datetimepicker2{
+  width:200px;
+}
+.inline-group{
+  display:inline-flex;
+}
+.btn-width{
+  width: 200px!important;
+}
+.btn-width-sm{
+  width: 150px;
+}
+.inline-group label{
+  width: 150px;
+  margin-top: auto;
+}
+.jumbotron{
+  padding: 10px 15px 10px 15px!important;
+  margin: 10px 0 0 0!important;
+  text-align: center;
+}
+.inside-jumbo{
+  display:flex;
+}
+.align-left{
+  margin-left: 50px;
+}

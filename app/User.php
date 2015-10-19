@@ -40,5 +40,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 	public function itemCount(){
 		return $this->hasOne('pintegration\Item')->selectRaw('id, count(*) as count')->groupBy('id');
 	}
-
+	public function configuration(){
+		return $this->hasOne('pintegration\Configuration');
+	}
 }

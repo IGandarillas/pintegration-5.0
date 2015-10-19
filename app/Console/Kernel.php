@@ -23,6 +23,7 @@ class Kernel extends ConsoleKernel {
 		'pintegration\Console\Commands\SyncAllPrestashopClients',
 		'pintegration\Console\Commands\SyncAllPrestashopAddresses',
 		'pintegration\Console\Commands\SyncPrestashopStates',
+		'pintegration\Console\Commands\SeedFileProducts',
 
 	];
 

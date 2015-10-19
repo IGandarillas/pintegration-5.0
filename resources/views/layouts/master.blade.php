@@ -3,8 +3,13 @@
  <head>
  <meta charset="UTF-8">
  <title>dev.pintegration</title>
-{!! Html::style('assets/css/styles.css') !!}
-{!! Html::style('assets/css/bootstrap.css') !!}
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+  <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+  {!! Html::style(asset('/css/app.css')) !!}
+  {!! Html::style(asset('/css/styles.css')) !!}
+  <script src="{{ asset('/js/vendor.js') }}"></script>
+  {!! Html::style(asset('/css/bootstrap-datetimepicker.min.css')) !!}
  </head>
  <body>
  <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -26,10 +31,10 @@
 
     <ul class="nav navbar-nav navbar-left">
      @if(Auth::check())
-      <li class="nav-item" ><a class="nav-title" href="/products">Productos </a><a class="nav-subtitle"><b>{{\pintegration\Item::count()}}</b></a></li>
+      <li class="nav-item" ><a class="nav-title" href="/products">Productos </a><a class="nav-subtitle"><b><span class="badge">{{\pintegration\Item::count()}}</span></b></a></li>
 
-      <li class="nav-item" ><a class="nav-title">Clientes / Direcciones </a><a class="nav-subtitle"><b>{{\pintegration\Client::count()}} / {{\pintegration\Direccion::count()}}</b></a></li>
-      <li><a href="/initsynchronization">Sincronizar</a></li>
+      <li class="nav-item" ><a class="nav-title">Clientes / Direcciones </a><a class="nav-subtitle"><b><span class="badge">{{\pintegration\Client::count()}} / {{\pintegration\Direccion::count()}}</span></b></a></li>
+      <li><a href="/sync">Sincronizar</a></li>
       <li><a href="/logs">Logs</a></li>
      @endif
     </ul>
@@ -42,7 +47,7 @@
       <li><a href="/auth/login">Entra</a></li>
       <li><a href="/auth/register">Crear cuenta</a></li>
       @endif
-      </li>
+
     </ul>
    </div>
 

@@ -2,7 +2,7 @@
 
 namespace pintegration\Http\Controllers;
 
-use Illuminate\Routing\Controller;
+use pintegration\Http\Controllers\Controller;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Input;
