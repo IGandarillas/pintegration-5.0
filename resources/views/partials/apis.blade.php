@@ -26,6 +26,6 @@
 			 {!! Form::text('address_field', null ,array('class'=>'form-control text-', 'placeholder'=>'Ex: 57cda8344ed4defb3ad99df35e755b8cfc64c248')) !!}
 		 </div>
 		 <div class="form-group text-center">
-			 {!! Form::submit('Guardar', array('class'=>' btn btn-primary btn-lg')) !!}
+			 {!! Form::submit('Guardar', array('class'=>' btn btn-primary btn-md')) !!}
 		 </div>
 

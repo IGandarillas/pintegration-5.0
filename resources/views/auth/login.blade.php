@@ -5,7 +5,7 @@
 	<div class="row vertical-center ">
 		 <div class="col-md-6 ">
 		 {!! Form::open(array('url' => '/auth/login', 'class' => 'form')) !!}
-		 <h1>Integración PipeDrive-Prestashop</h1>
+		 <h3>Integración PipeDrive-Prestashop</h3>
 		 @if (count($errors) > 0)
 			 <div class="alert alert-danger">
 				 Errores:
@@ -34,7 +34,7 @@
 		 </div>
 
 		 <div class="form-group text-center">
-			 {!! Form::submit('Entra', array('class'=>' btn btn-primary btn-lg')) !!}
+			 {!! Form::submit('Entra', array('class'=>' btn btn-primary btn-md')) !!}
 		 </div>
 
 		 
