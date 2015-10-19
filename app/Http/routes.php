@@ -38,9 +38,13 @@ Route::resource('home','HomeController');
 Route::get('/pipedrive/receipt', ['uses' =>'PipedriveReceip@handlePipedriveReceipt']);
 Route::post('/pipedrive/receipt', ['middleware' => 'auth.basic', 'uses' =>'PipedriveReceipt@handlePipedriveReceipt']);
 Route::get('/pipedrive/receipt', ['uses' =>'PipedriveReceip@handlePipedriveReceipt']);
+
 Route::get('/sync', 'SynchronizationController@index');
-Route::get('/syncallproducts', 'SynchronizationController@syncallproducts');
-Route::get('/syncallclients', 'SynchronizationController@syncallclients');
+Route::put('/syncproductssince/{id}', array('as' => 'synchronization.syncproductssince', 'uses' => 'SynchronizationController@syncproductssince'));
+Route::get('/syncallproducts/', array('as' => 'synchronization.syncallproducts', 'uses' => 'SynchronizationController@syncallproducts'));
+Route::put('/syncclientssince/{id}', array('as' => 'synchronization.syncclientssince', 'uses' => 'SynchronizationController@syncclientssince'));
+Route::get('/syncallclients/', array('as' => 'synchronization.syncallclients', 'uses' => 'SynchronizationController@syncallclients'));
+
 Route::resource('synchronization','SynchronizationController');
 //Route::any('SynchronizationController');
 

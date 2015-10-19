@@ -39,10 +39,25 @@ class SynchronizationController extends Controller {
 		//}
 	}
 
+	public function syncproductssince($id,Request $request)
+	{
+		$user = User::find(\Auth::id());
+		Queue::push(new SyncPrestashopProducts('3',array('datetime'=>$request->get('last_products_sync'),'user_id'=>$id)));
+		return redirect('/sync')->with([
+			'OK' => 'Sincronizando...'
+		]);
+	}
 	public function syncallproducts()
 	{
 		$user = User::find(\Auth::id());
-		Queue::push(new SyncPrestashopProducts());
+		Queue::push(new SyncPrestashopProducts('1',array('user_id'=>$user->id)));
+		return redirect('/sync')->with([
+			'OK' => 'Sincronizando...'
+		]);
+	}
+	public function syncclientssince($id,Request $request){
+		$user = User::find(\Auth::id());
+		Queue::push(new SyncAllPrestashopClients('3',array('datetime'=>$request->get('last_clients_sync'),'user_id'=>$id)));
 		return redirect('/sync')->with([
 			'OK' => 'Sincronizando...'
 		]);
@@ -50,7 +65,7 @@ class SynchronizationController extends Controller {
 	public function syncallclients()
 	{
 		$user = User::find(\Auth::id());
-		Queue::push(new SyncAllPrestashopClients());
+		Queue::push(new SyncAllPrestashopClients('1',array('user_id'=>$user->id)));
 		return redirect('/sync')->with([
 			'OK' => 'Sincronizando...'
 		]);

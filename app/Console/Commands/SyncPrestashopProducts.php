@@ -9,6 +9,7 @@ use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Contracts\Queue\ShouldBeQueued;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use pintegration\User;
 use pintegration\Item;
@@ -38,8 +39,17 @@ class SyncPrestashopProducts extends Command implements SelfHandling,ShouldBeQue
      *
      * @return void
      */
-    public function __construct()
+    const ALL_EVERY_USER = 0; //Sync all products for all users.
+    const ALL_AUTH_USER = 1;//Sync all products for auth user.
+    const SINCE_DATE_EVERY_USER = 2; //Sync a set of products for all user.
+    const SINCE_DATE_AUTH_USER = 3; //Sync a set of products for auth user.
+    public $flag;
+    public $values;
+    public function __construct($flag = self::ALL_EVERY_USER,$values = null)
     {
+
+        $this->flag=$flag;
+        $this->values = $values;
         parent::__construct();
     }
 
@@ -50,18 +60,64 @@ class SyncPrestashopProducts extends Command implements SelfHandling,ShouldBeQue
      */
     public function handle()
     {
-        if(User::count()>0){
-            $users = User::all();
-            foreach ($users as $user) {
-                if(isset($user->prestashop_url,$user->prestashop_api,$user->pipedrive_api)) {
-                    $date = Carbon::now()->addHours(2);
-                    $this->getAllProducts($user);
-                    $user->last_products_sync = $date;
-                    $user->update();
-                }
-            }
 
+        switch($this->flag){
+            case (self::SINCE_DATE_EVERY_USER):
+
+                if(User::count()>0){
+                    $users = User::all();
+                    foreach ($users as $user) {
+                        if(isset($user->prestashop_url,$user->prestashop_api,$user->pipedrive_api)) {
+                            $date = Carbon::now()->addHours(2);
+                            $this->getAllProducts($user);
+                            $user->last_products_sync = $date;
+                            $user->update();
+                        }
+                    }
+                }
+            break;
+            case (self::SINCE_DATE_AUTH_USER):
+                //dd($this->flag.' bien '.$this->value);
+
+                    $user = User::find($this->values['user_id']);
+
+                        if(isset($user->prestashop_url,$user->prestashop_api,$user->pipedrive_api)) {
+                            $date = Carbon::now()->addHours(2);
+                            $this->getAllProducts($user);
+                            $user->last_products_sync = $date;
+                            $user->update();
+                        }
+
+                break;
+            case (self::ALL_AUTH_USER):
+
+                if(isset( $this->values['user_id'])){
+                    $user = User::find($this->values['user_id']);
+
+                    if(isset($user->prestashop_url,$user->prestashop_api,$user->pipedrive_api)) {
+                        $date = Carbon::now()->addHours(2);
+                        $this->getAllProducts($user);
+                        $user->last_products_sync = $date;
+                        $user->update();
+                    }
+                }
+                break;
+            case (self::ALL_EVERY_USER ):
+                if(User::count()>0){
+                    $users = User::all();
+                    foreach ($users as $user) {
+                        if(isset($user->prestashop_url,$user->prestashop_api,$user->pipedrive_api)) {
+                            $date = Carbon::now()->addHours(2);
+                            $this->getAllProducts($user);
+                            $user->last_products_sync = $date;
+                            $user->update();
+                        }
+                    }
+                }
+            break;
+            default:
         }
+
     }
 
     public function getProducts($user){
@@ -188,6 +244,7 @@ class SyncPrestashopProducts extends Command implements SelfHandling,ShouldBeQue
         }
     }
     public function getAllProducts($user){
+
         $totalCount = 0;
         $chunk = 1000;
         $start=0;
@@ -199,12 +256,20 @@ class SyncPrestashopProducts extends Command implements SelfHandling,ShouldBeQue
             $opt['display'] = '[id,reference,price,name]';
             $opt['limit'] = $start.','.$chunk;
             $opt['output_format'] = 'JSON';
+           // dd($this->flag . ' bien ' . $this->value);
+
+            if( $this->flag == self::SINCE_DATE_AUTH_USER || $this->flag == self::SINCE_DATE_EVERY_USER) {
+                if (isset($this->values['datetime'])) {
+                    $opt['filter[date_upd]'] = '>[' . $this->values['datetime'] . ']';
+                }
+            }
             try {
                 $json = $webService->get($opt);
             }catch(PrestaShopWebserviceException $e){
                 echo $e->getMessage();
             }
             $json = json_decode($json,true);
+
             if( count($json['products']) < $chunk )
                 $exit=true;
             $count=0;

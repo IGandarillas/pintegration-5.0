@@ -31,9 +31,16 @@ class SyncAllPrestashopAddresses extends Command
      *
      * @return void
      */
-
-    public function __construct()
+    const ALL_EVERY_USER = 0; //Sync all products for all users.
+    const ALL_AUTH_USER = 1;//Sync all products for auth user.
+    const SINCE_DATE_EVERY_USER = 2; //Sync a set of products for all user.
+    const SINCE_DATE_AUTH_USER = 3; //Sync a set of products for auth user.
+    public $flag;
+    public $values;
+    public function __construct($flag = self::ALL_EVERY_USER,$values = null)
     {
+        $this->flag=$flag;
+        $this->values = $values;
         parent::__construct();
     }
 
@@ -44,20 +51,59 @@ class SyncAllPrestashopAddresses extends Command
      */
     public function handle()
     {
-        if(User::count()>0){
-            $users = User::all();
-            foreach ($users as $user) {
+        switch($this->flag){
+            case (self::SINCE_DATE_EVERY_USER):
+
+                if(User::count()>0){
+                    $users = User::all();
+                    foreach ($users as $user) {
+                        if(isset($user->prestashop_url,$user->prestashop_api,$user->pipedrive_api)) {
+                            $date = Carbon::now()->addHours(2);
+                            $this->getAddresses($user);
+                            $user->last_addresses_sync = $date;
+                            $user->update();
+                        }
+                    }
+                }
+                break;
+            case (self::SINCE_DATE_AUTH_USER):
+                //dd($this->flag.' bien '.$this->value);
+                $user = User::find($this->values['user_id']);
                 if(isset($user->prestashop_url,$user->prestashop_api,$user->pipedrive_api)) {
                     $date = Carbon::now()->addHours(2);
-
                     $this->getAddresses($user);
                     $user->last_addresses_sync = $date;
                     $user->update();
                 }
 
-                //$bar->advance();
-            }
-            //$bar->finish();
+                break;
+            case (self::ALL_AUTH_USER):
+
+                if(isset( $this->values['user_id'])){
+                    $user = User::find($this->values['user_id']);
+
+                    if(isset($user->prestashop_url,$user->prestashop_api,$user->pipedrive_api)) {
+                        $date = Carbon::now()->addHours(2);
+                        $this->getAddresses($user);
+                        $user->last_addresses_sync = $date;
+                        $user->update();
+                    }
+                }
+                break;
+            case (self::ALL_EVERY_USER ):
+                if(User::count()>0){
+                    $users = User::all();
+                    foreach ($users as $user) {
+                        if(isset($user->prestashop_url,$user->prestashop_api,$user->pipedrive_api)) {
+                            $date = Carbon::now()->addHours(2);
+                            $this->getAddresses($user);
+                            $user->last_addresses_sync = $date;
+                            $user->update();
+                        }
+                    }
+                }
+                break;
+            default:
         }
     }
     public function getAddresses($user){
@@ -74,7 +120,11 @@ class SyncAllPrestashopAddresses extends Command
             $opt['display'] = '[id,id_customer,address1,postcode,city,id_country,id_state]';
             $opt['limit'] = $start . ',' . $chunk;
             $opt['output_format'] = 'JSON';
-            // Call
+            if( $this->flag == self::SINCE_DATE_AUTH_USER || $this->flag == self::SINCE_DATE_EVERY_USER) {
+                if (isset($this->values['datetime'])) {
+                    $opt['filter[date_upd]'] = '>[' . $this->values['datetime'] . ']';
+                }
+            }
 
         try{
             $json = $webService->get($opt);

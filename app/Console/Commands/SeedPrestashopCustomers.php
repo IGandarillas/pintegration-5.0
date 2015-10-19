@@ -39,7 +39,7 @@ class SeedPrestashopCustomers extends Command
     }
     public function handle()
     {
-        $this->getClients('1');
+        $this->getClients('3');
     }
     public function getClients($user_id){
         for($i=0;$i<100000;$i++){
