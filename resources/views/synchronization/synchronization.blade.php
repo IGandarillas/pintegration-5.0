@@ -19,13 +19,13 @@
 
                         <div class="form-group">
                             <div class="inline-group">
-                                {!! Form::submit('Sincronizar productos', array('class' => 'btn btn-default btn-width')) !!}
                                 <div class='input-group date datetimepicker' >
                                     {!! Form::datetime('last_products_sync',null,array('type'=>'text', 'class'=>"form-control")) !!}
                                     <span class="input-group-addon">
-                                    <span class="glyphicon glyphicon-calendar"></span>
-                                </span>
+                                        <span class="glyphicon glyphicon-calendar"></span>
+                                    </span>
                                 </div>
+                                {!! Form::submit('Sincronizar productos', array('class' => 'btn btn-default btn-width')) !!}
                             </div>
                         </div>
                         {!! Form::close() !!}
@@ -40,13 +40,13 @@
 
                         <div class="form-group">
                             <div class="inline-group ">
-                                {!! Form::submit('Sincronizar clientes',array('class' => 'btn btn-default btn-width')) !!}
                                 <div class='input-group date datetimepicker' >
                                     {!! Form::datetime('last_clients_sync',null,array('type'=>'text', 'class'=>"form-control")) !!}
                                     <span class="input-group-addon">
                                     <span class="glyphicon glyphicon-calendar"></span>
                                 </span>
                                 </div>
+                                {!! Form::submit('Sincronizar clientes',array('class' => 'btn btn-default btn-width')) !!}
                             </div>
                         </div>
                                 {!! Form::close() !!}
@@ -96,7 +96,7 @@
                 </div>
                 <div class="row">
                     <div class='col-sm-6 col-sm-offset-3'>
-                        <h5>Todos. (Es recomendable utilizarlo solo la primeara vez. 200000 productos ~ 7 horas)</h5>
+                        <h5>Todos. (Es recomendable utilizarlo solo la primera vez. 200000 productos ~ 7 horas)</h5>
                         <div class="jumbotron">
                             <div class="form-group">
                                 {!! link_to_route('synchronization.syncallproducts','Sincronizar productos',null,array('class' => 'btn btn-default')) !!}

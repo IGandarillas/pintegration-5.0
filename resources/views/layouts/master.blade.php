@@ -31,7 +31,7 @@
 
     <ul class="nav navbar-nav navbar-left">
      @if(Auth::check())
-      <li class="nav-item" ><a class="nav-title" href="/products">Productos </a><a class="nav-subtitle"><b><span class="badge">{{\pintegration\Item::count()}}</span></b></a></li>
+      <li class="nav-item" ><a class="nav-title" >Productos </a><a class="nav-subtitle"><b><span class="badge">{{\pintegration\Item::count()}}</span></b></a></li>
 
       <li class="nav-item" ><a class="nav-title">Clientes / Direcciones </a><a class="nav-subtitle"><b><span class="badge">{{\pintegration\Client::count()}} / {{\pintegration\Direccion::count()}}</span></b></a></li>
       <li><a href="/sync">Sincronizar</a></li>

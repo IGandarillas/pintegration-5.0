@@ -15,8 +15,6 @@
 Route::get('/', ['as' => 'login', 'uses'=>'Auth\AuthController@getLogin' ] );
 Route::get('/home', 'HomeController@index');
 
-Route::get('/products', 'FileEntryController@getProducts');
-Route::post('/products', 'FileEntryController@postProducts');
 
 Route::get('auth/register', 'Auth\AuthController@getRegister');
 Route::post('auth/register', 'Auth\AuthController@postRegister');
