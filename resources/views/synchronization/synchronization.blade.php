@@ -98,7 +98,7 @@
                 </div>
                 <div class="row">
                     <div class='col-sm-6 col-sm-offset-3'>
-                        <h5>Todos. (Es recomendable utilizarlo solo la primera vez. 200000 productos ~ 7 horas)</h5>
+                        <h5>Todo. (200000 productos ~ 7 horas)</h5>
                         <div class="jumbotron">
                             <div class="form-group">
                                 {!! link_to_route('synchronization.syncallproducts','Sincronizar productos',null,array('class' => 'btn btn-default')) !!}

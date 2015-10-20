@@ -48,13 +48,15 @@ class Kernel extends ConsoleKernel {
 			//Change this, not optimum.
 			if($freq_products != 0)
 			$schedule->call(function () {
-				new SyncPrestashopProducts(2);
+				$sync = new SyncPrestashopProducts(2);
+				$sync->handle();
 				Log::info('a');
 			})->cron($cron_options[$freq_products]);
 			Log::info('b');
 			if($freq_clients != 0)
 			$schedule->call(function () {
-				new SyncAllPrestashopClients(2);
+				$sync = new SyncAllPrestashopClients(2);
+				$sync->handle();
 				Log::info('c');
 			})->cron($cron_options[$freq_clients]);
 			Log::info('d');
