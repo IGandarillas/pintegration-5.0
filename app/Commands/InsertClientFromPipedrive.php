@@ -38,8 +38,12 @@ class InsertClientFromPipedrive extends Command implements SelfHandling, ShouldB
 
         $dealId = $this->request['current']['id'];
         $orderData = $this->getOrderData($dealId);
-        $tools->addCart($client,$orderData);
-        //$tools->addOrder($client,$orderData);
+        $idCart = $tools->addCart($client,$orderData);
+        if(isset($idCart) && $idCart != 0 && $idCart != NULL){
+            Log::info('Added cart => id: '.$idCart."\n Client => name: ".$client->firstname.' '.$client->lastname);
+        }else{
+            Log::warning("Not added cart. Client => id: ".$client->firstname.' '.$client->lastname);
+        }
         error_log("FIN");
 
     }

@@ -2,6 +2,10 @@
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use Illuminate\Support\Facades\Log;
+use pintegration\Console\Commands\SyncAllPrestashopClients;
+use pintegration\Console\Commands\SyncPrestashopProducts;
+use pintegration\User;
 
 class Kernel extends ConsoleKernel {
 
@@ -28,9 +32,34 @@ class Kernel extends ConsoleKernel {
 	 */
 	protected function schedule(Schedule $schedule)
 	{
+		$cron_options = array(
+			'0' => '0',
+			'1' => '*/1 * * * * *',
+			'2' => '*/5 * * * * *',
+			'3' => '0 * * * * *',
+			'4' => '0 0 * * * *',
+			'5' => '0 0 * * 0 *',
+			'6' => '0 0 1 * * *'
+		);
+		$users = User::all();
+		foreach($users as $user) {
+			$freq_products = $user->configuration->freq_products;
+			$freq_clients = $user->configuration->freq_clients;
+			//Change this, not optimum.
+			$schedule->call(function () {
+				new SyncPrestashopProducts(2);
+				Log::info('a');
+			})->cron($cron_options[$freq_products]);
+			Log::info('b');
+			$schedule->call(function () {
+				new SyncAllPrestashopClients(2);
+				Log::info('c');
+			})->cron($cron_options[freq_clients]);
+			Log::info('d');
+		}
 		//$schedule->command('command:syncpsproducts')
 		//	->cron('* * * * *');
-		//$schedule->command('command:syncpsclients')
+		//$schedule->command('command:syncallpsclients')
 		//	->cron('* * * * *');
 		//$schedule->command('command:syncpsaddresses')
 		///	->cron('* * * * *');
