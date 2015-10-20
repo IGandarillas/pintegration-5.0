@@ -84,9 +84,11 @@
                                 [
                                     '0' => 'Nunca',
                                     '1' => 'Cada minuto',
-                                    '2' => 'Cada dia',
-                                    '3' => 'Cada semana',
-                                    '4' => 'Cada mes'
+                                    '2' => 'Cada 5 minutos',
+                                    '3' => 'Cada hora',
+                                    '4' => 'Cada dia',
+                                    '5' => 'Cada semana',
+                                    '6' => 'Cada mes'
                                  ],$user->configuration->freq_clients,array('class'=>"btn-width btn btn-default align-left")) !!}
                             </div>
                             <div class="form-group text-center">

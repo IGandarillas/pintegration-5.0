@@ -32,6 +32,10 @@ class Kernel extends ConsoleKernel {
 	 */
 	protected function schedule(Schedule $schedule)
 	{
+		$schedule->call(function (){
+			Log::info('a');
+		})->everyFiveMinutes();
+		/*
 		$cron_options = array(
 			'0' => '0',
 			'1' => '*/1 * * * * *',
@@ -60,6 +64,7 @@ class Kernel extends ConsoleKernel {
 				Log::info('c');
 			})->cron($cron_options[$freq_clients]);
 			Log::info('d');
+			*/
 		}
 		//$schedule->command('command:syncpsproducts')
 		//	->cron('* * * * *');
