@@ -313,7 +313,6 @@ class SyncPrestashopProducts extends Command implements SelfHandling,ShouldBeQue
             $option['data']  = $this->fillProductPipedrive($item,$user);
             $option['id'] = $item->id;
             if ($item->id_item_pipedrive != NULL) {
-
                 $option['url'] = 'https://api.pipedrive.com/v1/products/' . $item->id_item_pipedrive . '?api_token=' . $user->pipedrive_api;
                 $option['verb'] = 'PUT';
                 array_push($options, $option);

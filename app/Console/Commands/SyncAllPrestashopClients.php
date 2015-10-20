@@ -156,9 +156,7 @@ class SyncAllPrestashopClients extends Command implements SelfHandling, ShouldBe
 						);
 
 					$item = Client::firstOrNew($clientIdPrestashop);
-
 					$item->id_client_prestashop = $customer['id'];
-
 					$item->firstname = $customer['firstname'];
 					$item->lastname = $customer['lastname'];
 					$item->password = $customer['passwd'];
@@ -167,7 +165,7 @@ class SyncAllPrestashopClients extends Command implements SelfHandling, ShouldBe
 					$item->save();
 						array_push($items,$item);
 
-					$exit=true;
+
 					if($totalCount%100==0){
 						Log::info("Total:".$exit." ".$totalCount." Last client name: ".$item->firstname.' '.$item->lastname);
 						if($start!=0)
@@ -245,9 +243,9 @@ class SyncAllPrestashopClients extends Command implements SelfHandling, ShouldBe
 		foreach($items as $item) {
 			$option['data']  = $this->fillClientsPipedrive($item);
 			$option['id'] = $item->id;
-			if ($item->id_item_pipedrive != NULL) {
+			if ($item->id_client_pipedrive != NULL) {
 
-				$option['url'] = 'https://api.pipedrive.com/v1/persons/' . $item->id_item_pipedrive . '?api_token=' . $user->pipedrive_api;
+				$option['url'] = 'https://api.pipedrive.com/v1/persons/' . $item->id_client_pipedrive . '?api_token=' . $user->pipedrive_api;
 				$option['verb'] = 'PUT';
 				array_push($options, $option);
 			}else {

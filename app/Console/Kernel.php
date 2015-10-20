@@ -11,19 +11,12 @@ class Kernel extends ConsoleKernel {
 	 * @var array
 	 */
 	protected $commands = [
-		'pintegration\Console\Commands\SyncPrestashopClients',
 		'pintegration\Console\Commands\SyncPrestashopProducts',
-		'pintegration\Console\Commands\SyncPrestashopAddresses',
-		'pintegration\Console\Commands\PsCreateOneClient',
-		'pintegration\Console\Commands\PdCreateProducts',
-		'pintegration\Console\Commands\PdDeleteProducts',
-		'pintegration\Console\Commands\Prueba',
-		'pintegration\Console\Commands\SeedPrestashopCustomers',
-		'pintegration\Console\Commands\SeedPrestashopProducts',
 		'pintegration\Console\Commands\SyncAllPrestashopClients',
 		'pintegration\Console\Commands\SyncAllPrestashopAddresses',
 		'pintegration\Console\Commands\SyncPrestashopStates',
-		'pintegration\Console\Commands\SeedFileProducts',
+		'pintegration\Console\Commands\Seeders\SeedPrestashopCustomers',
+
 
 	];
 

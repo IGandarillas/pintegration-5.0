@@ -1,6 +1,6 @@
 <?php
 
-namespace pintegration\Console\Commands;
+namespace pintegration\Console\Commands\Seeders;
 
 use Carbon\Carbon;
 use Illuminate\Console\Command;
@@ -39,10 +39,11 @@ class SeedPrestashopCustomers extends Command
     }
     public function handle()
     {
-        $this->getClients('3');
+        $this->getClients('1');
     }
     public function getClients($user_id){
-        for($i=0;$i<100000;$i++){
+        for($i=0;$i<4872;$i++){
+            echo $i."\n";
             $faker = Faker\Factory::create();
             $tools = new Tools($user_id);
             $client = new Client();
