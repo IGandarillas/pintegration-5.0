@@ -52,16 +52,19 @@ class InsertClientFromPipedrive extends Command implements SelfHandling, ShouldB
         $faker = Faker\Factory::create();
 
         if($this->isAddress($clientData)) {
-            $newClient = new Client();
+            $clientIdPipedrive= array(
+                'id_client_pipedrive' => $newClientId,
+                'user_id' => $this->user_id
+            );
+            $newClient = Client::firstOrNew($clientIdPipedrive);
             $newClient->firstname = $clientData['data']['first_name'];
             $newClient->lastname = $clientData['data']['last_name'];
             $newClient->email = $clientData['data']['email'][0]['value'];
             $newClient->password = $faker->password(6,10);
             $newClient->id_client_pipedrive = $newClientId;
-            $newClient->user_id = $this->user_id;
             $newClient->save();
             error_log('cliente creado');
-            if($this->isCompleteAddress($clientData)) {
+            if($this->isCompleteAddress($clientData)) {-
                 $this->createAddress($newClient, $clientData);
             }
             return $newClient;
@@ -75,7 +78,7 @@ class InsertClientFromPipedrive extends Command implements SelfHandling, ShouldB
         $address->country = $clientData['data'][$this->user->address_field.'_country'];
         $address->postcode = $clientData['data'][$this->user->address_field.'_postal_code'];
         $address->city = $clientData['data'][$this->user->address_field.'_locality'];
-        $address->id_state = $this->getState($clientData);
+        //$address->id_state = $this->getState($clientData);
         error_log($address->city);
         error_log($address->client_id);
         $address->save();
@@ -108,9 +111,13 @@ class InsertClientFromPipedrive extends Command implements SelfHandling, ShouldB
     protected function getState($clientData){
         $state = $clientData['data'][$this->user->address_field.'_admin_area_level_1'];
         if( $state != NULL ){
-            $idState = State::whereName($state)->first()->id_prestashop;
-            if(isset($idState) && $idState != NULL)
-                return $idState;
+            try {
+                $idState = State::whereName($state)->first()->id_prestashop;
+                if (isset($idState) && $idState != NULL)
+                    return $idState;
+            }catch(\PDOException $e){
+                return 0;
+            }
         }
         return 0;
     }

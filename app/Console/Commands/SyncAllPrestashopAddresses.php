@@ -117,7 +117,7 @@ class SyncAllPrestashopAddresses extends Command
             $webService = new PrestaShopWebservice($user->prestashop_url, $user->prestashop_api, false);
             // Here we set the option array for the Webservice : we want customers resources
             $opt['resource'] = 'addresses';
-            $opt['display'] = '[id,id_customer,address1,postcode,city,id_country,id_state]';
+            $opt['display'] = '[id,id_customer,address1,postcode,city,id_country]';
             $opt['limit'] = $start . ',' . $chunk;
             $opt['output_format'] = 'JSON';
             if( $this->flag == self::SINCE_DATE_AUTH_USER || $this->flag == self::SINCE_DATE_EVERY_USER) {
@@ -152,9 +152,9 @@ class SyncAllPrestashopAddresses extends Command
                         $address->postcode = $resource['postcode'];
                         $address->city = $resource['city'];
                         $address->country = $resource['id_country'];
-                        if($resource['id_state']!=0) {
+                        /*if($resource['id_state']!=0) {
                             $address->id_state = $resource['id_state'];
-                        }
+                        }*/
                         $address->save();
 
                         array_push($addresses, $address);

@@ -109,8 +109,8 @@ class SyncAllPrestashopClients extends Command implements SelfHandling, ShouldBe
 				break;
 			default:
 		}
-			$states = new SyncPrestashopStates();
-			$states->handle();
+			//$states = new SyncPrestashopStates();
+			//$states->handle();
 			$addresses = new SyncAllPrestashopAddresses($this->flag,$this->values);
 			$addresses->handle();
 

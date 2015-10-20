@@ -50,8 +50,8 @@ class PipedriveReceipt extends Controller
             $clientIdPipedrive= array(
                 'id_client_pipedrive' => $req['current']['person_id']
             );
-
-            if(  Client::whereIdClientPipedrive($clientIdPipedrive)->first() != null  ){
+            $client = Client::whereIdClientPipedrive($clientIdPipedrive)->first();
+            if(  $client != null && $client->id_client_prestashop != null ){
                 $task= new UpdateClientFromPipedrive($req, Auth::user()->id);
                 error_log("Job Update");
                 Queue::push($task);

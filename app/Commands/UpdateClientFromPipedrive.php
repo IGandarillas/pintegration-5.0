@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\Log;
 use Monolog\Handler\NullHandlerTest;
 use pintegration\Client;
 use Illuminate\Support\Facades\Artisan;
-use pintegration\State;
 use pintegration\User;
 use Symfony\Component\Finder\Shell\Command;
 use Tools\Tools;
@@ -49,7 +48,7 @@ class UpdateClientFromPipedrive extends Command implements SelfHandling, ShouldB
 
 			$dealId = $this->request['current']['id'];
 			$orderData = $this->getOrderData($dealId);
-			 $tools->addCart($client,$orderData);
+			$idCart= $tools->addCart($client,$orderData);
 
 			if(isset($idCart) && $idCart != 0 && $idCart != NULL){
 				Log::info('Added cart => id: '.$idCart."\n Client => id: ".$client->firstname.' '.$client->lastname);
@@ -98,7 +97,7 @@ class UpdateClientFromPipedrive extends Command implements SelfHandling, ShouldB
 				$dir->country = $clientData['data'][$this->user->address_field . '_country'];
 				$dir->postcode = $clientData['data'][$this->user->address_field . '_postal_code'];
 				$dir->city = $clientData['data'][$this->user->address_field . '_locality'];
-				$dir->id_state = $this->getState($clientData);
+				//$dir->id_state = $this->getState($clientData);
 				$dir->save();
 			}
 			return $updateClient;
