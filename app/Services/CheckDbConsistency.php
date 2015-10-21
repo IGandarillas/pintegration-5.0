@@ -22,7 +22,7 @@ class CheckDbConsistency{
             'user_id' => $userId
         );
         foreach(Item::where($nullItemsPipedrive)->get() as $product){
-            Log::info($product->id_item_prestashop);
+            //Log::info($product->id_item_prestashop);
                 array_push($products,$product->id_item_prestashop);
         }
         if(count($products)>0)

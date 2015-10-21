@@ -121,7 +121,7 @@ class SyncPrestashopProducts extends Command implements SelfHandling,ShouldBeQue
                         $user = User::find($this->values['user_id']);
                         $dbConsistency = new CheckDbConsistency();
                         $products = $dbConsistency->products($user->id);
-                        Log::info($products);
+                        //Log::info($products);
                         $tries=0;
                         while ($tries++ < 3){
                             if($products != 0) {
