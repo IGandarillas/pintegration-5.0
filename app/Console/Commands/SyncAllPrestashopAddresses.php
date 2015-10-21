@@ -134,11 +134,12 @@ class SyncAllPrestashopAddresses extends Command
         }
 
             $resources = json_decode($json,true);
-            $itemsCount = count($resources['addresses']);
-            if( $itemsCount < $chunk )
-                $exit=true;
+            if(isset($resources['addresses'])) {
+                $itemsCount = count($resources['addresses']);
+                if ($itemsCount < $chunk)
+                    $exit = true;
 
-            foreach ($resources['addresses'] as $resource) {
+                foreach ($resources['addresses'] as $resource) {
                     $totalCount++;
                     $client = Client::whereIdClientPrestashop($resource['id_customer'])->first();
 
@@ -158,21 +159,21 @@ class SyncAllPrestashopAddresses extends Command
                         $address->save();
 
                         array_push($addresses, $address);
-                        if($totalCount%100==0){
-                            Log::info("Total:".$exit." ".$totalCount." Last address: ".$address->address1);
-                            if($start!=0)
+                        if ($totalCount % 100 == 0) {
+                            Log::info("Total:" . $exit . " " . $totalCount . " Last address: " . $address->address1);
+                            if ($start != 0)
                                 sleep(10);
                             $this->addAddressesToPipedrive($user, $addresses);
                             $addresses = array();
-                        }
-                        else if($exit && $resources['addresses'][$itemsCount-1]['id']==$resource['id']){
-                            Log::info("Total:".$exit." ".$totalCount." Last address: ".$address->address1);
-                            if($start!=0)
+                        } else if ($exit && $resources['addresses'][$itemsCount - 1]['id'] == $resource['id']) {
+                            Log::info("Total:" . $exit . " " . $totalCount . " Last address: " . $address->address1);
+                            if ($start != 0)
                                 sleep(10);
                             $this->addAddressesToPipedrive($user, $addresses);
                             $addresses = array();
                         }
                     }
+                }
             }
             $start += $chunk;
 

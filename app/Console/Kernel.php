@@ -56,7 +56,6 @@ class Kernel extends ConsoleKernel {
 			$schedule->call(function () {
 				Queue::push(new SyncAllPrestashopClients(2));
 			})->cron($cron_options[$freq_clients]);
-			Log::info('d');
 		}
 		//$schedule->command('command:syncpsproducts')
 		//	->cron('* * * * *');

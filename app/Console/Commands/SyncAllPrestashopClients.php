@@ -144,16 +144,17 @@ class SyncAllPrestashopClients extends Command implements SelfHandling, ShouldBe
 				echo $e->getTrace();
 			}
 			$json = json_decode($json,true);
-			$itemsCount = count($json['customers']);
-			if( $itemsCount < $chunk )
-				$exit=true;
+			if(isset($resources['customers'])) {
+				$itemsCount = count($json['customers']);
+				if ($itemsCount < $chunk)
+					$exit = true;
 
 				foreach ($json['customers'] as $customer) {
 					$totalCount++;
-						$clientIdPrestashop = array(
-							'id_client_prestashop' => $customer['id'],
-							'user_id' => $user->id
-						);
+					$clientIdPrestashop = array(
+						'id_client_prestashop' => $customer['id'],
+						'user_id' => $user->id
+					);
 
 					$item = Client::firstOrNew($clientIdPrestashop);
 					$item->id_client_prestashop = $customer['id'];
@@ -163,19 +164,18 @@ class SyncAllPrestashopClients extends Command implements SelfHandling, ShouldBe
 					$item->secure_key = $customer['secure_key'];
 					$item->email = $customer['email'];
 					$item->save();
-						array_push($items,$item);
+					array_push($items, $item);
 
 
-					if($totalCount%100==0){
-						Log::info("Total:".$exit." ".$totalCount." Last client name: ".$item->firstname.' '.$item->lastname);
-						if($start!=0)
+					if ($totalCount % 100 == 0) {
+						Log::info("Total:" . $exit . " " . $totalCount . " Last client name: " . $item->firstname . ' ' . $item->lastname);
+						if ($start != 0)
 							sleep(10);
 						$this->addClientsToPipedrive($user, $items);
 						$items = array();
-					}
-					else if($exit && $json['customers'][$itemsCount-1]['id']==$customer['id']){
-						Log::info("Total:".$exit." ".$totalCount." Last client name: ".$item->firstname.' '.$item->lastname);
-						if($start!=0)
+					} else if ($exit && $json['customers'][$itemsCount - 1]['id'] == $customer['id']) {
+						Log::info("Total:" . $exit . " " . $totalCount . " Last client name: " . $item->firstname . ' ' . $item->lastname);
+						if ($start != 0)
 							sleep(10);
 
 						$this->addClientsToPipedrive($user, $items);
@@ -183,6 +183,7 @@ class SyncAllPrestashopClients extends Command implements SelfHandling, ShouldBe
 					}
 
 				}
+			}
 				$start += $chunk;
 		}
 	}
