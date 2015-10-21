@@ -184,7 +184,6 @@ class SyncAllPrestashopClients extends Command implements SelfHandling, ShouldBe
 
 				}
 			}else{
-				Log::error('Algo fallo.');
 				$exit = true;
 			}
 

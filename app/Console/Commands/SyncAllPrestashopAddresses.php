@@ -175,7 +175,6 @@ class SyncAllPrestashopAddresses extends Command
                     }
                 }
             }else{
-                Log::error('Algo fallo.');
                 $exit = true;
             }
 

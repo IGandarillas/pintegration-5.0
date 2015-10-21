@@ -329,7 +329,6 @@ class SyncPrestashopProducts extends Command implements SelfHandling,ShouldBeQue
                     }
                 }
             }else{
-                Log::error('Algo fallo.');
                 $exit = true;
             }
 
