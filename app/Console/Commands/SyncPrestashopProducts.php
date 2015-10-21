@@ -329,7 +329,8 @@ class SyncPrestashopProducts extends Command implements SelfHandling,ShouldBeQue
                         $items = array();
                     }
                 }
-            }
+            }else
+                $exit = true;
             $start += $chunk;
         }
 

@@ -183,8 +183,9 @@ class SyncAllPrestashopClients extends Command implements SelfHandling, ShouldBe
 					}
 
 				}
-			}
-				$start += $chunk;
+			}else
+				$exit = true;
+			$start += $chunk;
 		}
 	}
 

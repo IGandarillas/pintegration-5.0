@@ -174,7 +174,8 @@ class SyncAllPrestashopAddresses extends Command
                         }
                     }
                 }
-            }
+            }else
+                $exit = true;
             $start += $chunk;
 
         }
