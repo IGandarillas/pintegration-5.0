@@ -123,6 +123,7 @@ class SyncPrestashopProducts extends Command implements SelfHandling,ShouldBeQue
                         $dbConsistency = new CheckDbConsistency();
                         $products = $dbConsistency->products();
                         $this->values['items'] = $products;
+                        Log::info($products);
                         while($products!=0)
                         if(isset($user->prestashop_url,$user->prestashop_api,$user->pipedrive_api)) {
                             $this->getAllProducts($user);
@@ -283,7 +284,8 @@ class SyncPrestashopProducts extends Command implements SelfHandling,ShouldBeQue
                 if (isset($this->values['items'])) {
                     $str = "";
                     foreach($this->values['items'] as $item)
-                        $str .= $item->id_item_prestashop.'|';
+                        $str .= $item.'|';
+                    Log::info($str);
                     $opt['filter[id]'] = '[' . $str . ']';
                 }
             }

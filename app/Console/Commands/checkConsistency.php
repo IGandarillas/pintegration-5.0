@@ -1,12 +1,11 @@
 <?php namespace pintegration\Console\Commands;
 
 use Illuminate\Console\Command;
-
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Contracts\Queue\ShouldBeQueued;
-use pintegration\Services\CheckDbConsistency;
+
 
 class checkConsistency extends Command implements SelfHandling, ShouldBeQueued {
 

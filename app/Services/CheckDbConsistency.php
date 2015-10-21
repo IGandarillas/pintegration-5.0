@@ -19,7 +19,7 @@ class CheckDbConsistency{
         $products = array();
         foreach(Item::all() as $product){
             if(!isset($product->id_item_pipedrive))
-                array_push($products,$product);
+                array_push($products,$product->id_item_prestashop);
         }
         if(count($products)>0)
             return $products;
