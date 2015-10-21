@@ -251,13 +251,33 @@ class Tools
                 $connectClient = $this->initConnection();
                 $opt['resource'] = 'customers';
                 $opt['id'] = $idClient;
+                $opt['display'] = '[id,reference,price,name]';
+                $opt['output_format'] = 'JSON';
                 $xml = $connectClient->get($opt);
                 $resources = $xml->children()->children();
+                return $resources;
             }
             catch (PrestaShopWebserviceException $e)
             { // Here we are dealing with errors
                 error_log($e->getMessage());
             }
+
+    }
+    public function getProduct($idProduct){
+        try
+        {   //Get Blank schema
+            $connectClient = $this->initConnection();
+            $opt['resource'] = 'customers';
+            $opt['id'] = $idProduct;
+            $xml = $connectClient->get($opt);
+            $resources = $xml->children()->children();
+            return $resources;
+        }
+        catch (PrestaShopWebserviceException $e)
+        { // Here we are dealing with errors
+            error_log($e->getMessage());
+        }
+
     }
     public function editClient($client){
 

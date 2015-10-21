@@ -10,6 +10,7 @@ use Illuminate\Contracts\Queue\ShouldBeQueued;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Log;
+use pintegration\Services\CheckDbConsistency;
 use pintegration\User;
 use pintegration\Item;
 use PSWebS\PrestaShopWebservice;
@@ -42,6 +43,7 @@ class SyncPrestashopProducts extends Command implements SelfHandling,ShouldBeQue
     const ALL_AUTH_USER = 1;//Sync all products for auth user.
     const SINCE_DATE_EVERY_USER = 2; //Sync a set of products for all user.
     const SINCE_DATE_AUTH_USER = 3; //Sync a set of products for auth user.
+    const RELOAD_ITEMS = 4;
     public $flag;
     public $values;
     public function __construct($flag = self::ALL_EVERY_USER,$values = null)
@@ -114,7 +116,22 @@ class SyncPrestashopProducts extends Command implements SelfHandling,ShouldBeQue
                     }
                 }
             break;
+            case (self::RELOAD_ITEMS ):
+                if(User::count()>0){
+                    $users = User::all();
+                    foreach ($users as $user) {
+                        $dbConsistency = new CheckDbConsistency();
+                        $products = $dbConsistency->products();
+                        $this->values['items'] = $products;
+                        while($products!=0)
+                        if(isset($user->prestashop_url,$user->prestashop_api,$user->pipedrive_api)) {
+                            $this->getAllProducts($user);
+                        }
+                    }
+                }
+                break;
             default:
+
         }
 
     }
@@ -260,6 +277,14 @@ class SyncPrestashopProducts extends Command implements SelfHandling,ShouldBeQue
             if( $this->flag == self::SINCE_DATE_AUTH_USER || $this->flag == self::SINCE_DATE_EVERY_USER) {
                 if (isset($this->values['datetime'])) {
                     $opt['filter[date_upd]'] = '>[' . $this->values['datetime'] . ']';
+                }
+            }
+            if( $this->flag == self::RELOAD_ITEMS ){
+                if (isset($this->values['items'])) {
+                    $str = "";
+                    foreach($this->values['items'] as $item)
+                        $str .= $item->id_item_prestashop.'|';
+                    $opt['filter[id]'] = '[' . $str . ']';
                 }
             }
             try {

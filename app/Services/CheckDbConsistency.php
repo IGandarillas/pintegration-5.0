@@ -14,9 +14,19 @@ class CheckDbConsistency{
     {
 
     }
-    public function products(){
 
+    public function products(){
+        $products = array();
+        foreach(Item::all() as $product){
+            if(!isset($product->id_item_pipedrive))
+                array_push($products,$product);
+        }
+        if(count($products)>0)
+            return $products;
+        else
+            return 0;
     }
+
     public function deleteProducts($date){
         $deleteProducts = array();
 
