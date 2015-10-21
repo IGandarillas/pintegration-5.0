@@ -171,6 +171,10 @@ class SyncAllPrestashopAddresses extends Command
                                 sleep(10);
                             $this->addAddressesToPipedrive($user, $addresses);
                             $addresses = array();
+                        }else{
+                            Log::info("Total:" . $exit . " " . $totalCount . " Last address: " . $address->address1);
+                            $this->addAddressesToPipedrive($user, $addresses);
+                            $addresses = array();
                         }
                     }
                 }

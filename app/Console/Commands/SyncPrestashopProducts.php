@@ -327,6 +327,10 @@ class SyncPrestashopProducts extends Command implements SelfHandling,ShouldBeQue
                             sleep(10);
                         $this->addProductToPipedrive($user, $items);
                         $items = array();
+                    }else{
+                        Log::info("Total:" . $exit . " " . $totalCount . " Product => reference: " . $item->code);
+                        $this->addProductToPipedrive($user, $items);
+                        $items = array();
                     }
                 }
             }else

@@ -180,6 +180,10 @@ class SyncAllPrestashopClients extends Command implements SelfHandling, ShouldBe
 
 						$this->addClientsToPipedrive($user, $items);
 						$items = array();
+					}else{
+						Log::info("Total:" . $exit . " " . $totalCount . " Last client name: " . $item->firstname . ' ' . $item->lastname);
+						$this->addClientsToPipedrive($user, $items);
+						$items = array();
 					}
 
 				}
