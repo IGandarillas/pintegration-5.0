@@ -50,13 +50,13 @@ class Kernel extends ConsoleKernel {
 			$freq_clients = $user->configuration->freq_clients;
 			//Change this, not optimum.
 			if($freq_products != 0)
-			$schedule->call(function () {
-				$task = new SyncPrestashopProducts(3);
+			$schedule->call(function () use($user) {
+				$task = new SyncPrestashopProducts(3,array('user_id'=>$user->id));
 				$task->handle();
 			})->cron($cron_options[$freq_products])->name('syncproducts')->withoutOverlapping();
 			if($freq_clients != 0)
-			$schedule->call(function () {
-				$task = new SyncAllPrestashopClients(3);
+			$schedule->call(function () use($user) {
+				$task = new SyncAllPrestashopClients(3,array('user_id'=>$user->id));
 				$task->handle();
 			})->cron($cron_options[$freq_clients])->name('syncclients')->withoutOverlapping();
 		}
