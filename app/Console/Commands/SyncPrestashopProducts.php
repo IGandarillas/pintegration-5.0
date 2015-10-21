@@ -64,7 +64,6 @@ class SyncPrestashopProducts extends Command implements SelfHandling,ShouldBeQue
 
         switch($this->flag){
             case (self::SINCE_DATE_EVERY_USER):
-
                 if(User::count()>0){
                     $users = User::all();
                     foreach ($users as $user) {
@@ -118,16 +117,19 @@ class SyncPrestashopProducts extends Command implements SelfHandling,ShouldBeQue
             break;
             case (self::RELOAD_ITEMS ):
                 if(User::count()>0){
-                    $users = User::all();
-                    foreach ($users as $user) {
+                    if(isset( $this->values['user_id'])) {
+                        $user = User::find($this->values['user_id']);
                         $dbConsistency = new CheckDbConsistency();
-                        $products = $dbConsistency->products();
-                        $this->values['items'] = $products;
+                        $products = $dbConsistency->products($user->id);
                         Log::info($products);
-                        while($products!=0)
-                        if(isset($user->prestashop_url,$user->prestashop_api,$user->pipedrive_api)) {
-                            $this->getAllProducts($user);
+                        while ($products != 0){
+                            $this->values['items'] = $products;
+                            if (isset($user->prestashop_url, $user->prestashop_api, $user->pipedrive_api)) {
+                                $this->getAllProducts($user);
+                            }
+                            $products = $dbConsistency->products($user->id);
                         }
+
                     }
                 }
                 break;
@@ -297,7 +299,7 @@ class SyncPrestashopProducts extends Command implements SelfHandling,ShouldBeQue
 
             $json = json_decode($json,true);
 
-            if(isset($resources['products'])) {
+            if(isset($json['products'])) {
                 if (count($json['products']) < $chunk)
                     $exit = true;
                 $count = 0;

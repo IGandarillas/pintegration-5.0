@@ -59,6 +59,11 @@ class Kernel extends ConsoleKernel {
 				$task = new SyncAllPrestashopClients(3,array('datetime'=>$user->last_clients_sync,'user_id'=>$user->id));
 				$task->handle();
 			})->cron($cron_options[$freq_clients])->name('syncclients')->withoutOverlapping();
+			$schedule->call(function () use($user) {
+				Log::info('Check');
+				$task = new SyncPrestashopProducts(4,array('user_id'=>$user->id));
+				$task->handle();
+			})->hourly()->name('checkconsistency')->withoutOverlapping();
 		}
 		//$schedule->command('command:syncpsproducts')
 		//	->cron('* * * * *');
