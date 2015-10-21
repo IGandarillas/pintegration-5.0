@@ -21,7 +21,7 @@ class CheckDbConsistency{
             'id_item_pipedrive' => null,
             'user_id' => $userId
         );
-        foreach(Item::where($nullItemsPipedrive) as $product){
+        foreach(Item::where($nullItemsPipedrive)->get() as $product){
             Log::info($product->id_item_prestashop);
                 array_push($products,$product->id_item_prestashop);
         }

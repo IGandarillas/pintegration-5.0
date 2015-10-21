@@ -122,10 +122,13 @@ class SyncPrestashopProducts extends Command implements SelfHandling,ShouldBeQue
                         $dbConsistency = new CheckDbConsistency();
                         $products = $dbConsistency->products($user->id);
                         Log::info($products);
-                        while ($products != 0){
-                            $this->values['items'] = $products;
-                            if (isset($user->prestashop_url, $user->prestashop_api, $user->pipedrive_api)) {
-                                $this->getAllProducts($user);
+                        $tries=0;
+                        while ($tries++ < 3){
+                            if($products != 0) {
+                                $this->values['items'] = $products;
+                                if (isset($user->prestashop_url, $user->prestashop_api, $user->pipedrive_api)) {
+                                    $this->getAllProducts($user);
+                                }
                             }
                             $products = $dbConsistency->products($user->id);
                         }
@@ -287,7 +290,7 @@ class SyncPrestashopProducts extends Command implements SelfHandling,ShouldBeQue
                     $str = "";
                     foreach($this->values['items'] as $item)
                         $str .= $item.'|';
-                    Log::info($str);
+                    //Log::info($str);
                     $opt['filter[id]'] = '[' . $str . ']';
                 }
             }
@@ -317,17 +320,20 @@ class SyncPrestashopProducts extends Command implements SelfHandling,ShouldBeQue
                     array_push($items, $item);
                     $itemsCount = count($json['products']);
                     if ($totalCount % 100 == 0) {
-                        Log::info("Total:" . $exit . " " . $totalCount . " Product => reference: " . $item->code . "\n name: " . $item->name);
+                        Log::info("Total: ". $totalCount . " Product => reference: " . $item->code . "\n name: " . $item->name);
                         if ($start != 0)
                             sleep(10);
                         $this->addProductToPipedrive($user, $items);
                         $items = array();
                     } else if ($exit && $json['products'][$itemsCount - 1]['id'] == $product['id']) {
-                        Log::info("Total:" . $exit . " " . $totalCount . " Product => reference: " . $item->code);
+                        Log::info("Total: ". $totalCount . " Product => reference: " . $item->code);
                         if ($start != 0)
                             sleep(10);
                         $this->addProductToPipedrive($user, $items);
                         $items = array();
+                    }else{
+                        Log::info("Total: " . $totalCount . " Product => reference: " . $item->code);
+                        $this->addProductToPipedrive($user, $items);
                     }
                 }
             }else{
