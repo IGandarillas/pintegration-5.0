@@ -41,6 +41,7 @@ class Kernel extends ConsoleKernel {
 			'5' => '0 0 * * 0 *',
 			'6' => '0 0 1 * * *'
 		);
+		
 		$users = User::all();
 		foreach($users as $user) {
 			$freq_products = $user->configuration->freq_products;
