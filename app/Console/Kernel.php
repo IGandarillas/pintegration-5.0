@@ -52,11 +52,11 @@ class Kernel extends ConsoleKernel {
 			if($freq_products != 0)
 			$schedule->call(function () {
 				Queue::push(new SyncPrestashopProducts(3));
-			})->cron($cron_options[$freq_products])->withoutOverlapping();
+			})->cron($cron_options[$freq_products])->name('syncproducts')->withoutOverlapping();
 			if($freq_clients != 0)
 			$schedule->call(function () {
 				Queue::push(new SyncAllPrestashopClients(3));
-			})->cron($cron_options[$freq_clients])->withoutOverlapping();
+			})->cron($cron_options[$freq_clients])->name('syncclients')->withoutOverlapping();
 		}
 		//$schedule->command('command:syncpsproducts')
 		//	->cron('* * * * *');
