@@ -51,12 +51,12 @@ class Kernel extends ConsoleKernel {
 			//Change this, not optimum.
 			if($freq_products != 0)
 			$schedule->call(function () {
-				Queue::push(new SyncPrestashopProducts(2));
-			})->cron($cron_options[$freq_products]);
+				Queue::push(new SyncPrestashopProducts(3));
+			})->cron($cron_options[$freq_products])->withoutOverlapping();
 			if($freq_clients != 0)
 			$schedule->call(function () {
-				Queue::push(new SyncAllPrestashopClients(2));
-			})->cron($cron_options[$freq_clients]);
+				Queue::push(new SyncAllPrestashopClients(3));
+			})->cron($cron_options[$freq_clients])->withoutOverlapping();
 		}
 		//$schedule->command('command:syncpsproducts')
 		//	->cron('* * * * *');
