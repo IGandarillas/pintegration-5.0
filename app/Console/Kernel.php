@@ -3,6 +3,7 @@
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Queue;
 use pintegration\Console\Commands\SyncAllPrestashopClients;
 use pintegration\Console\Commands\SyncPrestashopProducts;
 use pintegration\User;
@@ -49,16 +50,11 @@ class Kernel extends ConsoleKernel {
 			//Change this, not optimum.
 			if($freq_products != 0)
 			$schedule->call(function () {
-				$sync = new SyncPrestashopProducts(2);
-				$sync->handle();
-				Log::info('a');
+				Queue::push(new SyncPrestashopProducts(2));
 			})->cron($cron_options[$freq_products]);
-			Log::info('b');
 			if($freq_clients != 0)
 			$schedule->call(function () {
-				$sync = new SyncAllPrestashopClients(2);
-				$sync->handle();
-				Log::info('c');
+				Queue::push(new SyncAllPrestashopClients(2));
 			})->cron($cron_options[$freq_clients]);
 			Log::info('d');
 		}

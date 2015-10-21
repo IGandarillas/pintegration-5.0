@@ -245,7 +245,20 @@ class Tools
         }
     }
 
-
+    public function getClient($idClient){
+            try
+            {   //Get Blank schema
+                $connectClient = $this->initConnection();
+                $opt['resource'] = 'customers';
+                $opt['id'] = $idClient;
+                $xml = $connectClient->get($opt);
+                $resources = $xml->children()->children();
+            }
+            catch (PrestaShopWebserviceException $e)
+            { // Here we are dealing with errors
+                error_log($e->getMessage());
+            }
+    }
     public function editClient($client){
 
         try
