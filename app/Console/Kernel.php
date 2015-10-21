@@ -32,11 +32,41 @@ class Kernel extends ConsoleKernel {
 	 */
 	protected function schedule(Schedule $schedule)
 	{
-		$schedule->call(function (){
-			Log::info('a');
-		})->everyFiveMinutes();
-
-		gi
+		$cron_options = array(
+			'0' => '0',
+			'1' => '*/1 * * * * *',
+			'2' => '*/5 * * * * *',
+			'3' => '0 * * * * *',
+			'4' => '0 0 * * * *',
+			'5' => '0 0 * * 0 *',
+			'6' => '0 0 1 * * *'
+		);
+		$users = User::all();
+		foreach($users as $user) {
+			$freq_products = $user->configuration->freq_products;
+			$freq_clients = $user->configuration->freq_clients;
+			//Change this, not optimum.
+			if($freq_products != 0)
+			$schedule->call(function () {
+				$sync = new SyncPrestashopProducts(2);
+				$sync->handle();
+				Log::info('a');
+			})->cron($cron_options[$freq_products]);
+			Log::info('b');
+			if($freq_clients != 0)
+			$schedule->call(function () {
+				$sync = new SyncAllPrestashopClients(2);
+				$sync->handle();
+				Log::info('c');
+			})->cron($cron_options[$freq_clients]);
+			Log::info('d');
+		}
+		//$schedule->command('command:syncpsproducts')
+		//	->cron('* * * * *');
+		//$schedule->command('command:syncallpsclients')
+		//	->cron('* * * * *');
+		//$schedule->command('command:syncpsaddresses')
+		///	->cron('* * * * *');
 	}
 
 }
