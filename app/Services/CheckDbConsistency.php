@@ -17,8 +17,8 @@ class CheckDbConsistency{
 
     public function products(){
         $products = array();
-        foreach(Item::all() as $product){
-            if(!isset($product->id_item_pipedrive))
+        foreach(Item::where('id_item_pipedrive',NULL) as $product){
+            Log::info($product->id_item_prestashop);
                 array_push($products,$product->id_item_prestashop);
         }
         if(count($products)>0)
