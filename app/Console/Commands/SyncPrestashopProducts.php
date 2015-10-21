@@ -308,7 +308,6 @@ class SyncPrestashopProducts extends Command implements SelfHandling,ShouldBeQue
                         'user_id' => $user->id
                     );
                     $item = Item::firstOrNew($itemIdPrestashop);
-
                     $item->name = $product['name'][0]['value'];
                     $item->code = str_replace(' ', '_', strtolower($product['reference']));
                     $item->price = $product['price'];
@@ -327,14 +326,13 @@ class SyncPrestashopProducts extends Command implements SelfHandling,ShouldBeQue
                             sleep(10);
                         $this->addProductToPipedrive($user, $items);
                         $items = array();
-                    }else{
-                        Log::info("Total:" . $exit . " " . $totalCount . " Product => reference: " . $item->code);
-                        $this->addProductToPipedrive($user, $items);
-                        $items = array();
                     }
                 }
-            }else
+            }else{
+                Log::error('Algo fallo.');
                 $exit = true;
+            }
+
             $start += $chunk;
         }
 

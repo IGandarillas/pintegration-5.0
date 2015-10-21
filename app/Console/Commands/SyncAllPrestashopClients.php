@@ -144,7 +144,7 @@ class SyncAllPrestashopClients extends Command implements SelfHandling, ShouldBe
 				echo $e->getTrace();
 			}
 			$json = json_decode($json,true);
-			if(isset($resources['customers'])) {
+			if(isset($json['customers'])) {
 				$itemsCount = count($json['customers']);
 				if ($itemsCount < $chunk)
 					$exit = true;
@@ -180,15 +180,14 @@ class SyncAllPrestashopClients extends Command implements SelfHandling, ShouldBe
 
 						$this->addClientsToPipedrive($user, $items);
 						$items = array();
-					}else{
-						Log::info("Total:" . $exit . " " . $totalCount . " Last client name: " . $item->firstname . ' ' . $item->lastname);
-						$this->addClientsToPipedrive($user, $items);
-						$items = array();
 					}
 
 				}
-			}else
+			}else{
+				Log::error('Algo fallo.');
 				$exit = true;
+			}
+
 			$start += $chunk;
 		}
 	}
