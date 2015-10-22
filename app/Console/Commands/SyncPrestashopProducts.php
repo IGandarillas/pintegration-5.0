@@ -419,6 +419,7 @@ class SyncPrestashopProducts extends Command implements SelfHandling,ShouldBeQue
         foreach ($channels as $id => $channel) {
             $response = curl_multi_getcontent($channel);
             $response = json_decode($response,true);
+            if(isset( $response['data']['id'], $response['data']))
             foreach($items as $item){
                 if($item->id==$id)
                     $item->id_item_pipedrive = $response['data']['id'];
