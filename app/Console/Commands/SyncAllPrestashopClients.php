@@ -62,7 +62,7 @@ class SyncAllPrestashopClients extends Command implements SelfHandling, ShouldBe
 					$users = User::all();
 					foreach ($users as $user) {
 						if(isset($user->prestashop_url,$user->prestashop_api,$user->pipedrive_api)) {
-							$date = Carbon::now()->addHours(2);
+							$date = Carbon::now();
 							$this->getAllClients($user);
 							$user->last_clients_sync = $date;
 							$user->update();
@@ -74,7 +74,7 @@ class SyncAllPrestashopClients extends Command implements SelfHandling, ShouldBe
 				//dd($this->flag.' bien '.$this->value);
 				$user = User::find($this->values['user_id']);
 				if(isset($user->prestashop_url,$user->prestashop_api,$user->pipedrive_api)) {
-					$date = Carbon::now()->addHours(2);
+					$date = Carbon::now();
 					$this->getAllClients($user);
 					$user->last_clients_sync = $date;
 					$user->update();
@@ -87,7 +87,7 @@ class SyncAllPrestashopClients extends Command implements SelfHandling, ShouldBe
 					$user = User::find($this->values['user_id']);
 
 					if(isset($user->prestashop_url,$user->prestashop_api,$user->pipedrive_api)) {
-						$date = Carbon::now()->addHours(2);
+						$date = Carbon::now();
 						$this->getAllClients($user);
 						$user->last_clients_sync = $date;
 						$user->update();
@@ -99,7 +99,7 @@ class SyncAllPrestashopClients extends Command implements SelfHandling, ShouldBe
 					$users = User::all();
 					foreach ($users as $user) {
 						if(isset($user->prestashop_url,$user->prestashop_api,$user->pipedrive_api)) {
-							$date = Carbon::now()->addHours(2);
+							$date = Carbon::now();
 							$this->getAllClients($user);
 							$user->last_clients_sync = $date;
 							$user->update();

@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/dev.pintegration.co.iml" filepath="$PROJECT_DIR$/.idea/dev.pintegration.co.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/psintegration.iml" filepath="$PROJECT_DIR$/.idea/psintegration.iml" />
     </modules>
   </component>
 </project>

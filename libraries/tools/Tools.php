@@ -201,47 +201,47 @@ class Tools
     }
 
     public function addCart($client,$order){
-        try
-        {   //Get Blank schema
-            $connectClient = $this->initConnection();
-            $xml = $connectClient->get(array('url' => $this->user->prestashop_url.'/api/carts?schema=blank'));
-            $resources = $xml->children()->children();
-        }
-        catch (PrestaShopWebserviceException $e)
-        { // Here we are dealing with errors
-            error_log($e->getMessage());
-        }
-        error_log('1');
-        $direccion = $client->direccion;
-        $resources->id_address_delivery = $direccion->id_address_prestashop;
-        $resources->id_address_invoice = $direccion->id_address_prestashop;
-        $resources->id_currency = '1';
-        $resources->id_lang='1';
-        $resources->id_customer = $client->id_client_prestashop;
-        $resources->id_carrier = '1';
-        $resources->id_show_group = '1';
-        error_log('2');
-        $resources->secure_key = $client->secure_key;
-        $count = 0;
-        error_log('3');
-        foreach($order['data'] as $product){
-            $item = Item::whereIdItemPipedrive($product['product_id'])->first();
-            $resources->associations->cart_rows->cart_row[$count]->id_product = $item->id_item_prestashop;
-            $resources->associations->cart_rows->cart_row[$count]->id_address_delivery = $direccion->id_address_prestashop;
-            $resources->associations->cart_rows->cart_row[$count]->quantity = $product['quantity'];
-            $count++;
-        }
-        try {
-            $opt = array('resource' => 'carts');
-            $opt['postXml'] = $xml->asXML();
-            $xml = $connectClient->add($opt);
-            error_log('5');
-            return $xml->children()->children()->id;//Process response.
+        if(isset($order['data'][0]['product_id'])) {
+            try {   //Get Blank schema
+                $connectClient = $this->initConnection();
+                $xml = $connectClient->get(array('url' => $this->user->prestashop_url . '/api/carts?schema=blank'));
+                $resources = $xml->children()->children();
+            } catch (PrestaShopWebserviceException $e) { // Here we are dealing with errors
+                error_log($e->getMessage());
+            }
+            error_log('1');
+            $direccion = $client->direccion;
+            $resources->id_address_delivery = $direccion->id_address_prestashop;
+            $resources->id_address_invoice = $direccion->id_address_prestashop;
+            $resources->id_currency = '1';
+            $resources->id_lang = '1';
+            $resources->id_customer = $client->id_client_prestashop;
+            $resources->id_carrier = '1';
+            $resources->id_show_group = '1';
+            error_log('2');
+            $resources->secure_key = $client->secure_key;
+            $count = 0;
+            error_log('3');
+            foreach ($order['data'] as $product) {
+                $item = Item::whereIdItemPipedrive($product['product_id'])->first();
+                $resources->associations->cart_rows->cart_row[$count]->id_product = $item->id_item_prestashop;
+                $resources->associations->cart_rows->cart_row[$count]->id_address_delivery = $direccion->id_address_prestashop;
+                $resources->associations->cart_rows->cart_row[$count]->quantity = $product['quantity'];
+                $count++;
+            }
+            try {
+                $opt = array('resource' => 'carts');
+                $opt['postXml'] = $xml->asXML();
+                $xml = $connectClient->add($opt);
+                error_log('5');
+                return $xml->children()->children()->id;//Process response.
 
-        }
-        catch (PrestaShopWebserviceException $ex) {
-            // Here we are dealing with errors
-            echo $ex->getMessage();
+            } catch (PrestaShopWebserviceException $ex) {
+                // Here we are dealing with errors
+                echo $ex->getMessage();
+            }
+        }else{
+
         }
     }
 
@@ -340,7 +340,7 @@ class Tools
         $resources->address1 = $direccion->address1;
         $resources->city = $direccion->city;
         $resources->id_country = '6';
-        $resources->id_state = '313';
+        $resources->id_state = '0';
         $resources->postcode = $direccion->postcode;
         $resources->alias = htmlspecialchars('Direccion',ENT_NOQUOTES);
         try {

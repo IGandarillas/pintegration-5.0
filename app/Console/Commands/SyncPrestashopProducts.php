@@ -68,7 +68,7 @@ class SyncPrestashopProducts extends Command implements SelfHandling,ShouldBeQue
                     $users = User::all();
                     foreach ($users as $user) {
                         if(isset($user->prestashop_url,$user->prestashop_api,$user->pipedrive_api)) {
-                            $date = Carbon::now()->addHours(2);
+                            $date = Carbon::now();
                             $this->getAllProducts($user);
                             $user->last_products_sync = $date;
                             $user->update();
@@ -82,7 +82,7 @@ class SyncPrestashopProducts extends Command implements SelfHandling,ShouldBeQue
                     $user = User::find($this->values['user_id']);
 
                         if(isset($user->prestashop_url,$user->prestashop_api,$user->pipedrive_api)) {
-                            $date = Carbon::now()->addHours(2);
+                            $date = Carbon::now();
                             $this->getAllProducts($user);
                             $user->last_products_sync = $date;
                             $user->update();
@@ -95,7 +95,7 @@ class SyncPrestashopProducts extends Command implements SelfHandling,ShouldBeQue
                     $user = User::find($this->values['user_id']);
 
                     if(isset($user->prestashop_url,$user->prestashop_api,$user->pipedrive_api)) {
-                        $date = Carbon::now()->addHours(2);
+                        $date = Carbon::now();
                         $this->getAllProducts($user);
                         $user->last_products_sync = $date;
                         $user->update();
@@ -107,7 +107,7 @@ class SyncPrestashopProducts extends Command implements SelfHandling,ShouldBeQue
                     $users = User::all();
                     foreach ($users as $user) {
                         if(isset($user->prestashop_url,$user->prestashop_api,$user->pipedrive_api)) {
-                            $date = Carbon::now()->addHours(2);
+                            $date = Carbon::now();
                             $this->getAllProducts($user);
                             $user->last_products_sync = $date;
                             $user->update();

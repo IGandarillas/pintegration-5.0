@@ -58,7 +58,7 @@ class SyncAllPrestashopAddresses extends Command
                     $users = User::all();
                     foreach ($users as $user) {
                         if(isset($user->prestashop_url,$user->prestashop_api,$user->pipedrive_api)) {
-                            $date = Carbon::now()->addHours(2);
+                            $date = Carbon::now();
                             $this->getAddresses($user);
                             $user->last_addresses_sync = $date;
                             $user->update();
@@ -70,7 +70,7 @@ class SyncAllPrestashopAddresses extends Command
                 //dd($this->flag.' bien '.$this->value);
                 $user = User::find($this->values['user_id']);
                 if(isset($user->prestashop_url,$user->prestashop_api,$user->pipedrive_api)) {
-                    $date = Carbon::now()->addHours(2);
+                    $date = Carbon::now();
                     $this->getAddresses($user);
                     $user->last_addresses_sync = $date;
                     $user->update();
@@ -83,7 +83,7 @@ class SyncAllPrestashopAddresses extends Command
                     $user = User::find($this->values['user_id']);
 
                     if(isset($user->prestashop_url,$user->prestashop_api,$user->pipedrive_api)) {
-                        $date = Carbon::now()->addHours(2);
+                        $date = Carbon::now();
                         $this->getAddresses($user);
                         $user->last_addresses_sync = $date;
                         $user->update();
@@ -95,7 +95,7 @@ class SyncAllPrestashopAddresses extends Command
                     $users = User::all();
                     foreach ($users as $user) {
                         if(isset($user->prestashop_url,$user->prestashop_api,$user->pipedrive_api)) {
-                            $date = Carbon::now()->addHours(2);
+                            $date = Carbon::now();
                             $this->getAddresses($user);
                             $user->last_addresses_sync = $date;
                             $user->update();
