@@ -16,6 +16,11 @@ use Tools\Tools;
 use pintegration\Direccion;
 use Faker;
 
+/**
+ * Get provided data from pipedrive and store it.
+ * Class ClientFromPipedrive
+ * @package pintegration\Commands
+ */
 class ClientFromPipedrive extends Command implements SelfHandling, ShouldBeQueued
 {
     use InteractsWithQueue, SerializesModels;
@@ -34,17 +39,18 @@ class ClientFromPipedrive extends Command implements SelfHandling, ShouldBeQueue
         $this->user = User::find($user_id);
         $this->clientId = $request['current']['person_id'];
         $this->dealId = $this->request['current']['id'];
+
     }
     public function handle()
     {
         $this->clientData = $this->getClientData($this->clientId);
 
-        $client = Client::whereIdClientPipedrive(array('id_client_pipedrive' => $this->clientId))->first();
+        $client = Client::where( array('id_client_pipedrive' => $this->clientId) )->first();
 
         if(  $client != null && $client->id_client_prestashop != null )
-            $this->newClient();
-        else
             $this->existsClient();
+        else
+            $this->newClient();
     }
 
     protected function newClient()
@@ -136,7 +142,7 @@ class ClientFromPipedrive extends Command implements SelfHandling, ShouldBeQueue
     {
         Log::info('updateClient');
 
-        $client = Client::whereIdClientPipedrive($this->dealId)->first();
+        $client = Client::whereIdClientPipedrive(array('id_client_pipedrive' => $this->clientId))->first();
 
         $client->firstname = $this->clientData['data']['first_name'];
         $client->lastname  = $this->clientData['data']['last_name'];

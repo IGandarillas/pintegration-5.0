@@ -1,29 +1,19 @@
-<?php
+<?php namespace Tools;
 
-
-/**
- * Created by PhpStorm.
- * User: Yunkorff
- * Date: 24/09/2015
- * Time: 22:47
- */
-
-namespace Tools;
 use Carbon\Carbon;
-use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Queue;
 use pintegration\Item;
 use pintegration\User;
 use PSWebS\PrestaShopWebservice;
-
-use Auth;
 use PSWebS\PrestaShopWebserviceException;
 
 class Tools
 {
     protected $user_id=null;
     protected $user;
+
     public function __construct($user_id){
+
         $this->user_id=$user_id;
         $this->user = User::find($user_id);
     }
@@ -55,7 +45,6 @@ class Tools
         $resources->active = true;
         $resources->id_default_group = '3';
         $resources->associations->groups->group->id = '3';
-        error_log('client se pasa? : ' .$resources->email);
         try {
             $opt = array('resource' => 'customers');
             $opt['postXml'] = $xml->asXML();
@@ -312,7 +301,6 @@ class Tools
             $opt['putXml'] = $xml->asXML();
             $connectClient = $this->initConnection();
             $xml = $connectClient->edit($opt);
-            //Get secure_key
 
             $client->update();
         }
@@ -324,7 +312,7 @@ class Tools
 
     public function editAddress($client){
         try
-        {   //Get Blank schema
+        {
             $connectClient = $this->initConnection();
             $opt['resource'] = 'addresses';
             $opt['id'] = $client->direccion->id_address_prestashop;
@@ -433,13 +421,8 @@ class Tools
                     }
                     echo  $i ."\n";
 
-                    //if($i%30==0) {
-                      //  if ($i != 0) {
-                            //sleep(1);
                             try {
 
-                               //echo "\nInit multiple request \n";
-                                //   dd($opts);
                             Queue::push(function() use($connectClient,$opt) {
                                 $connectClient->add($opt);
                             });
@@ -447,22 +430,7 @@ class Tools
                             } catch (PrestaShopWebserviceException $e) {
                                 //echo $e->getMessage();
                             }
-
-                        //}
-                    //}
                 }
-
-                // $resources->associations = '';
-
-
-                //dd($opt);
-
-
-
-                //error_log($i);
-
-
-
         }
         catch (PrestaShopWebserviceException $ex)
         { // Here we are dealing with errors

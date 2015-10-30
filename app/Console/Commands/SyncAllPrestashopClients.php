@@ -71,7 +71,6 @@ class SyncAllPrestashopClients extends Command implements SelfHandling, ShouldBe
 				}
 				break;
 			case (self::SINCE_DATE_AUTH_USER):
-				//dd($this->flag.' bien '.$this->value);
 				$user = User::find($this->values['user_id']);
 				if(isset($user->prestashop_url,$user->prestashop_api,$user->pipedrive_api)) {
 					$date = Carbon::now();
@@ -158,11 +157,11 @@ class SyncAllPrestashopClients extends Command implements SelfHandling, ShouldBe
 
 					$item = Client::firstOrNew($clientIdPrestashop);
 					$item->id_client_prestashop = $customer['id'];
-					$item->firstname = $customer['firstname'];
-					$item->lastname = $customer['lastname'];
-					$item->password = $customer['passwd'];
+					$item->firstname  = $customer['firstname'];
+					$item->lastname   = $customer['lastname'];
+					$item->password   = $customer['passwd'];
 					$item->secure_key = $customer['secure_key'];
-					$item->email = $customer['email'];
+					$item->email 	  = $customer['email'];
 					$item->save();
 					array_push($items, $item);
 
@@ -337,7 +336,6 @@ class SyncAllPrestashopClients extends Command implements SelfHandling, ShouldBe
 			'active_flag' => '1',
 			'email' => $client->email,
 			'visible_to' => '3',
-			'owner_id' => '867597',
 		);
 
 	}
