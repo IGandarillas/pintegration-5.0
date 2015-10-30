@@ -55,7 +55,6 @@ class ClientFromPipedrive extends Command implements SelfHandling, ShouldBeQueue
 
     protected function newClient()
     {
-        Log::info('new client');
         $client = $this->createClient();
 
         if($this->isAddress())
@@ -72,7 +71,6 @@ class ClientFromPipedrive extends Command implements SelfHandling, ShouldBeQueue
     }
     protected function existsClient()
     {
-        Log::info('existsClient');
         $dealProductsData = $this->getDealProductsData($this->dealId);
         $client           = $this->updateClient();
         $address          = $client->direccion;
@@ -101,7 +99,6 @@ class ClientFromPipedrive extends Command implements SelfHandling, ShouldBeQueue
      */
     protected function createClient()
     {
-        Log::info('createClient');
             $faker = Faker\Factory::create();
 
             $clientIdPipedrive= array(
@@ -125,9 +122,6 @@ class ClientFromPipedrive extends Command implements SelfHandling, ShouldBeQueue
 
     protected function addAddress($client)
     {
-
-        Log::info('addAddress');
-
         $address = Direccion::firstOrNew( array( 'client_id' => $client->id ) );
 
         $address->address1 = $this->clientData['data'][$this->user->address_field];
@@ -140,8 +134,6 @@ class ClientFromPipedrive extends Command implements SelfHandling, ShouldBeQueue
 
     protected function updateClient()
     {
-        Log::info('updateClient');
-
         $client = Client::whereIdClientPipedrive(array('id_client_pipedrive' => $this->clientId))->first();
 
         $client->firstname = $this->clientData['data']['first_name'];

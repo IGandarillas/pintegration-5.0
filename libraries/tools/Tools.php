@@ -194,7 +194,17 @@ class Tools
             echo $ex->getMessage();
         }
     }
-
+    public function checkCartParameters($client){
+        $address = $client->direccion;
+        return isset(
+            $client->direccion,
+            $address->address1,
+            $address->city,
+            $address->postcode,
+            $address->id_address_prestashop,
+            $address->id_address_prestashop
+        );
+    }
     public function addCart($client,$order){
         if(isset($order['data'][0]['product_id'])) {
             try {   //Get Blank schema
@@ -206,29 +216,43 @@ class Tools
             }
             error_log('1');
             $direccion = $client->direccion;
-            $resources->id_address_delivery = $direccion->id_address_prestashop;
-            $resources->id_address_invoice = $direccion->id_address_prestashop;
+            if(isset($direccion->id_address_prestashop, $direccion->id_address_prestashop)) {
+                $resources->id_address_delivery = $direccion->id_address_prestashop;
+                $resources->id_address_invoice = $direccion->id_address_prestashop;
+            }
             $resources->id_currency = '1';
             $resources->id_lang = '1';
             $resources->id_customer = $client->id_client_prestashop;
             $resources->id_carrier = '1';
             $resources->id_show_group = '1';
-            error_log('2');
+            if(isset($client->secure_key))
             $resources->secure_key = $client->secure_key;
+
             $count = 0;
-            error_log('3');
+            if(isset($order['data']))
             foreach ($order['data'] as $product) {
-                $item = Item::whereIdItemPipedrive($product['product_id'])->first();
-                $resources->associations->cart_rows->cart_row[$count]->id_product = $item->id_item_prestashop;
-                $resources->associations->cart_rows->cart_row[$count]->id_address_delivery = $direccion->id_address_prestashop;
-                $resources->associations->cart_rows->cart_row[$count]->quantity = $product['quantity'];
+                if(isset($product['product_id'],$product['quantity'])) {
+                    $item = Item::whereIdItemPipedrive($product['product_id'])->first();
+                    if(isset($item)) {
+                        $resources->associations->cart_rows->cart_row[$count]->id_product = $item->id_item_prestashop;
+                        $resources->associations->cart_rows->cart_row[$count]->id_address_delivery = $direccion->id_address_prestashop;
+                        $resources->associations->cart_rows->cart_row[$count]->quantity = $product['quantity'];
+                    }
+                }
                 $count++;
             }
             try {
                 $opt = array('resource' => 'carts');
                 $opt['postXml'] = $xml->asXML();
                 $xml = $connectClient->add($opt);
-                error_log('5');
+                if(isset($xml->children()->children()->id)) {
+                    if ($xml->children()->children()->id = !0)
+                        Log::info('Carrito creado para el cliente: ' . $client->firstname . ' ' . $client->lastname);
+                    else
+                        Log::info('Error al crear carrito para el cliente: ' . $client->firstname . ' ' . $client->lastname);
+                }else{
+                    Log::info('Error al crear carrito para el cliente: ' . $client->firstname . ' ' . $client->lastname);
+                }
                 return $xml->children()->children()->id;//Process response.
 
             } catch (PrestaShopWebserviceException $ex) {
