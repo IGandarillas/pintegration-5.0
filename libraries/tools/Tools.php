@@ -1,6 +1,7 @@
 <?php namespace Tools;
 
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Queue;
 use pintegration\Item;
 use pintegration\User;
@@ -17,83 +18,87 @@ class Tools
         $this->user_id=$user_id;
         $this->user = User::find($user_id);
     }
+    public function hasClientRequiredFields($client){
+        return isset($client->email);
+    }
     public function addClient($client){
+        if($this->hasClientRequiredFields($client)) {
+            try {   //Get Blank schema
+                $connectClient = $this->initConnection();
+                $xml = $connectClient->get(array('url' => $this->user->prestashop_url . '/api/customers?schema=blank'));
+                $resources = $xml->children()->children();
+            } catch (PrestaShopWebserviceException $e) { // Here we are dealing with errors
+                error_log($e->getMessage());
+            }
+            if (!isset($client->firstname) || $client->firstname == null) {
+                $resources->firstname = $client->lastname;
+                $resources->lastname = $client->lastname;
+            } elseif (!isset($client->lastname) || $client->lastname == null) {
+                $resources->firstname = $client->firstname;
+                $resources->lastname = $client->firstname;
+            }
 
-        try
-        {   //Get Blank schema
-            $connectClient = $this->initConnection();
-            $xml = $connectClient->get(array('url' => $this->user->prestashop_url.'/api/customers?schema=blank'));
-            $resources = $xml->children()->children();
-        }
-        catch (PrestaShopWebserviceException $e)
-        { // Here we are dealing with errors
-            error_log($e->getMessage());
-        }
-        if(isset($client->firstname) || $client->firstname == null){
-            $resources->firstname = $client->lastname;
-            $resources->lastname = $client->lastname;
-        }elseif( isset($client->lastname) || $client->lastname == null ){
-            $resources->firstname = $client->firstname;
-            $resources->lastname = $client->firstname;
-        }else {
-            $resources->firstname = $client->firstname;
-            $resources->lastname = $client->lastname;
-        }
+            $resources->passwd = $client->password;
+            $resources->email = $client->email;
+            $resources->active = true;
+            $resources->id_default_group = '3';
+            $resources->associations->groups->group->id = '3';
+            try {
+                $opt = array('resource' => 'customers');
+                $opt['postXml'] = $xml->asXML();
+                $connectClient = $this->initConnection();
+                $xml = $connectClient->add($opt);
+                $client->id_client_prestashop = $xml->children()->children()->id;//Process response.
+                $client->secure_key = $xml->children()->children()->secure_key;
+                $client->password = $xml->children()->children()->passwd;
+                $client->update();
+            } catch (PrestaShopWebserviceException $ex) { // Here we are dealing with errors
+                echo $ex->getMessage();
+            }
+        }else{
 
-        $resources->passwd = $client->password;
-        $resources->email = $client->email;
-        $resources->active = true;
-        $resources->id_default_group = '3';
-        $resources->associations->groups->group->id = '3';
-        try {
-            $opt = array('resource' => 'customers');
-            $opt['postXml'] = $xml->asXML();
-            $connectClient = $this->initConnection();
-            $xml = $connectClient->add($opt);
-            $client->id_client_prestashop = $xml->children()->children()->id;//Process response.
-            $client->secure_key = $xml->children()->children()->secure_key;
-            $client->password = $xml->children()->children()->passwd;
-            $client->update();
-        }
-        catch (PrestaShopWebserviceException $ex)
-        { // Here we are dealing with errors
-            echo $ex->getMessage();
         }
     }
-
+    public function checkAddressParameters($client){
+        $address = $client->direccion;
+        return isset(
+            $client->direccion,
+            $address->address1,
+            $address->city,
+            $address->postcode
+        );
+    }
     public function addAddress($client){
-        try
-        {   //Get Blank schema
-            $connectClient = $this->initConnection();
-            $xml = $connectClient->get(array('url' => $this->user->prestashop_url.'/api/addresses?schema=blank'));
-            $resources = $xml->children()->children();
-        }
-        catch (PrestaShopWebserviceException $e)
-        { // Here we are dealing with errors
-            error_log($e->getMessage());
-        }
+        if($this->checkAddressParameters($client)) {
+            try {   //Get Blank schema
+                $connectClient = $this->initConnection();
+                $xml = $connectClient->get(array('url' => $this->user->prestashop_url . '/api/addresses?schema=blank'));
+                $resources = $xml->children()->children();
+            } catch (PrestaShopWebserviceException $e) { // Here we are dealing with errors
+                error_log($e->getMessage());
+            }
 
-        $direccion = $client->direccion;
-        $resources->id_customer = $client->id_client_prestashop;
-        $resources->firstname = $client->firstname;
-        $resources->lastname = $client->lastname;
-        $resources->address1 = $direccion->address1;
-        $resources->city = $direccion->city;
-        $resources->id_country = '6';
-        $resources->id_state = '0';
-        $resources->postcode = $direccion->postcode;
-        $resources->phone = '0';
-        $resources->alias = 'Address';
-        try {
-            $opt = array('resource' => 'addresses');
-            $opt['postXml'] = $xml->asXML();
-            $xml = $connectClient->add($opt);
-            $direccion->id_address_prestashop = $xml->children()->children()->id;//Process response.
-            $direccion->update();
-        }
-        catch (PrestaShopWebserviceException $ex) {
-         // Here we are dealing with errors
-            echo $ex->getMessage();
+            $direccion = $client->direccion;
+            $resources->id_customer = $client->id_client_prestashop;
+            $resources->firstname = $client->firstname;
+            $resources->lastname = $client->lastname;
+            $resources->address1 = $direccion->address1;
+            $resources->city = $direccion->city;
+            $resources->id_country = '6';
+            $resources->id_state = '0';
+            $resources->postcode = $direccion->postcode;
+            $resources->phone = '0';
+            $resources->alias = 'Address';
+            try {
+                $opt = array('resource' => 'addresses');
+                $opt['postXml'] = $xml->asXML();
+                $xml = $connectClient->add($opt);
+                $direccion->id_address_prestashop = $xml->children()->children()->id;//Process response.
+                $direccion->update();
+            } catch (PrestaShopWebserviceException $ex) {
+                // Here we are dealing with errors
+                echo $ex->getMessage();
+            }
         }
     }
     public function getTotalPrice($order){
