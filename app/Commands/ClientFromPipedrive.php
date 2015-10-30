@@ -81,12 +81,16 @@ class ClientFromPipedrive extends Command implements SelfHandling, ShouldBeQueue
 
         if( isset($client) ) {
             $tools = new Tools( $this->user_id );
-            $tools->editClient( $client );
-
-            if(!isset($address, $address->id_address_prestashop) || $address->id_address_prestashop == 0)
-                $tools->addAddress($client);
+            if(isset($client->id_client_prestashop) || $client->id_client_prestashop != 0)
+                $tools->editClient( $client );
             else
+                $tools->addClient($client);
+
+            if(isset($address, $address->id_address_prestashop) || $address->id_address_prestashop != 0)
                 $tools->editAddress($client);
+            else
+                $tools->addAddress($client);
+
 
             $tools->addCart($client,$dealProductsData);
 

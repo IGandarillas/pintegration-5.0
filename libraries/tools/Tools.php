@@ -36,6 +36,9 @@ class Tools
             } elseif (!isset($client->lastname) || $client->lastname == null) {
                 $resources->firstname = $client->firstname;
                 $resources->lastname = $client->firstname;
+            }else{
+                $resources->firstname = $client->firstname;
+                $resources->lastname = $client->lastname;
             }
 
             $resources->passwd = $client->password;
@@ -68,39 +71,7 @@ class Tools
             $address->postcode
         );
     }
-    public function addAddress($client){
-        if($this->checkAddressParameters($client)) {
-            try {   //Get Blank schema
-                $connectClient = $this->initConnection();
-                $xml = $connectClient->get(array('url' => $this->user->prestashop_url . '/api/addresses?schema=blank'));
-                $resources = $xml->children()->children();
-            } catch (PrestaShopWebserviceException $e) { // Here we are dealing with errors
-                error_log($e->getMessage());
-            }
 
-            $direccion = $client->direccion;
-            $resources->id_customer = $client->id_client_prestashop;
-            $resources->firstname = $client->firstname;
-            $resources->lastname = $client->lastname;
-            $resources->address1 = $direccion->address1;
-            $resources->city = $direccion->city;
-            $resources->id_country = '6';
-            $resources->id_state = '0';
-            $resources->postcode = $direccion->postcode;
-            $resources->phone = '0';
-            $resources->alias = 'Address';
-            try {
-                $opt = array('resource' => 'addresses');
-                $opt['postXml'] = $xml->asXML();
-                $xml = $connectClient->add($opt);
-                $direccion->id_address_prestashop = $xml->children()->children()->id;//Process response.
-                $direccion->update();
-            } catch (PrestaShopWebserviceException $ex) {
-                // Here we are dealing with errors
-                echo $ex->getMessage();
-            }
-        }
-    }
     public function getTotalPrice($order){
         $total = 0;
 
@@ -201,7 +172,6 @@ class Tools
             $address->address1,
             $address->city,
             $address->postcode,
-            $address->id_address_prestashop,
             $address->id_address_prestashop
         );
     }
@@ -244,14 +214,16 @@ class Tools
             try {
                 $opt = array('resource' => 'carts');
                 $opt['postXml'] = $xml->asXML();
-                $xml = $connectClient->add($opt);
-                if(isset($xml->children()->children()->id)) {
-                    if ($xml->children()->children()->id = !0)
-                        Log::info('Carrito creado para el cliente: ' . $client->firstname . ' ' . $client->lastname);
-                    else
-                        Log::info('Error al crear carrito para el cliente: ' . $client->firstname . ' ' . $client->lastname);
+                if(isset($order['data'], $direccion->id_address_prestashop)) {
+                    $xml = $connectClient->add($opt);
+                    if (isset($xml->children()->children()->id)) {
+                        if ($xml->children()->children()->id = !0)
+                            Log::info('Carrito creado para el cliente: ' . $client->firstname . ' ' . $client->lastname);
+                        else
+                            Log::info('Error al crear carrito para el cliente: ' . $client->firstname . ' ' . $client->lastname);
+                    }
                 }else{
-                    Log::info('Error al crear carrito para el cliente: ' . $client->firstname . ' ' . $client->lastname);
+                    Log::info('Error al crear carrito para el cliente: ' . $client->firstname . ' ' . $client->lastname."\n No se ha definido una dirección para ese cliente.");
                 }
                 return $xml->children()->children()->id;//Process response.
 
@@ -338,7 +310,39 @@ class Tools
             echo $ex->getMessage();
         }
     }
+    public function addAddress($client){
+        if($this->checkAddressParameters($client)) {
+            try {   //Get Blank schema
+                $connectClient = $this->initConnection();
+                $xml = $connectClient->get(array('url' => $this->user->prestashop_url . '/api/addresses?schema=blank'));
+                $resources = $xml->children()->children();
+            } catch (PrestaShopWebserviceException $e) { // Here we are dealing with errors
+                error_log($e->getMessage());
+            }
 
+            $direccion = $client->direccion;
+            $resources->id_customer = $client->id_client_prestashop;
+            $resources->firstname = $client->firstname;
+            $resources->lastname = $client->lastname;
+            $resources->address1 = $direccion->address1;
+            $resources->city = $direccion->city;
+            $resources->id_country = '6';
+            $resources->id_state = '0';
+            $resources->postcode = $direccion->postcode;
+            $resources->phone = '0';
+            $resources->alias = htmlspecialchars('Direccion',ENT_NOQUOTES);
+            try {
+                $opt = array('resource' => 'addresses');
+                $opt['postXml'] = $xml->asXML();
+                $xml = $connectClient->add($opt);
+                $direccion->id_address_prestashop = $xml->children()->children()->id;//Process response.
+                $direccion->update();
+            } catch (PrestaShopWebserviceException $ex) {
+                // Here we are dealing with errors
+                echo $ex->getMessage();
+            }
+        }
+    }
     public function editAddress($client){
         try
         {
@@ -359,6 +363,7 @@ class Tools
         $resources->city = $direccion->city;
         $resources->id_country = '6';
         $resources->id_state = '0';
+        $resources->phone = '0';
         $resources->postcode = $direccion->postcode;
         $resources->alias = htmlspecialchars('Direccion',ENT_NOQUOTES);
         try {
