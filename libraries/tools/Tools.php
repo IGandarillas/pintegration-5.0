@@ -366,7 +366,6 @@ class Tools
         $resources->id_state = '0';
         $resources->phone = '0';
         $resources->postcode = $direccion->postcode;
-        $resources->alias = htmlspecialchars('Direccion',ENT_NOQUOTES);
         try {
             $opt = array(
                 'resource' => 'addresses',
