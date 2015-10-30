@@ -39,10 +39,10 @@ class Tools
         { // Here we are dealing with errors
             error_log($e->getMessage());
         }
-        if($client->firstname == null){
+        if(isset($client->firstname) || $client->firstname == null){
             $resources->firstname = $client->lastname;
             $resources->lastname = $client->lastname;
-        }elseif( $client->lastname == null ){
+        }elseif( isset($client->lastname) || $client->lastname == null ){
             $resources->firstname = $client->firstname;
             $resources->lastname = $client->firstname;
         }else {
@@ -83,6 +83,7 @@ class Tools
         { // Here we are dealing with errors
             error_log($e->getMessage());
         }
+
         $direccion = $client->direccion;
         $resources->id_customer = $client->id_client_prestashop;
         $resources->firstname = $client->firstname;

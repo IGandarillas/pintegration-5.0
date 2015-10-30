@@ -31,7 +31,7 @@ class UpdateClientFromPipedrive extends Command implements SelfHandling, ShouldB
 	public function handle(){
 
 		$clientId = $this->request['current']['person_id'];//Id Pipedrive
-		error_log($clientId);
+
 		$client = $this->updateClient($clientId);
 
 		error_log('1');
@@ -79,11 +79,18 @@ class UpdateClientFromPipedrive extends Command implements SelfHandling, ShouldB
 		error_log($clientData['data']['last_name']);
 		error_log($clientData['data']['email'][0]['value']);
 		error_log('1');
+
+
 		if($this->isAddress($clientData)) {
 			$updateClient = Client::whereIdClientPipedrive($clientId)->first();
 			$updateClient->firstname = $clientData['data']['first_name'];
 			$updateClient->lastname = $clientData['data']['last_name'];
 			$updateClient->email = $clientData['data']['email'][0]['value'];
+			if($updateClient->firstname == null){
+				$updateClient->firstname = $updateClient->lastname;
+			}elseif( $updateClient->lastname == null ){
+				$updateClient->lastname = $updateClient->firstname;
+			}
 			$updateClient->update();
 			error_log('2');
 
