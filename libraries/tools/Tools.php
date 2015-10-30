@@ -18,6 +18,18 @@ class Tools
         $this->user_id=$user_id;
         $this->user = User::find($user_id);
     }
+    public function checkClientName($resources,$client){
+        if (!isset($client->firstname) || $client->firstname == null) {
+            $resources->firstname = $client->lastname;
+            $resources->lastname = $client->lastname;
+        } elseif (!isset($client->lastname) || $client->lastname == null) {
+            $resources->firstname = $client->firstname;
+            $resources->lastname = $client->firstname;
+        }else{
+            $resources->firstname = $client->firstname;
+            $resources->lastname = $client->lastname;
+        }
+    }
     public function hasClientRequiredFields($client){
         return isset($client->email);
     }
@@ -30,16 +42,7 @@ class Tools
             } catch (PrestaShopWebserviceException $e) { // Here we are dealing with errors
                 error_log($e->getMessage());
             }
-            if (!isset($client->firstname) || $client->firstname == null) {
-                $resources->firstname = $client->lastname;
-                $resources->lastname = $client->lastname;
-            } elseif (!isset($client->lastname) || $client->lastname == null) {
-                $resources->firstname = $client->firstname;
-                $resources->lastname = $client->firstname;
-            }else{
-                $resources->firstname = $client->firstname;
-                $resources->lastname = $client->lastname;
-            }
+            $this->checkClientName($resources,$client);
 
             $resources->passwd = $client->password;
             $resources->email = $client->email;
@@ -62,7 +65,40 @@ class Tools
 
         }
     }
+    public function editClient($client){
+        if($this->hasClientRequiredFields($client)) {
 
+            try {   //Get Blank schema
+                $connectClient = $this->initConnection();
+                $opt['resource'] = 'customers';
+                $opt['id'] = $client->id_client_prestashop;
+                $xml = $connectClient->get($opt);
+                $resources = $xml->children()->children();
+            } catch (PrestaShopWebserviceException $e) { // Here we are dealing with errors
+                error_log($e->getMessage());
+            }
+
+            $this->checkClientName($resources,$client);
+
+            $resources->id = $client->id_client_prestashop;
+            $resources->email = $client->email;
+
+
+            try {
+                $opt = array(
+                    'resource' => 'customers',
+                    'id' => $client->id_client_prestashop
+                );
+                $opt['putXml'] = $xml->asXML();
+                $connectClient = $this->initConnection();
+                $xml = $connectClient->edit($opt);
+
+                $client->update();
+            } catch (PrestaShopWebserviceException $ex) { // Here we are dealing with errors
+                echo $ex->getMessage();
+            }
+        }
+    }
 
     public function getTotalPrice($order){
         $total = 0;
@@ -257,46 +293,7 @@ class Tools
         }
 
     }
-    public function editClient($client){
 
-        try
-        {   //Get Blank schema
-            $connectClient = $this->initConnection();
-            $opt['resource'] = 'customers';
-            $opt['id'] = $client->id_client_prestashop;
-            $xml = $connectClient->get($opt);
-            $resources = $xml->children()->children();
-        }
-        catch (PrestaShopWebserviceException $e)
-        { // Here we are dealing with errors
-            error_log($e->getMessage());
-        }
-
-        $resources->firstname = $client->firstname;
-        $resources->lastname = $client->lastname;
-        $resources->id = $client->id_client_prestashop;
-        $resources->email = $client->email;
-        // $resources->active = true;
-        //Client group
-        //$resources->id_default_group = '3';
-        //$resources->associations->groups->group->id = '3';
-
-        try {
-            $opt = array(
-                'resource' => 'customers',
-                'id' => $client->id_client_prestashop
-            );
-            $opt['putXml'] = $xml->asXML();
-            $connectClient = $this->initConnection();
-            $xml = $connectClient->edit($opt);
-
-            $client->update();
-        }
-        catch (PrestaShopWebserviceException $ex)
-        { // Here we are dealing with errors
-            echo $ex->getMessage();
-        }
-    }
     public function checkAddressParameters($client){
         $address = $client->direccion;
         return isset(
@@ -340,21 +337,20 @@ class Tools
         }
     }
     public function editAddress($client){
-        try
-        {
+
+        try {
             $connectClient = $this->initConnection();
             $opt['resource'] = 'addresses';
             $opt['id'] = $client->direccion->id_address_prestashop;
             $xml = $connectClient->get($opt);
             $resources = $xml->children()->children();
-        }
-        catch (PrestaShopWebserviceException $e)
-        { // Here we are dealing with errors
+        } catch (PrestaShopWebserviceException $e) { // Here we are dealing with errors
             error_log($e->getMessage());
         }
         $direccion = $client->direccion;
-        $resources->firstname = $client->firstname;
-        $resources->lastname = $client->lastname;
+
+        $this->checkClientName($resources,$client);
+
         $resources->address1 = $direccion->address1;
         $resources->city = $direccion->city;
         $resources->id_country = '6';
@@ -371,12 +367,13 @@ class Tools
 
             $direccion->id_address_prestashop = $xml->children()->children()->id;//Process response.
             $direccion->update();
-        }
-        catch (PrestaShopWebserviceException $ex) {
+        } catch (PrestaShopWebserviceException $ex) {
             // Here we are dealing with errors
             echo $ex->getMessage();
         }
+
     }
+
     protected function initConnection(){
         $user = User::find($this->user_id);
         return new PrestaShopWebservice($user->prestashop_url, $user->prestashop_api, false);
