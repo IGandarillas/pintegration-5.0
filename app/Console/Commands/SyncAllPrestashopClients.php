@@ -332,7 +332,7 @@ class SyncAllPrestashopClients extends Command implements SelfHandling, ShouldBe
 	}
 	public function fillClientsPipedrive($client){
 		return  array(
-			'name' => utf8_encode($client->firstname." ".$client->lastname),
+			'name' => $client->firstname." ".$client->lastname,
 			'active_flag' => '1',
 			'email' => $client->email,
 			'visible_to' => '3',

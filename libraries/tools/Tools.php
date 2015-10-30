@@ -75,7 +75,6 @@ class Tools
         return $total;
 
     }
-
     public function addOrder($client,$order){
 
         try
@@ -160,15 +159,11 @@ class Tools
     public function checkCartParameters($client){
         $address = $client->direccion;
         return isset(
-            $client->direccion,
-            $address->address1,
-            $address->city,
-            $address->postcode,
             $address->id_address_prestashop
         );
     }
     public function addCart($client,$order){
-        if(isset($order['data'][0]['product_id'])) {
+        if($this->checkCartParameters($client)) {
             try {   //Get Blank schema
                 $connectClient = $this->initConnection();
                 $xml = $connectClient->get(array('url' => $this->user->prestashop_url . '/api/carts?schema=blank'));
@@ -224,7 +219,7 @@ class Tools
                 echo $ex->getMessage();
             }
         }else{
-
+            Log::info('Error al crear carrito para el cliente: ' . $client->firstname . ' ' . $client->lastname."\n No se ha definido una dirección para ese cliente.");
         }
     }
 
@@ -374,8 +369,8 @@ class Tools
             $opt['putXml'] = $xml->asXML();
             $xml = $connectClient->edit($opt);
 
-            //$direccion->id_address_prestashop = $xml->children()->children()->id;//Process response.
-            //$direccion->update();
+            $direccion->id_address_prestashop = $xml->children()->children()->id;//Process response.
+            $direccion->update();
         }
         catch (PrestaShopWebserviceException $ex) {
             // Here we are dealing with errors
