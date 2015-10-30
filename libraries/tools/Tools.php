@@ -62,15 +62,7 @@ class Tools
 
         }
     }
-    public function checkAddressParameters($client){
-        $address = $client->direccion;
-        return isset(
-            $client->direccion,
-            $address->address1,
-            $address->city,
-            $address->postcode
-        );
-    }
+
 
     public function getTotalPrice($order){
         $total = 0;
@@ -309,6 +301,15 @@ class Tools
         { // Here we are dealing with errors
             echo $ex->getMessage();
         }
+    }
+    public function checkAddressParameters($client){
+        $address = $client->direccion;
+        return isset(
+            $client->direccion,
+            $address->address1,
+            $address->city,
+            $address->postcode
+        );
     }
     public function addAddress($client){
         if($this->checkAddressParameters($client)) {
