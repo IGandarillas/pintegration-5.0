@@ -74,7 +74,6 @@ class ClientFromPipedrive extends Command implements SelfHandling, ShouldBeQueue
         $dealProductsData = $this->getDealProductsData($this->dealId);
         $client           = $this->updateClient();
 
-
         if($this->isAddress())
             if($this->isCompleteAddress())
                 $this->addAddress($client);
