@@ -290,7 +290,7 @@ class SyncAllPrestashopAddresses extends Command
             'active_flag' => '1',
             'email' => $client->email,
             'visible_to' => '3',
-            $user->address_field => htmlspecialchars($address->address1.', '.$address->city,ENT_NOQUOTES),
+            $user->address_field => htmlspecialchars($address->address1,ENT_NOQUOTES),
             $user->address_field.'_postal_code' => htmlspecialchars($address->postcode,ENT_NOQUOTES),
             $user->address_field.'_locality' => htmlspecialchars($address->city,ENT_NOQUOTES),
         );
