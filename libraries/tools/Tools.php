@@ -78,10 +78,10 @@ class Tools
     }
     public function editClient($client){
         if($this->hasClientRequiredFields($client)) {
-                //Instantiate PSWebService.
-                $connectClient = $this->initConnection();
-                $opt['resource'] = 'customers';
-                $opt['id'] = $client->id_client_prestashop;
+            //Instantiate PSWebService.
+            $connectClient = $this->initConnection();
+            $opt['resource'] = 'customers';
+            $opt['id'] = $client->id_client_prestashop;
             try{
                 $xml = $connectClient->get($opt);
             } catch (PrestaShopWebserviceException $e) { // Here we are dealing with errors
@@ -95,12 +95,12 @@ class Tools
             $resources->email = $client->email;
 
 
-                $opt = array(
-                    'resource' => 'customers',
-                    'id' => $client->id_client_prestashop
-                );
-                $opt['putXml'] = $xml->asXML();
-                $connectClient = $this->initConnection();
+            $opt = array(
+                'resource' => 'customers',
+                'id' => $client->id_client_prestashop
+            );
+            $opt['putXml'] = $xml->asXML();
+            $connectClient = $this->initConnection();
             try {
                 $connectClient->edit($opt);
             } catch (PrestaShopWebserviceException $ex) { // Here we are dealing with errors
@@ -112,9 +112,9 @@ class Tools
 
     public function checkCartParameters($client){
         $address = $client->direccion;
-       /* return isset(
-            $address->id_address_prestashop
-        );*/
+        /* return isset(
+             $address->id_address_prestashop
+         );*/
         return true;
     }
     public function addCart($client,$order){
@@ -143,40 +143,40 @@ class Tools
             //Fetch deal products and save in resources.
             $count = 0;
             if(isset($order['data']))
-            foreach ($order['data'] as $product) {
-                if(isset($product['product_id'],$product['quantity'])) {
-                    $item = Item::whereIdItemPipedrive($product['product_id'])->first();
-                    if(isset($item)) {
-                        $resources->associations->cart_rows->cart_row[$count]->id_product = $item->id_item_prestashop;
-                        if(isset($direccion->id_address_prestashop))
-                            $resources->associations->cart_rows->cart_row[$count]->id_address_delivery = $direccion->id_address_prestashop;
-                        $resources->associations->cart_rows->cart_row[$count]->quantity = $product['quantity'];
+                foreach ($order['data'] as $product) {
+                    if(isset($product['product_id'],$product['quantity'])) {
+                        $item = Item::whereIdItemPipedrive($product['product_id'])->first();
+                        if(isset($item)) {
+                            $resources->associations->cart_rows->cart_row[$count]->id_product = $item->id_item_prestashop;
+                            if(isset($direccion->id_address_prestashop))
+                                $resources->associations->cart_rows->cart_row[$count]->id_address_delivery = $direccion->id_address_prestashop;
+                            $resources->associations->cart_rows->cart_row[$count]->quantity = $product['quantity'];
+                        }
                     }
+                    $count++;
                 }
-                $count++;
+
+            $opt = array('resource' => 'carts');
+            $opt['postXml'] = $xml->asXML();
+
+            $connectClient = $this->initConnection();
+            try {
+                $xml = $connectClient->add($opt);
+            } catch (PrestaShopWebserviceException $ex) {
+                Log::error('Algo fue mal en Prestashop: '. $ex->getMessage());
             }
 
-                $opt = array('resource' => 'carts');
-                $opt['postXml'] = $xml->asXML();
+            if (isset($xml->children()->children()->id)) {
+                if ($xml->children()->children()->id = !0)
+                    Log::info('Carrito creado para el cliente: ' . $client->firstname . ' ' . $client->lastname);
+                else
+                    Log::error('Error al crear carrito para el cliente: ' . $client->firstname . ' ' . $client->lastname);
+            }
 
-                    $connectClient = $this->initConnection();
-                    try {
-                    $xml = $connectClient->add($opt);
-                    } catch (PrestaShopWebserviceException $ex) {
-                        Log::error('Algo fue mal en Prestashop: '. $ex->getMessage());
-                    }
-
-                    if (isset($xml->children()->children()->id)) {
-                        if ($xml->children()->children()->id = !0)
-                            Log::info('Carrito creado para el cliente: ' . $client->firstname . ' ' . $client->lastname);
-                        else
-                            Log::error('Error al crear carrito para el cliente: ' . $client->firstname . ' ' . $client->lastname);
-                    }
-
-                return $xml->children()->children()->id;//Process response.
+            return $xml->children()->children()->id;//Process response.
 
         }else{
-            Log::error('Error al crear carrito para el cliente: ' . $client->firstname . ' ' . $client->lastname."\n No se ha definido una dirección para ese cliente.");
+            Log::error('Error al crear carrito para el cliente: ' . $client->firstname . ' ' . $client->lastname."\n No se ha definido una direcci?n para ese cliente.");
         }
     }
 
@@ -203,10 +203,10 @@ class Tools
             $resources->address1 = $direccion->address1;
             $resources->city = $direccion->city;
             $resources->id_country = '6';
-            $resources->id_state = '0';
+            $resources->id_state = $this->fillAddressState($direccion);
             $resources->postcode = $direccion->postcode;
-            $resources->phone = '0';
-            $resources->alias = htmlspecialchars('Direccion',ENT_NOQUOTES);
+            $resources->phone = $this->fillAddressMobilePhone($direccion);
+            $resources->alias = htmlspecialchars('Direccion '.$client->id_client_prestashop,ENT_NOQUOTES);
 
             $opt = array('resource' => 'addresses');
             $opt['postXml'] = $xml->asXML();
@@ -236,12 +236,13 @@ class Tools
         $direccion = $client->direccion;
 
         $this->checkClientName($resources,$client);
-
+        Log::info('edit');
         $resources->address1 = $direccion->address1;
         $resources->city = $direccion->city;
         $resources->id_country = '6';
-        $resources->id_state = '0';
-        $resources->phone = '0';
+        $resources->id_state = $this->fillAddressState($direccion);
+
+        $resources->phone = $this->fillAddressMobilePhone($direccion);
         $resources->postcode = $direccion->postcode;
 
         $opt = array(
@@ -258,6 +259,19 @@ class Tools
         $direccion->id_address_prestashop = $xml->children()->children()->id;//Process response.
         $direccion->update();
 
+    }
+    public function fillAddressState($direccion){
+        if(isset($direccion->id_state)){
+            $state = State::find($direccion->id_state);
+            return $state->id_prestashop;
+        } else
+            return 0;
+    }
+    public function fillAddressMobilePhone($direccion){
+        if(isset($direccion->phone_mobile))
+            return $direccion->phone_mobile;
+         else
+            return 0;
     }
     public function getBlankSchema($type){
         try {   //Get Blank schema

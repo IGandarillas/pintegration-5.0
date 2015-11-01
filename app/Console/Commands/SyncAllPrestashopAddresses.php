@@ -117,7 +117,7 @@ class SyncAllPrestashopAddresses extends Command
             $webService = new PrestaShopWebservice($user->prestashop_url, $user->prestashop_api, false);
             // Here we set the option array for the Webservice : we want customers resources
             $opt['resource'] = 'addresses';
-            $opt['display'] = '[id,id_customer,address1,postcode,city,id_country]';
+            $opt['display'] = '[id,id_customer,address1,postcode,city,id_country,id_state,phone_mobile]';
             $opt['limit'] = $start . ',' . $chunk;
             $opt['output_format'] = 'JSON';
             if( $this->flag == self::SINCE_DATE_AUTH_USER || $this->flag == self::SINCE_DATE_EVERY_USER) {
@@ -153,20 +153,27 @@ class SyncAllPrestashopAddresses extends Command
                         $address->postcode = $resource['postcode'];
                         $address->city = $resource['city'];
                         $address->country = $resource['id_country'];
-                        /*if($resource['id_state']!=0) {
-                            $address->id_state = $resource['id_state'];
-                        }*/
+                        if(isset($resource['phone_mobile']))
+                            $address->phone_mobile = $resource['phone_mobile'];
+
+                        if(isset($resource['id_state']) && $resource['id_state'] !=0)
+                            try {
+                                $address->id_state = $resource['id_state'];
+                            }catch(\PDOException $ex){
+                                Log::info('No se guardó la provincia.');
+                            }
+
                         $address->save();
 
                         array_push($addresses, $address);
                         if ($totalCount % 100 == 0) {
-                            Log::info("Total:" . $exit . " " . $totalCount . " Last address: " . $address->address1);
+                            Log::info("Address: " . $address->address1);
                             if ($start != 0)
                                 sleep(10);
                             $this->addAddressesToPipedrive($user, $addresses);
                             $addresses = array();
                         } else if ($exit && $resources['addresses'][$itemsCount - 1]['id'] == $resource['id']) {
-                            Log::info("Total:" . $exit . " " . $totalCount . " Last address: " . $address->address1);
+                            Log::info("Address: " . $address->address1);
                             if ($start != 0)
                                 sleep(10);
                             $this->addAddressesToPipedrive($user, $addresses);
@@ -278,17 +285,18 @@ class SyncAllPrestashopAddresses extends Command
         return $channels;
     }
     public function fillAddressPipedrive($address,$client,$user){
-        return  array(
+        $addressData=  array(
             'name' => utf8_encode($client->firstname.' '.$client->lastname),
             'active_flag' => '1',
             'email' => $client->email,
             'visible_to' => '3',
-            'owner_id' => '867597',
             $user->address_field => htmlspecialchars($address->address1.', '.$address->city,ENT_NOQUOTES),
             $user->address_field.'_postal_code' => htmlspecialchars($address->postcode,ENT_NOQUOTES),
             $user->address_field.'_locality' => htmlspecialchars($address->city,ENT_NOQUOTES),
         );
-
+        if(isset($address->phone_mobile))
+            array_push($addressData,$address->phone_mobile);
+        return $addressData;
 
     }
 }

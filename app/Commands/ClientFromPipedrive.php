@@ -2,7 +2,7 @@
 
 namespace pintegration\Commands;
 
-
+use pintegration\State;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Bus\SelfHandling;
@@ -32,14 +32,6 @@ class ClientFromPipedrive extends Command implements SelfHandling, ShouldBeQueue
     protected $clientData;
     protected $dealId;
 
-    public $specialStates = array(
-        'A Coruña' => 'La Coruña',
-        'Nafarroa' => 'Navarra',
-        'Alacant' => 'Alicante',
-        'Balears' => 'Baleares',
-        'Bizkaia' => 'Vizcaya',
-        'Gipuzkoa' => 'Guipuzcoa'
-    );
 
     public function __construct($request,$user_id)
     {
@@ -80,6 +72,7 @@ class ClientFromPipedrive extends Command implements SelfHandling, ShouldBeQueue
     }
     protected function existsClient()
     {
+        Log::info('exists');
         $dealProductsData = $this->getDealProductsData($this->dealId);
         $client           = $this->updateClient();
 
@@ -97,8 +90,8 @@ class ClientFromPipedrive extends Command implements SelfHandling, ShouldBeQueue
             if(isset($address, $address->id_address_prestashop))
                 if($address->id_address_prestashop != 0)
                     $tools->editAddress($client);
-            else
-                $tools->addAddress($client);
+                else
+                    $tools->addAddress($client);
 
 
             $tools->addCart($client,$dealProductsData);
@@ -112,24 +105,24 @@ class ClientFromPipedrive extends Command implements SelfHandling, ShouldBeQueue
      */
     protected function createClient()
     {
-            $faker = Faker\Factory::create();
+        $faker = Faker\Factory::create();
 
-            $clientIdPipedrive= array(
-                'id_client_pipedrive' => $this->clientId,
-                'user_id'             => $this->user_id
-            );
+        $clientIdPipedrive= array(
+            'id_client_pipedrive' => $this->clientId,
+            'user_id'             => $this->user_id
+        );
 
-            $client = Client::firstOrNew($clientIdPipedrive);
+        $client = Client::firstOrNew($clientIdPipedrive);
 
-            $client->firstname = $this->clientData['data']['first_name'];
-            $client->lastname  = $this->clientData['data']['last_name'];
-            $client->email     = $this->clientData['data']['email'][0]['value'];
-            $client->password  = $faker->password(6,10);
-            $client->id_client_pipedrive = $this->clientId;
+        $client->firstname = $this->clientData['data']['first_name'];
+        $client->lastname  = $this->clientData['data']['last_name'];
+        $client->email     = $this->clientData['data']['email'][0]['value'];
+        $client->password  = $faker->password(6,10);
+        $client->id_client_pipedrive = $this->clientId;
 
-            $client->save();
+        $client->save();
 
-            return $client;
+        return $client;
 
     }
 
@@ -141,6 +134,9 @@ class ClientFromPipedrive extends Command implements SelfHandling, ShouldBeQueue
         $address->country  = $this->clientData['data'][$this->user->address_field.'_country'];
         $address->postcode = $this->clientData['data'][$this->user->address_field.'_postal_code'];
         $address->city     = $this->clientData['data'][$this->user->address_field.'_locality'];
+
+        if(isset($this->clientData['data']['phone']))
+            $address->phone_mobile = $this->clientData['data']['phone'];
         if($idState = $this->getState() !== 0)
             $address->id_state = $idState;
         $address->save();
@@ -195,32 +191,46 @@ class ClientFromPipedrive extends Command implements SelfHandling, ShouldBeQueue
     {
         if(isset($this->clientData['data'][$this->user->address_field.'_admin_area_level_2'])){
             $state = $this->clientData['data'][$this->user->address_field.'_admin_area_level_2'];
+            Log::info($state);
             if($specialState = $this->checkSpecialState($state) !== false) {
+                Log::info( $this->getStateId($specialState) );
                 return $this->getStateId($specialState);
             }else
+                Log::info( $this->getStateId($state) );
                 return $this->getStateId($state);
         }
         return 0;
     }
 
     protected function checkSpecialState($state){
-        foreach($this->specialStates as $key => $value){
+        $specialStates = array(
+            'A Coruña' => 'La Coruña',
+            'Castelló' => 'Castellón',
+            'Nafarroa' => 'Navarra',
+            'Alacant' => 'Alicante',
+            'Balears' => 'Baleares',
+            'Bizkaia' => 'Vizcaya',
+            'Gipuzkoa' => 'Guipuzcoa'
+        );
+        foreach($specialStates as $key => $value){
             $match1 = strpos($key, $state);
             $match2 = strpos($state, $key);
-            if($match1 !== false || $match2 !== false)
+            $match3 = strpos($value, $state);
+            $match4 = strpos($state, $value);
+            if($match1 !== false || $match2 !== false || $match3 !== false || $match4 !== false )
                 return $key;
         }
         return false;
     }
     protected function getStateId($state){
-                        //$idState = State::where('name', 'LIKE', '%value%')->get();
-                //$idState = State::whereName($state)->first()->id_prestashop;
+        //$idState = State::where('name', 'LIKE', '%value%')->get();
+        //$idState = State::whereName($state)->first()->id_prestashop;
 
-                foreach( State::all() as $stateDB ) { //Perform in model with sql sentence.
-                    if( strpos($state,$stateDB) !== false )
-                        return $stateDB->id_prestashop;
-                }
-                return 0;
+        foreach( State::all() as $stateDB ) { //Perform in model with sql sentence.
+            if( strpos($state,$stateDB->name) !== false )
+                return $stateDB->id_prestashop;
+        }
+        return 0;
 
     }
     protected function getData($url)

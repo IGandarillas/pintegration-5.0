@@ -19,6 +19,7 @@ class CreateDireccionsTable extends Migration
             $table->string('country');
             $table->string('postcode');
             $table->string('city');
+            $table->string('phone_mobile');
             $table->timestamps();
 /*
             $table->integer('id_state')->unsigned()->nullable();
