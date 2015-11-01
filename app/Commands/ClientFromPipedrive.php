@@ -72,7 +72,6 @@ class ClientFromPipedrive extends Command implements SelfHandling, ShouldBeQueue
     }
     protected function existsClient()
     {
-        Log::info('exists');
         $dealProductsData = $this->getDealProductsData($this->dealId);
         $client           = $this->updateClient();
 
@@ -135,13 +134,14 @@ class ClientFromPipedrive extends Command implements SelfHandling, ShouldBeQueue
         $address->postcode = $this->clientData['data'][$this->user->address_field.'_postal_code'];
         $address->city     = $this->clientData['data'][$this->user->address_field.'_locality'];
         if(isset($this->clientData['data']['phone']))
-            $address->phone_mobile = $this->clientData['data']['phone'];
-        if($idState = $this->getState() !== 0)
+            $address->phone_mobile = $this->clientData['data']['phone'][0]['value'];
+        $idState = $this->getState();
+        if( $idState !== 0)
             $address->id_state = $idState;
         $address->save();
     }
 
-    
+
     protected function updateClient()
     {
         $client = Client::whereIdClientPipedrive(array('id_client_pipedrive' => $this->clientId))->first();
@@ -191,12 +191,9 @@ class ClientFromPipedrive extends Command implements SelfHandling, ShouldBeQueue
     {
         if(isset($this->clientData['data'][$this->user->address_field.'_admin_area_level_2'])){
             $state = $this->clientData['data'][$this->user->address_field.'_admin_area_level_2'];
-            Log::info($state);
             if($specialState = $this->checkSpecialState($state) !== false) {
-                Log::info( $this->getStateId($specialState) );
                 return $this->getStateId($specialState);
             }else
-                Log::info( $this->getStateId($state) );
                 return $this->getStateId($state);
         }
         return 0;
@@ -223,11 +220,12 @@ class ClientFromPipedrive extends Command implements SelfHandling, ShouldBeQueue
         return false;
     }
     protected function getStateId($state){
-        //$idState = State::where('name', 'LIKE', '%value%')->get();
-        //$idState = State::whereName($state)->first()->id_prestashop;
+
 
         foreach( State::all() as $stateDB ) { //Perform in model with sql sentence.
-            if( strpos($state,$stateDB->name) !== false )
+            $match1 = strpos($state, $stateDB->name);
+            $match2 = strpos($stateDB->name, $state);
+            if( $match1 !== false || $match2 !== false)
                 return $stateDB->id_prestashop;
         }
         return 0;

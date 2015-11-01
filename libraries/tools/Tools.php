@@ -205,7 +205,7 @@ class Tools
             $resources->id_country = '6';
             $resources->id_state = $this->fillAddressState($direccion);
             $resources->postcode = $direccion->postcode;
-            $resources->phone = $this->fillAddressMobilePhone($direccion);
+            $resources->phone_mobile = $this->fillAddressMobilePhone($direccion);
             $resources->alias = htmlspecialchars('Direccion '.$client->id_client_prestashop,ENT_NOQUOTES);
 
             $opt = array('resource' => 'addresses');
@@ -242,7 +242,7 @@ class Tools
         $resources->id_country = '6';
         $resources->id_state = $this->fillAddressState($direccion);
 
-        $resources->phone = $this->fillAddressMobilePhone($direccion);
+        $resources->phone_mobile = $this->fillAddressMobilePhone($direccion);
         $resources->postcode = $direccion->postcode;
 
         $opt = array(
