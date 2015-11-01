@@ -134,7 +134,6 @@ class ClientFromPipedrive extends Command implements SelfHandling, ShouldBeQueue
         $address->country  = $this->clientData['data'][$this->user->address_field.'_country'];
         $address->postcode = $this->clientData['data'][$this->user->address_field.'_postal_code'];
         $address->city     = $this->clientData['data'][$this->user->address_field.'_locality'];
-
         if(isset($this->clientData['data']['phone']))
             $address->phone_mobile = $this->clientData['data']['phone'];
         if($idState = $this->getState() !== 0)
