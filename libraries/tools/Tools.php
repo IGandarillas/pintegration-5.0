@@ -25,11 +25,11 @@ class Tools
     public function checkClientName($resources,$client)
     {
         if (!isset($client->firstname) || $client->firstname == null) {
-            $resources->firstname = PIPEDRIVE;
+            $resources->firstname = self::PIPEDRIVE;
             $resources->lastname = $client->lastname;
         } elseif (!isset($client->lastname) || $client->lastname == null) {
             $resources->firstname = $client->firstname;
-            $resources->lastname = PIPEDRIVE;
+            $resources->lastname = self::PIPEDRIVE;
         }else{
             $resources->firstname = $client->firstname;
             $resources->lastname = $client->lastname;
@@ -43,7 +43,7 @@ class Tools
     public function addClient($client){
         if($this->hasClientRequiredFields($client)) {
 
-            $xml = $this->getBlankSchema(CUSTOMERS);
+            $xml = $this->getBlankSchema(self::CUSTOMERS);
             $resources = $xml->children()->children();
 
             $this->checkClientName($resources,$client);
@@ -118,7 +118,7 @@ class Tools
     }
     public function addCart($client,$order){
         if($this->checkCartParameters($client)) {
-            $xml = $this->getBlankSchema(CARTS);
+            $xml = $this->getBlankSchema(self::CARTS);
             $resources = $xml->children()->children();
 
             $direccion = $client->direccion;
@@ -193,7 +193,7 @@ class Tools
     public function addAddress($client){
         if($this->checkAddressParameters($client)) {
 
-            $xml = $this->getBlankSchema(ADDRESSES);
+            $xml = $this->getBlankSchema(self::ADDRESSES);
             $resources = $xml->children()->children();
 
             $direccion = $client->direccion;
