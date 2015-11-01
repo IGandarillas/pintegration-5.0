@@ -32,6 +32,15 @@ class ClientFromPipedrive extends Command implements SelfHandling, ShouldBeQueue
     protected $clientData;
     protected $dealId;
 
+    public $specialStates = array(
+        'A Coruña' => 'La Coruña',
+        'Nafarroa' => 'Navarra',
+        'Alacant' => 'Alicante',
+        'Balears' => 'Baleares',
+        'Bizkaia' => 'Vizcaya',
+        'Gipuzkoa' => 'Guipuzcoa'
+    );
+
     public function __construct($request,$user_id)
     {
         $this->request = $request;
@@ -132,7 +141,8 @@ class ClientFromPipedrive extends Command implements SelfHandling, ShouldBeQueue
         $address->country  = $this->clientData['data'][$this->user->address_field.'_country'];
         $address->postcode = $this->clientData['data'][$this->user->address_field.'_postal_code'];
         $address->city     = $this->clientData['data'][$this->user->address_field.'_locality'];
-
+        if($idState = $this->getState() !== 0)
+            $address->id_state = $idState;
         $address->save();
     }
 
@@ -183,19 +193,36 @@ class ClientFromPipedrive extends Command implements SelfHandling, ShouldBeQueue
     }
     protected function getState()
     {
-        $state = $this->clientData['data'][$this->user->address_field.'_admin_area_level_1'];
-        if( $state != NULL ){
-            try {
-                $idState = State::whereName($state)->first()->id_prestashop;
-                if (isset($idState) && $idState != NULL)
-                    return $idState;
-            }catch(\PDOException $e){
-                return 0;
-            }
+        if(isset($this->clientData['data'][$this->user->address_field.'_admin_area_level_2'])){
+            $state = $this->clientData['data'][$this->user->address_field.'_admin_area_level_2'];
+            if($specialState = $this->checkSpecialState($state) !== false) {
+                return $this->getStateId($specialState);
+            }else
+                return $this->getStateId($state);
         }
         return 0;
     }
 
+    protected function checkSpecialState($state){
+        foreach($this->specialStates as $key => $value){
+            $match1 = strpos($key, $state);
+            $match2 = strpos($state, $key);
+            if($match1 !== false || $match2 !== false)
+                return $key;
+        }
+        return false;
+    }
+    protected function getStateId($state){
+                        //$idState = State::where('name', 'LIKE', '%value%')->get();
+                //$idState = State::whereName($state)->first()->id_prestashop;
+
+                foreach( State::all() as $stateDB ) { //Perform in model with sql sentence.
+                    if( strpos($state,$stateDB) !== false )
+                        return $stateDB->id_prestashop;
+                }
+                return 0;
+
+    }
     protected function getData($url)
     {
         $guzzleClient = new GuzzleHttp\Client();

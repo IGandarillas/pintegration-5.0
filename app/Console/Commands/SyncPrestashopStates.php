@@ -34,6 +34,7 @@ class SyncPrestashopStates extends Command implements SelfHandling, ShouldBeQueu
 	 *
 	 * @return void
 	 */
+
 	public function __construct()
 	{
 		parent::__construct();

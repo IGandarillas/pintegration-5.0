@@ -7,7 +7,7 @@ use pintegration\Item;
 use pintegration\User;
 use PSWebS\PrestaShopWebservice;
 use PSWebS\PrestaShopWebserviceException;
-
+use pintegration\State;
 class Tools
 {
     protected $user_id=null;
@@ -16,6 +16,7 @@ class Tools
     const CUSTOMERS = 'customers';
     const CARTS = 'carts';
     const ADDRESSES = 'addresses';
+
     public function __construct($user_id){
 
         $this->user_id=$user_id;
@@ -178,8 +179,6 @@ class Tools
             Log::error('Error al crear carrito para el cliente: ' . $client->firstname . ' ' . $client->lastname."\n No se ha definido una dirección para ese cliente.");
         }
     }
-
-
 
     public function checkAddressParameters($client){
         $address = $client->direccion;
