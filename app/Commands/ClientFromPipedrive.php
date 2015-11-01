@@ -141,6 +141,7 @@ class ClientFromPipedrive extends Command implements SelfHandling, ShouldBeQueue
         $address->save();
     }
 
+    
     protected function updateClient()
     {
         $client = Client::whereIdClientPipedrive(array('id_client_pipedrive' => $this->clientId))->first();
