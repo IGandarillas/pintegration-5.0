@@ -299,8 +299,15 @@ class SyncPrestashopProducts extends Command implements SelfHandling,ShouldBeQue
             }catch(PrestaShopWebserviceException $e){
                 echo $e->getMessage();
             }
+            if(isset($json))
+                $json = json_decode($json,true);
+            else{
+                Log::error('Prestashop error');
+                return;
+            }
 
-            $json = json_decode($json,true);
+
+
 
             if(isset($json['products'])) {
                 if (count($json['products']) < $chunk)

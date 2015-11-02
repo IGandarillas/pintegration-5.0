@@ -104,7 +104,7 @@ class Tools
             try {
                 $connectClient->edit($opt);
             } catch (PrestaShopWebserviceException $ex) { // Here we are dealing with errors
-                Log::error('Algo fue mal en Prestashop: '. $e->getMessage());
+                Log::error('Algo fue mal en Prestashop: '. $ex->getMessage());
             }
         }
     }

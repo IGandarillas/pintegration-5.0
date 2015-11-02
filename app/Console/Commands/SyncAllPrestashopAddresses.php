@@ -283,16 +283,18 @@ class SyncAllPrestashopAddresses extends Command
     }
     public function fillAddressPipedrive($address,$client,$user){
         $addressData=  array(
-            'name' => utf8_encode($client->firstname.' '.$client->lastname),
+            'name'        => utf8_encode($client->firstname.' '.$client->lastname),
             'active_flag' => '1',
-            'email' => $client->email,
-            'visible_to' => '3',
+            'first_name'  => $client->firstname,
+            'last_name'   => $client->lastname,
+            'email'       => $client->email,
+            'visible_to'  => '3',
+            'phone'       => $address->phone_mobile,
             $user->address_field => htmlspecialchars($address->address1,ENT_NOQUOTES),
             $user->address_field.'_postal_code' => htmlspecialchars($address->postcode,ENT_NOQUOTES),
             $user->address_field.'_locality' => htmlspecialchars($address->city,ENT_NOQUOTES),
         );
-        if(isset($address->phone_mobile))
-            array_push($addressData,$address->phone_mobile);
+
         return $addressData;
 
     }
