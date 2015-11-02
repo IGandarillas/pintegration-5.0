@@ -1,6 +1,4 @@
-<?php
-
-namespace pintegration\Commands;
+<?php namespace pintegration\Commands;
 
 use pintegration\State;
 use Illuminate\Queue\SerializesModels;
@@ -11,7 +9,6 @@ use GuzzleHttp;
 use Illuminate\Support\Facades\Log;
 use pintegration\Client;
 use pintegration\User;
-use Psy\Exception\ErrorException;
 use Symfony\Component\Finder\Shell\Command;
 use Tools\Tools;
 use pintegration\Direccion;
@@ -31,7 +28,6 @@ class ClientFromPipedrive extends Command implements SelfHandling, ShouldBeQueue
     protected $user;
     protected $clientId;
     protected $clientData;
-    protected $dealId;
 
 
     public function __construct($request,$user_id)
@@ -39,41 +35,20 @@ class ClientFromPipedrive extends Command implements SelfHandling, ShouldBeQueue
         $this->request = $request;
         $this->user_id=$user_id;
         $this->user = User::find($user_id);
-        $this->clientId = $request['current']['person_id'];
-        $this->dealId = $this->request['current']['id'];
+        $this->clientId = $request['current']['id'];
 
     }
     public function handle()
     {
-        $this->clientData = $this->getClientData($this->clientId);
-
+        $this->clientData['data'] = $this->request['current'];
         $client = Client::where( array('id_client_pipedrive' => $this->clientId) )->first();
 
         if(  $client != null && $client->id_client_prestashop != null )
             $this->existsClient();
-        else
-            $this->newClient();
     }
 
-    protected function newClient()
-    {
-        $client = $this->createClient();
-
-        if($this->isAddress())
-            if($this->isCompleteAddress())
-                $this->addAddress($client);
-
-        $dealProductsData = $this->getDealProductsData($this->dealId);
-
-        $tools = new Tools($this->user_id);
-        $tools->addClient($client);
-        $tools->addAddress($client);
-        $tools->addCart($client,$dealProductsData);
-
-    }
     protected function existsClient()
     {
-        $dealProductsData = $this->getDealProductsData($this->dealId);
         $client           = $this->updateClient();
 
         if($this->isAddress())
@@ -85,7 +60,7 @@ class ClientFromPipedrive extends Command implements SelfHandling, ShouldBeQueue
             if(isset($client->id_client_prestashop) || $client->id_client_prestashop != 0)
                 $tools->editClient( $client );
             else
-                $tools->addClient($client);
+                return;
 
             if(isset($address, $address->id_address_prestashop))
                 if($address->id_address_prestashop != 0)
@@ -93,39 +68,21 @@ class ClientFromPipedrive extends Command implements SelfHandling, ShouldBeQueue
                 else
                     $tools->addAddress($client);
 
-
-            $tools->addCart($client,$dealProductsData);
-
         }
     }
-
-    /**
-     * Add new client to db;
-     * @return static
-     */
-    protected function createClient()
+    protected function updateClient()
     {
-        $faker = Faker\Factory::create();
-
-        $clientIdPipedrive= array(
-            'id_client_pipedrive' => $this->clientId,
-            'user_id'             => $this->user_id
-        );
-
-        $client = Client::firstOrNew($clientIdPipedrive);
+        $client = Client::whereIdClientPipedrive(array('id_client_pipedrive' => $this->clientId))->first();
 
         $client->firstname = $this->clientData['data']['first_name'];
         $client->lastname  = $this->clientData['data']['last_name'];
         $client->email     = $this->clientData['data']['email'][0]['value'];
-        $client->password  = $faker->password(6,10);
-        $client->id_client_pipedrive = $this->clientId;
 
-        $client->save();
+        $client->update();
 
         return $client;
 
     }
-
     protected function addAddress($client)
     {
         $address = Direccion::firstOrNew( array( 'client_id' => $client->id ) );
@@ -141,26 +98,26 @@ class ClientFromPipedrive extends Command implements SelfHandling, ShouldBeQueue
         $idState = $this->getState();
 
         if( isset($idState->id) )
-                if ($idState->id != 0)
-                    $address->id_state = $idState->id;
+            if ($idState->id != 0)
+                $address->id_state = $idState->id;
 
         $address->save();
     }
 
-
-    protected function updateClient()
+    protected function isAddress()
     {
-        $client = Client::whereIdClientPipedrive(array('id_client_pipedrive' => $this->clientId))->first();
-
-        $client->firstname = $this->clientData['data']['first_name'];
-        $client->lastname  = $this->clientData['data']['last_name'];
-        $client->email     = $this->clientData['data']['email'][0]['value'];
-
-        $client->update();
-
-        return $client;
-
+        return ($this->clientData['data'][$this->user->address_field.'_formatted_address'] != NULL);
     }
+
+    protected function isCompleteAddress()
+    {
+        return ( //Null fields mean malformed address.
+            $this->clientData['data'][$this->user->address_field.'_country'] != NULL &&
+            $this->clientData['data'][$this->user->address_field.'_postal_code'] != NULL &&
+            $this->clientData['data'][$this->user->address_field.'_locality'] != NULL
+        );
+    }
+
 
     protected function getState()
     {
@@ -179,23 +136,22 @@ class ClientFromPipedrive extends Command implements SelfHandling, ShouldBeQueue
         $specialStates = array(
             utf8_encode('A Coruña') => utf8_encode('La Coruña'),
             utf8_encode('Castelló') => utf8_encode('Castellón'),
-            'Nafarroa' => 'Navarra',
-            'Alacant' => 'Alicante',
-            'Balears' => 'Baleares',
-            'Bizkaia' => 'Vizcaya',
-            'Gipuzkoa' => 'Guipuzcoa',
+            utf8_encode('Nafarroa') => utf8_encode('Navarra'),
+            utf8_encode('Alacant')  => utf8_encode('Alicante'),
+            utf8_encode('Balears')  => utf8_encode('Baleares'),
+            utf8_encode('Bizkaia')  => utf8_encode('Vizcaya'),
+            utf8_encode('Gipuzkoa') => utf8_encode('Guipuzcoa'),
             utf8_encode('València') => utf8_encode('Valencia'),
         );
+
         foreach($specialStates as $key => $value){
             $match1 = strpos($key, $state);
             $match2 = strpos($state, $key);
             $match3 = strpos($value, $state);
             $match4 = strpos($state, $value);
             if($match1 !== false || $match2 !== false || $match3 !== false || $match4 !== false ){
-                Log::info($key);
                 return $key;
             }
-
         }
         return false;
     }
@@ -209,49 +165,5 @@ class ClientFromPipedrive extends Command implements SelfHandling, ShouldBeQueue
         }
         return 0;
 
-    }
-    protected function getData($url)
-    {
-        $guzzleClient = new GuzzleHttp\Client();
-        try {
-            $response = $guzzleClient->get($url);
-            if(  $response!=null && $response->getStatusCode() == 200 )
-                return json_decode($response->getBody(),true);
-
-        }catch(GuzzleHttp\Exception\ClientException $e){
-            error_log($e->getMessage());
-        }
-
-    }
-    protected function getClientData($id)
-    {
-        $url = 'https://api.pipedrive.com/v1/persons/'.$id.'?api_token='.$this->user->pipedrive_api;
-        return $this->getData($url);
-    }
-
-    protected function getDealData($id)
-    {
-        $url = 'https://api.pipedrive.com/v1/deals/'.$id.'/products?start=0&api_token='.$this->user->pipedrive_api;
-        return $this->getData($url);
-    }
-
-    protected function getDealProductsData($id)
-    {
-        $url = 'https://api.pipedrive.com/v1/deals/'.$id.'/products?start=0&include_product_data=0&api_token='.$this->user->pipedrive_api;
-        return $this->getData($url);
-    }
-
-    protected function isAddress()
-    {
-        return ($this->clientData['data'][$this->user->address_field.'_formatted_address'] != NULL);
-    }
-
-    protected function isCompleteAddress()
-    {
-        return ( //Null fields mean malformed address.
-            $this->clientData['data'][$this->user->address_field.'_country'] != NULL &&
-            $this->clientData['data'][$this->user->address_field.'_postal_code'] != NULL &&
-            $this->clientData['data'][$this->user->address_field.'_locality'] != NULL
-        );
     }
 }

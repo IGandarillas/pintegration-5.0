@@ -167,7 +167,9 @@ class Tools
             }
 
             if (isset($xml->children()->children()->id)) {
-                if ($xml->children()->children()->id = !0)
+                if ($client->id_client_prestashop == 0)
+                    Log::info("No se puede crear un cliente\nFalta email.\nSe ha generado un carrito vacío en prestashop.");
+                else if($xml->children()->children()->id = !0)
                     Log::info('Carrito creado para el cliente: ' . $client->firstname . ' ' . $client->lastname);
                 else
                     Log::error('Error al crear carrito para el cliente: ' . $client->firstname . ' ' . $client->lastname);
