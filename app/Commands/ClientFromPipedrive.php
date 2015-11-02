@@ -11,6 +11,7 @@ use GuzzleHttp;
 use Illuminate\Support\Facades\Log;
 use pintegration\Client;
 use pintegration\User;
+use Psy\Exception\ErrorException;
 use Symfony\Component\Finder\Shell\Command;
 use Tools\Tools;
 use pintegration\Direccion;
@@ -133,11 +134,16 @@ class ClientFromPipedrive extends Command implements SelfHandling, ShouldBeQueue
         $address->country  = $this->clientData['data'][$this->user->address_field.'_country'];
         $address->postcode = $this->clientData['data'][$this->user->address_field.'_postal_code'];
         $address->city     = $this->clientData['data'][$this->user->address_field.'_locality'];
+
         if(isset($this->clientData['data']['phone']))
             $address->phone_mobile = $this->clientData['data']['phone'][0]['value'];
+
         $idState = $this->getState();
-        if( isest($idState) && $idState->id !== 0)
-            $address->id_state = $idState->id;
+
+        if( isset($idState->id) )
+                if ($idState->id != 0)
+                    $address->id_state = $idState->id;
+
         $address->save();
     }
 
@@ -156,6 +162,67 @@ class ClientFromPipedrive extends Command implements SelfHandling, ShouldBeQueue
 
     }
 
+    protected function getState()
+    {
+        if(isset($this->clientData['data'][$this->user->address_field.'_admin_area_level_2'])){
+            $state = $this->clientData['data'][$this->user->address_field.'_admin_area_level_2'];
+            $specialState = $this->checkSpecialState($state);
+            if($specialState !== false) {
+                return $this->getStateFromDb($specialState);
+            }else
+                return $this->getStateFromDb($state);
+        }
+        return 0;
+    }
+
+    protected function checkSpecialState($state){
+        $specialStates = array(
+            utf8_encode('A Coruña') => utf8_encode('La Coruña'),
+            utf8_encode('Castelló') => utf8_encode('Castellón'),
+            'Nafarroa' => 'Navarra',
+            'Alacant' => 'Alicante',
+            'Balears' => 'Baleares',
+            'Bizkaia' => 'Vizcaya',
+            'Gipuzkoa' => 'Guipuzcoa',
+            utf8_encode('València') => utf8_encode('Valencia'),
+        );
+        foreach($specialStates as $key => $value){
+            $match1 = strpos($key, $state);
+            $match2 = strpos($state, $key);
+            $match3 = strpos($value, $state);
+            $match4 = strpos($state, $value);
+            if($match1 !== false || $match2 !== false || $match3 !== false || $match4 !== false ){
+                Log::info($key);
+                return $key;
+            }
+
+        }
+        return false;
+    }
+    protected function getStateFromDb($state){
+
+        foreach( State::all() as $stateDB ) { //Perform in model with sql sentence.
+            $match1 = strpos($state, $stateDB->name);
+            $match2 = strpos($stateDB->name, $state);
+            if( $match1 !== false || $match2 !== false)
+                return $stateDB;
+        }
+        return 0;
+
+    }
+    protected function getData($url)
+    {
+        $guzzleClient = new GuzzleHttp\Client();
+        try {
+            $response = $guzzleClient->get($url);
+            if(  $response!=null && $response->getStatusCode() == 200 )
+                return json_decode($response->getBody(),true);
+
+        }catch(GuzzleHttp\Exception\ClientException $e){
+            error_log($e->getMessage());
+        }
+
+    }
     protected function getClientData($id)
     {
         $url = 'https://api.pipedrive.com/v1/persons/'.$id.'?api_token='.$this->user->pipedrive_api;
@@ -186,65 +253,5 @@ class ClientFromPipedrive extends Command implements SelfHandling, ShouldBeQueue
             $this->clientData['data'][$this->user->address_field.'_postal_code'] != NULL &&
             $this->clientData['data'][$this->user->address_field.'_locality'] != NULL
         );
-    }
-    protected function getState()
-    {
-        if(isset($this->clientData['data'][$this->user->address_field.'_admin_area_level_2'])){
-            $state = $this->clientData['data'][$this->user->address_field.'_admin_area_level_2'];
-            if($specialState = $this->checkSpecialState($state) !== false) {
-                return $this->getStateFromDb($specialState);
-            }else
-                return $this->getStateFromDb($state);
-        }
-        return 0;
-    }
-
-    protected function checkSpecialState($state){
-        $specialStates = array(
-            'A Coruña' => 'La Coruña',
-            'Castelló' => 'Castellón',
-            'Nafarroa' => 'Navarra',
-            'Alacant' => 'Alicante',
-            'Balears' => 'Baleares',
-            'Bizkaia' => 'Vizcaya',
-            'Gipuzkoa' => 'Guipuzcoa',
-            'València' => 'Valencia'
-        );
-        foreach($specialStates as $key => $value){
-            $match1 = strpos($key, $state);
-            $match2 = strpos($state, $key);
-            $match3 = strpos($value, $state);
-            $match4 = strpos($state, $value);
-            if($match1 !== false || $match2 !== false || $match3 !== false || $match4 !== false ){
-                Log::info($specialStates);
-                return $key;
-            }
-
-        }
-        return false;
-    }
-    protected function getStateFromDb($state){
-
-        foreach( State::all() as $stateDB ) { //Perform in model with sql sentence.
-            $match1 = strpos($state, $stateDB->name);
-            $match2 = strpos($stateDB->name, $state);
-            if( $match1 !== false || $match2 !== false)
-                return $stateDB;
-        }
-        return 0;
-
-    }
-    protected function getData($url)
-    {
-        $guzzleClient = new GuzzleHttp\Client();
-        try {
-            $response = $guzzleClient->get($url);
-            if(  $response!=null && $response->getStatusCode() == 200 )
-                return json_decode($response->getBody(),true);
-
-        }catch(GuzzleHttp\Exception\ClientException $e){
-            error_log($e->getMessage());
-        }
-
     }
 }
