@@ -215,13 +215,15 @@ class ClientFromPipedrive extends Command implements SelfHandling, ShouldBeQueue
             $match2 = strpos($state, $key);
             $match3 = strpos($value, $state);
             $match4 = strpos($state, $value);
-            if($match1 !== false || $match2 !== false || $match3 !== false || $match4 !== false )
+            if($match1 !== false || $match2 !== false || $match3 !== false || $match4 !== false ){
+                Log::info($specialStates);
                 return $key;
+            }
+
         }
         return false;
     }
     protected function getStateFromDb($state){
-
 
         foreach( State::all() as $stateDB ) { //Perform in model with sql sentence.
             $match1 = strpos($state, $stateDB->name);
