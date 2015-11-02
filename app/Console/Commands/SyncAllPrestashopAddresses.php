@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
 use pintegration\Direccion;
+use pintegration\State;
 use pintegration\User;
 use pintegration\Client;
 use PSWebS\PrestaShopWebservice;
@@ -155,13 +156,9 @@ class SyncAllPrestashopAddresses extends Command
                         $address->country = $resource['id_country'];
                         if(isset($resource['phone_mobile']))
                             $address->phone_mobile = $resource['phone_mobile'];
-
-                        if(isset($resource['id_state']) && $resource['id_state'] !=0)
-                            try {
-                                $address->id_state = $resource['id_state'];
-                            }catch(\PDOException $ex){
-                                Log::info('No se guardó la provincia.');
-                            }
+//No se utiliza
+//                        if(isset($resource['id_state']) && $resource['id_state'] !=0)
+//                                $address->id_state = State::whereIdState($resource['id_state'])->first()->id;
 
                         $address->save();
 

@@ -236,7 +236,6 @@ class Tools
         $direccion = $client->direccion;
 
         $this->checkClientName($resources,$client);
-        Log::info('edit');
         $resources->address1 = $direccion->address1;
         $resources->city = $direccion->city;
         $resources->id_country = '6';

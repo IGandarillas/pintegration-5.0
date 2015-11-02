@@ -136,8 +136,8 @@ class ClientFromPipedrive extends Command implements SelfHandling, ShouldBeQueue
         if(isset($this->clientData['data']['phone']))
             $address->phone_mobile = $this->clientData['data']['phone'][0]['value'];
         $idState = $this->getState();
-        if( $idState->id !== 0)
-            $address->id_state = $idState->id_prestashop;
+        if( isest($idState) && $idState->id !== 0)
+            $address->id_state = $idState->id;
         $address->save();
     }
 
@@ -207,7 +207,8 @@ class ClientFromPipedrive extends Command implements SelfHandling, ShouldBeQueue
             'Alacant' => 'Alicante',
             'Balears' => 'Baleares',
             'Bizkaia' => 'Vizcaya',
-            'Gipuzkoa' => 'Guipuzcoa'
+            'Gipuzkoa' => 'Guipuzcoa',
+            'València' => 'Valencia'
         );
         foreach($specialStates as $key => $value){
             $match1 = strpos($key, $state);
