@@ -136,8 +136,8 @@ class ClientFromPipedrive extends Command implements SelfHandling, ShouldBeQueue
         if(isset($this->clientData['data']['phone']))
             $address->phone_mobile = $this->clientData['data']['phone'][0]['value'];
         $idState = $this->getState();
-        if( $idState !== 0)
-            $address->id_state = $idState;
+        if( $idState->id !== 0)
+            $address->id_state = $idState->id_prestashop;
         $address->save();
     }
 
@@ -192,9 +192,9 @@ class ClientFromPipedrive extends Command implements SelfHandling, ShouldBeQueue
         if(isset($this->clientData['data'][$this->user->address_field.'_admin_area_level_2'])){
             $state = $this->clientData['data'][$this->user->address_field.'_admin_area_level_2'];
             if($specialState = $this->checkSpecialState($state) !== false) {
-                return $this->getStateId($specialState);
+                return $this->getStateFromDb($specialState);
             }else
-                return $this->getStateId($state);
+                return $this->getStateFromDb($state);
         }
         return 0;
     }
@@ -219,14 +219,14 @@ class ClientFromPipedrive extends Command implements SelfHandling, ShouldBeQueue
         }
         return false;
     }
-    protected function getStateId($state){
+    protected function getStateFromDb($state){
 
 
         foreach( State::all() as $stateDB ) { //Perform in model with sql sentence.
             $match1 = strpos($state, $stateDB->name);
             $match2 = strpos($stateDB->name, $state);
             if( $match1 !== false || $match2 !== false)
-                return $stateDB->id_prestashop;
+                return $stateDB;
         }
         return 0;
 
