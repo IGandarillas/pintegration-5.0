@@ -167,13 +167,13 @@ class SyncAllPrestashopClients extends Command implements SelfHandling, ShouldBe
 
 
 					if ($totalCount % 100 == 0) {
-						Log::info("Total:" . $exit . " " . $totalCount . " Last client name: " . $item->firstname . ' ' . $item->lastname);
+						Log::info("Total: " . $totalCount . " Last client name: " . $item->firstname . ' ' . $item->lastname);
 						if ($start != 0)
 							sleep(10);
 						$this->addClientsToPipedrive($user, $items);
 						$items = array();
 					} else if ($exit && $json['customers'][$itemsCount - 1]['id'] == $customer['id']) {
-						Log::info("Total:" . $exit . " " . $totalCount . " Last client name: " . $item->firstname . ' ' . $item->lastname);
+						Log::info("Total: " . $totalCount . " Last client name: " . $item->firstname . ' ' . $item->lastname);
 						if ($start != 0)
 							sleep(10);
 
@@ -333,8 +333,6 @@ class SyncAllPrestashopClients extends Command implements SelfHandling, ShouldBe
 	public function fillClientsPipedrive($client){
 		return  array(
 			'name' => $client->firstname." ".$client->lastname,
-			'first_name'  => $client->firstname,
-			'last_name'   => $client->lastname,
 			'active_flag' => '1',
 			'email' => $client->email,
 			'visible_to' => '3',

@@ -144,13 +144,15 @@ class ClientFromPipedrive extends Command implements SelfHandling, ShouldBeQueue
             utf8_encode('València') => utf8_encode('Valencia'),
         );
 
-        foreach($specialStates as $key => $value){
-            $match1 = strpos($key, $state);
-            $match2 = strpos($state, $key);
-            $match3 = strpos($value, $state);
-            $match4 = strpos($state, $value);
-            if($match1 !== false || $match2 !== false || $match3 !== false || $match4 !== false ){
-                return $key;
+        if(isset($state) && !isEmpty($state) ){
+            foreach($specialStates as $key => $value){
+                $match1 = strpos($key, $state);
+                $match2 = strpos($state, $key);
+                $match3 = strpos($value, $state);
+                $match4 = strpos($state, $value);
+                if($match1 !== false || $match2 !== false || $match3 !== false || $match4 !== false ){
+                    return $key;
+                }
             }
         }
         return false;
