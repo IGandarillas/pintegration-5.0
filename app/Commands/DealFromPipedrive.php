@@ -9,6 +9,8 @@ namespace pintegration\Commands;
     use Illuminate\Contracts\Queue\ShouldBeQueued;
     use GuzzleHttp;
     use pintegration\Client;
+    use Illuminate\Support\Facades\Log;
+    use Pipedrive\Pipedrive;
     use pintegration\User;
     use Symfony\Component\Finder\Shell\Command;
     use Tools\Tools;
@@ -115,8 +117,7 @@ class DealFromPipedrive extends Command implements SelfHandling, ShouldBeQueued
 
         $client = Client::firstOrNew($clientIdPipedrive);
 
-        $client->firstname = $this->clientData['data']['first_name'];
-        $client->lastname  = $this->clientData['data']['last_name'];
+        $this->checkClientName($client);
         $client->email     = $this->clientData['data']['email'][0]['value'];
         $client->password  = $faker->password(6,10);
         $client->id_client_pipedrive = $this->clientId;
@@ -125,6 +126,26 @@ class DealFromPipedrive extends Command implements SelfHandling, ShouldBeQueued
 
         return $client;
 
+    }
+    protected function checkClientName($client){
+        $firstName = $this->clientData['data']['first_name'];
+        $lastName = $this->clientData['data']['last_name'];
+        $name = $this->clientData['data']['name'];
+        if( strnatcasecmp( trim($firstName.$lastName), trim($name) ) != 0){
+            $pd = new Pipedrive();
+            $composedName = $pd->searchName($name);
+            if($composedName!=0){
+                $client->firstname = $composedName[0];
+                $client->lastname  = $composedName[1];
+                Log::info('FirstName = '.$composedName[0].' LastName = '.$composedName[1]);
+            }else{
+                Log::info('Posible fallo en nombre');
+            }
+        }else{
+            Log::info('Name coincide con firstname y lastname');
+            $client->firstname = $firstName;
+            $client->lastname  = $lastName;
+        }
     }
 
     protected function addAddress($client)
@@ -153,8 +174,7 @@ class DealFromPipedrive extends Command implements SelfHandling, ShouldBeQueued
     {
         $client = Client::whereIdClientPipedrive(array('id_client_pipedrive' => $this->clientId))->first();
 
-        $client->firstname = $this->clientData['data']['first_name'];
-        $client->lastname  = $this->clientData['data']['last_name'];
+        $this->checkClientName($client);
         $client->email     = $this->clientData['data']['email'][0]['value'];
 
         $client->update();

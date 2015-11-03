@@ -29,7 +29,6 @@ class Pipedrive
                 $word_index = $key;
             }
         }
-       // echo 'HOLA'.$word_index;
         if($word_index>=0){
             $splitedOriginal = explode(" ", $name);
             $firstname  = implode(" ",array_slice($splitedOriginal,0,$word_index+1));

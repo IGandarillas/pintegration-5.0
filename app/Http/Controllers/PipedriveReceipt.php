@@ -22,11 +22,7 @@ class PipedriveReceipt extends Controller
 
         if(isset( $req['meta']['object'] ) && $req['meta']['object'] == 'person') {
             $currentName       = $req['current']['name'];
-            $previousName      = $req['current']['name'];
-            $currentFirstName  = $req['current']['first_name'];
-            $previousFirstName = $req['previous']['first_name'];
-            $currentLastName   = $req['current']['last_name'];
-            $previousLastName  = $req['previous']['last_name'];
+            $previousName      = $req['previous']['name'];
             $currentEmail      = $req['current']['email'][0]['value'];
             $previousEmail     = $req['previous']['email'][0]['value'];
             $currentAddress    = $req['current'][Auth::user()->address_field];
@@ -37,8 +33,6 @@ class PipedriveReceipt extends Controller
             if ($currentEmail     != $previousEmail     ||
                 $currentAddress   != $previousAddress   ||
                 $currentPhone     != $previousPhone     ||
-                $currentFirstName != $previousFirstName ||
-                $currentLastName  != $previousLastName  ||
                 $currentName      != $previousName
             ) {
                 $task = new ClientFromPipedrive($req, Auth::user()->id);

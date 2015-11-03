@@ -58,7 +58,7 @@ class ClientFromPipedrive extends Command implements SelfHandling, ShouldBeQueue
         $address          = $client->direccion;
         if( isset($client) ) {
             $tools = new Tools( $this->user_id );
-            if(isset($client->id_client_prestashop) || $client->id_client_prestashop != 0)
+            if ( isset($client->id_client_prestashop) || $client->id_client_prestashop != 0 )
                 $tools->editClient( $client );
             else
                 return;
@@ -70,6 +70,12 @@ class ClientFromPipedrive extends Command implements SelfHandling, ShouldBeQueue
                     $tools->addAddress($client);
 
         }
+    }
+    protected function getNameFirstWord($name){
+        $nameSplit = explode(" ", $name);
+        $firstname = implode(" ",array_slice($nameSplit,0,1));
+        $lastname  = implode(" ",array_slice($nameSplit,1));
+        return array($firstname,$lastname);
     }
     protected function checkClientName($client){
         $firstName = $this->clientData['data']['first_name'];
@@ -83,7 +89,11 @@ class ClientFromPipedrive extends Command implements SelfHandling, ShouldBeQueue
                 $client->lastname  = $composedName[1];
                 Log::info('FirstName = '.$composedName[0].' LastName = '.$composedName[1]);
             }else{
-                Log::info('Posible fallo en nombre');
+                $composedName = $this->getNameFirstWord($name);
+                $client->firstname = $composedName[0];
+                $client->lastname  = $composedName[1];
+                Log::info('Posible fallo en nombre FirstName = '.$composedName[0].' LastName = '.$composedName[1]);
+
             }
         }else{
             Log::info('Name coincide con firstname y lastname');
