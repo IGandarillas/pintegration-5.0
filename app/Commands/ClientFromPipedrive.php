@@ -9,6 +9,7 @@ use GuzzleHttp;
 use Illuminate\Support\Facades\Log;
 use pintegration\Client;
 use pintegration\User;
+use Pipedrive\Pipedrive;
 use Symfony\Component\Finder\Shell\Command;
 use Tools\Tools;
 use pintegration\Direccion;
@@ -70,12 +71,31 @@ class ClientFromPipedrive extends Command implements SelfHandling, ShouldBeQueue
 
         }
     }
+    protected function checkClientName($client){
+        $firstName = $this->clientData['data']['first_name'];
+        $lastName = $this->clientData['data']['last_name'];
+        $name = $this->clientData['data']['name'];
+        if( strnatcasecmp( trim($firstName.$lastName), trim($name))!=0){
+            $pd = new Pipedrive();
+            $composedName = $pd->searchName($name);
+            if($composedName!=0){
+                $client->firstname = $composedName[0];
+                $client->lastname  = $composedName[1];
+                Log::info('FirstName = '.$composedName[0].' LastName = '.$composedName[1]);
+            }else{
+                Log::info('Posible fallo en nombre');
+            }
+        }else{
+            Log::info('Name coincide con firstname y lastname');
+            $client->firstname = $firstName;
+            $client->lastname  = $lastName;
+        }
+    }
     protected function updateClient()
     {
         $client = Client::whereIdClientPipedrive(array('id_client_pipedrive' => $this->clientId))->first();
 
-        $client->firstname = $this->clientData['data']['first_name'];
-        $client->lastname  = $this->clientData['data']['last_name'];
+        $this->checkClientName($client);
         $client->email     = $this->clientData['data']['email'][0]['value'];
 
         $client->update();
@@ -144,7 +164,7 @@ class ClientFromPipedrive extends Command implements SelfHandling, ShouldBeQueue
             utf8_encode('València') => utf8_encode('Valencia'),
         );
 
-        if(isset($state) && !isEmpty($state) ){
+        if(isset($state) ){
             foreach($specialStates as $key => $value){
                 $match1 = strpos($key, $state);
                 $match2 = strpos($state, $key);
@@ -168,4 +188,6 @@ class ClientFromPipedrive extends Command implements SelfHandling, ShouldBeQueue
         return 0;
 
     }
+
+
 }
