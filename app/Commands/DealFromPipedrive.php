@@ -139,7 +139,10 @@ class DealFromPipedrive extends Command implements SelfHandling, ShouldBeQueued
                 $client->lastname  = $composedName[1];
                 Log::info('FirstName = '.$composedName[0].' LastName = '.$composedName[1]);
             }else{
-                Log::info('Posible fallo en nombre');
+                $composedName = $this->getNameFirstWord($name);
+                $client->firstname = $composedName[0];
+                $client->lastname  = $composedName[1];
+                Log::info('Posible fallo en nombre FirstName = '.$composedName[0].' LastName = '.$composedName[1]);
             }
         }else{
             Log::info('Name coincide con firstname y lastname');

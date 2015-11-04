@@ -21,7 +21,7 @@ class checkConsistency extends Command implements SelfHandling, ShouldBeQueued {
 	 */
 	public function __construct()
 	{
-		parent::__construct();
+	//	parent::__construct();
 	}
 
 	/**
@@ -32,5 +32,12 @@ class checkConsistency extends Command implements SelfHandling, ShouldBeQueued {
 	public function handle()
 	{
 
+		$pd = new Pipedrive();
+		$name = $pd->searchName('hugo José Acebo Pérez');
+		echo "FIN". $name[0],"\n";
+		echo $name[1];
+	  	//$reload = new SyncPrestashopProducts(4);
+		//$reload->handle();
 	}
+
 }

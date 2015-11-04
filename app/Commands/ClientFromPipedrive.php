@@ -81,7 +81,7 @@ class ClientFromPipedrive extends Command implements SelfHandling, ShouldBeQueue
         $firstName = $this->clientData['data']['first_name'];
         $lastName = $this->clientData['data']['last_name'];
         $name = $this->clientData['data']['name'];
-        if( strnatcasecmp( trim($firstName.$lastName), trim($name))!=0){
+        if( strnatcasecmp( trim($firstName.$lastName), trim($name)) !=0 ){
             $pd = new Pipedrive();
             $composedName = $pd->searchName($name);
             if($composedName!=0){

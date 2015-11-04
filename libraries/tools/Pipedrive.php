@@ -15,7 +15,7 @@ class Pipedrive
 
         foreach($splited as $split) {
             $split = $this->normlizr($split);
-            $data = file_get_contents(storage_path('\\names.txt'));
+            $data = file_get_contents(storage_path('/names.txt'));
 
             if (preg_match("/\b$split\b/", $data ,$matches)) {
                 array_push($match_words,$split);
@@ -90,6 +90,8 @@ class Pipedrive
 
         $chain= str_replace(array_keys($replace), $replace, $chain);
         $chain = strtolower($chain);
+
+
         return $chain;
     }
 }
