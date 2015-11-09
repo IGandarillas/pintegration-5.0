@@ -440,9 +440,10 @@ class SyncPrestashopProducts extends Command implements SelfHandling,ShouldBeQue
         return $channels;
     }
     public function fillProductPipedrive($item,$user){
+        $name = $item->code.' '.$item->name;
         return  array(
-                'name' => $item->code.' '.$item->name,
-                'code' => $item->code,
+                'name' => htmlspecialchars($name),
+                'code' => htmlspecialchars($item->code),
                 'active_flag' => '1',
                 'visible_to' => '3',
                 'prices' => [

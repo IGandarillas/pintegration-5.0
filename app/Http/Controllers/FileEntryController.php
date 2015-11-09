@@ -55,12 +55,9 @@ class FileEntryController extends Controller
                 $file->move( storage_path(),$file->getFilename());
                 error_log($file->getPathname().$file->getFilename().' '.storage_path().' '.$file->getRealPath());
 
-
-            error_log('Lanzar job');
             if(Auth::check()) {
                 $task = new ProductsCsvSeedJob($path, Auth::user()->id);
                 Queue::later(Carbon::now()->addSeconds(1), $task);
-                error_log('Seeder c');
                 return redirect('/products');
             }else{
                 error_log('Mensaje de error');
@@ -69,7 +66,6 @@ class FileEntryController extends Controller
 
 
             }else{
-            error_log('AASDF');
                 return redirect('/products');
             }
 

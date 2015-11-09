@@ -127,27 +127,26 @@ class DealFromPipedrive extends Command implements SelfHandling, ShouldBeQueued
         return $client;
 
     }
+    protected function getNameFirstWord($name){
+        $nameSplit = explode(" ", $name);
+        $firstname = implode(" ",array_slice($nameSplit,0,1));
+        $lastname  = implode(" ",array_slice($nameSplit,1));
+        return array($firstname,$lastname);
+    }
     protected function checkClientName($client){
-        $firstName = $this->clientData['data']['first_name'];
-        $lastName = $this->clientData['data']['last_name'];
         $name = $this->clientData['data']['name'];
-        if( strnatcasecmp( trim($firstName.$lastName), trim($name) ) != 0){
-            $pd = new Pipedrive();
-            $composedName = $pd->searchName($name);
-            if($composedName!=0){
-                $client->firstname = $composedName[0];
-                $client->lastname  = $composedName[1];
-                Log::info('FirstName = '.$composedName[0].' LastName = '.$composedName[1]);
-            }else{
-                $composedName = $this->getNameFirstWord($name);
-                $client->firstname = $composedName[0];
-                $client->lastname  = $composedName[1];
-                Log::info('Posible fallo en nombre FirstName = '.$composedName[0].' LastName = '.$composedName[1]);
-            }
+
+        $pd = new Pipedrive();
+        $composedName = $pd->searchName($name);
+        if($composedName!=0){
+            $client->firstname = $composedName[0];
+            $client->lastname  = $composedName[1];
+            Log::info('FirstName = '.$composedName[0].' LastName = '.$composedName[1]);
         }else{
-            Log::info('Name coincide con firstname y lastname');
-            $client->firstname = $firstName;
-            $client->lastname  = $lastName;
+            $composedName = $this->getNameFirstWord($name);
+            $client->firstname = $composedName[0];
+            $client->lastname  = $composedName[1];
+            Log::info('Posible fallo en nombre FirstName = '.$composedName[0].' LastName = '.$composedName[1]);
         }
     }
 

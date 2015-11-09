@@ -156,6 +156,7 @@ class SyncAllPrestashopClients extends Command implements SelfHandling, ShouldBe
 					);
 
 					$item = Client::firstOrNew($clientIdPrestashop);
+
 					$item->id_client_prestashop = $customer['id'];
 					$item->firstname  = $customer['firstname'];
 					$item->lastname   = $customer['lastname'];
@@ -331,10 +332,11 @@ class SyncAllPrestashopClients extends Command implements SelfHandling, ShouldBe
 		return $channels;
 	}
 	public function fillClientsPipedrive($client){
+		$name = $client->firstname.' '.$client->lastname;
 		return  array(
-			'name' => $client->firstname." ".$client->lastname,
+			'name' => htmlspecialchars($name),
 			'active_flag' => '1',
-			'email' => $client->email,
+			'email' => utf8_encode($client->email),
 			'visible_to' => '3',
 		);
 

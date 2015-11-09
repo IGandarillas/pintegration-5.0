@@ -1,5 +1,6 @@
 <?php namespace Pipedrive;
 
+use Illuminate\Support\Facades\Log;
 use PSWebS\PrestaShopWebserviceException;
 
 class Pipedrive
@@ -24,6 +25,7 @@ class Pipedrive
         $last_match = end($match_words);
         $word_index = -1;
         foreach($splited as $key => $value){
+            echo $this->normlizr($value);
         //Key is an index number.
             if($this->normlizr($value) == $last_match){
                 $word_index = $key;
@@ -52,7 +54,7 @@ class Pipedrive
             '?' => 'I', '?' => 'IJ', '?' => 'J', '?' => 'K', '?' => 'K', '?' => 'K',
             '?' => 'K', '?' => 'K', '?' => 'K', 'Ñ' => 'N', '?' => 'N', '?' => 'N',
             '?' => 'N', '?' => 'N', 'Ò' => 'O', 'Ó' => 'O', 'Ô' => 'O', 'Õ' => 'O',
-            'Ö' => 'Oe', '&Ouml;' => 'Oe', 'Ø' => 'O', '?' => 'O', '?' => 'O', '?' => 'O',
+            'Ö' => 'O', '&Ouml;' => 'Oe', 'Ø' => 'O', '?' => 'O', '?' => 'O', '?' => 'O',
             'Œ' => 'OE', '?' => 'R', '?' => 'R', '?' => 'R', '?' => 'S', 'Š' => 'S',
             '?' => 'S', '?' => 'S', '?' => 'S', '?' => 'T', '?' => 'T', '?' => 'T',
             '?' => 'T', 'Ù' => 'U', 'Ú' => 'U', 'Û' => 'U', 'Ü' => 'Ue', '?' => 'U',
@@ -68,7 +70,7 @@ class Pipedrive
             '?' => 'i', '?' => 'i', '?' => 'i', '?' => 'i', '?' => 'ij', '?' => 'j',
             '?' => 'k', '?' => 'k', '?' => 'l', '?' => 'l', '?' => 'l', '?' => 'l',
             '?' => 'l', 'ñ' => 'n', '?' => 'n', '?' => 'n', '?' => 'n', '?' => 'n',
-            '?' => 'n', 'ò' => 'o', 'ó' => 'o', 'ô' => 'o', 'õ' => 'o', 'ö' => 'oe',
+            '?' => 'n', 'ò' => 'o', 'ó' => 'o', 'ô' => 'o', 'õ' => 'o', 'ö' => 'o',
             '&ouml;' => 'oe', 'ø' => 'o', '?' => 'o', '?' => 'o', '?' => 'o', 'œ' => 'oe',
             '?' => 'r', '?' => 'r', '?' => 'r', 'š' => 's', 'ù' => 'u', 'ú' => 'u',
             'û' => 'u', 'ü' => 'ue', '?' => 'u', '&uuml;' => 'ue', '?' => 'u', '?' => 'u',
@@ -87,11 +89,21 @@ class Pipedrive
             '?' => 'sh', '?' => 'sch', '?' => '', '?' => 'y', '?' => '', '?' => 'e',
             '?' => 'yu', '?' => 'ya'
         ];
+        $newArray = array();
 
-        $chain= str_replace(array_keys($replace), $replace, $chain);
+        foreach($replace as $key => $value){
+            $newArray[utf8_encode($key)] = $value;
+        }
+        $chain= str_replace(array_keys($newArray), $newArray, $chain);
         $chain = strtolower($chain);
 
 
         return $chain;
+    }
+
+    function utf8encode($value, $key)
+    {
+        $key = utf8_encode($key);
+        Log::info($key);
     }
 }

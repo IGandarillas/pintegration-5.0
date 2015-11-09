@@ -78,10 +78,8 @@ class ClientFromPipedrive extends Command implements SelfHandling, ShouldBeQueue
         return array($firstname,$lastname);
     }
     protected function checkClientName($client){
-        $firstName = $this->clientData['data']['first_name'];
-        $lastName = $this->clientData['data']['last_name'];
         $name = $this->clientData['data']['name'];
-        if( strnatcasecmp( trim($firstName.$lastName), trim($name)) !=0 ){
+
             $pd = new Pipedrive();
             $composedName = $pd->searchName($name);
             if($composedName!=0){
@@ -93,14 +91,9 @@ class ClientFromPipedrive extends Command implements SelfHandling, ShouldBeQueue
                 $client->firstname = $composedName[0];
                 $client->lastname  = $composedName[1];
                 Log::info('Posible fallo en nombre FirstName = '.$composedName[0].' LastName = '.$composedName[1]);
-
             }
-        }else{
-            Log::info('Name coincide con firstname y lastname');
-            $client->firstname = $firstName;
-            $client->lastname  = $lastName;
-        }
     }
+
     protected function updateClient()
     {
         $client = Client::whereIdClientPipedrive(array('id_client_pipedrive' => $this->clientId))->first();

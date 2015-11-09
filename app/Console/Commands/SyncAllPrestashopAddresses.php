@@ -282,14 +282,15 @@ class SyncAllPrestashopAddresses extends Command
         return $channels;
     }
     public function fillAddressPipedrive($address,$client,$user){
+        $name = $client->firstname.' '.$client->lastname;
         $addressData=  array(
-            'name'        => utf8_encode($client->firstname.' '.$client->lastname),
+            'name'        => htmlspecialchars($name,ENT_NOQUOTES),
             'active_flag' => '1',
-            'first_name'  => $client->firstname,
-            'last_name'   => $client->lastname,
-            'email'       => $client->email,
+            'first_name'  => htmlspecialchars($client->firstname,ENT_NOQUOTES),
+            'last_name'   => htmlspecialchars($client->lastname,ENT_NOQUOTES),
+            'email'       => htmlspecialchars($client->email,ENT_NOQUOTES),
             'visible_to'  => '3',
-            'phone'       => $address->phone_mobile,
+            'phone'       => htmlspecialchars($address->phone_mobile),
             $user->address_field => htmlspecialchars($address->address1,ENT_NOQUOTES),
             $user->address_field.'_postal_code' => htmlspecialchars($address->postcode,ENT_NOQUOTES),
             $user->address_field.'_locality' => htmlspecialchars($address->city,ENT_NOQUOTES),

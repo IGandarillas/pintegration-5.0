@@ -21,7 +21,7 @@ class checkConsistency extends Command implements SelfHandling, ShouldBeQueued {
 	 */
 	public function __construct()
 	{
-	//	parent::__construct();
+		parent::__construct();
 	}
 
 	/**
