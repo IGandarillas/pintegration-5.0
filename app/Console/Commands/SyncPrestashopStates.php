@@ -140,10 +140,10 @@ class SyncPrestashopStates extends Command implements SelfHandling, ShouldBeQueu
 				$state->save();
 				$exit=true;
 				if($totalCount%50==0){
-					Log::info("Total: ".$totalCount." State name: ".$state->name);
+					Log::info($totalCount." Prestashop -> Pipedrive: State name: ".$state->name);
 				}
 				else if($exit && $json['states'][$itemsCount-1]['id']==$resource['id']){
-					Log::info("Total: ".$totalCount." State name: ".$state->name);
+					Log::info($totalCount." Prestashop -> Pipedrive: State name: ".$state->name);
 				}
 			}
 			$start += $chunk;

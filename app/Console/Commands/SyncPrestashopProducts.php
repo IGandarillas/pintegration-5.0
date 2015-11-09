@@ -327,14 +327,14 @@ class SyncPrestashopProducts extends Command implements SelfHandling,ShouldBeQue
                     array_push($items, $item);
                     $itemsCount = count($json['products']);
                     if ($totalCount % 100 == 0) {
-                        Log::info("Total: ". $totalCount . " Product => reference: " . $item->code . "\n name: " . $item->name);
+                        Log::info($totalCount." Prestashop -> Pipedrive: Product => reference: " . $item->code . "\n name: " . $item->name);
                         if ($start != 0)
                             sleep(10);
                         $this->addProductToPipedrive($user, $items);
                         $items = array();
                     } else if ($exit && $json['products'][$itemsCount - 1]['id'] == $product['id']) {
                         if( $this->flag != self::RELOAD_ITEMS ) {
-                            Log::info("Total: " . $totalCount . " Product => reference: " . $item->code);
+                            Log::info($totalCount." Prestashop -> Pipedrive: Product => reference: " . $item->code);
                         }
                         if ($start != 0)
                             sleep(10);

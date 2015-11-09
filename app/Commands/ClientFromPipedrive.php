@@ -85,12 +85,12 @@ class ClientFromPipedrive extends Command implements SelfHandling, ShouldBeQueue
             if($composedName!=0){
                 $client->firstname = $composedName[0];
                 $client->lastname  = $composedName[1];
-                Log::info('FirstName = '.$composedName[0].' LastName = '.$composedName[1]);
+                //Log::info('FirstName = '.$composedName[0].' LastName = '.$composedName[1]);
             }else{
                 $composedName = $this->getNameFirstWord($name);
                 $client->firstname = $composedName[0];
                 $client->lastname  = $composedName[1];
-                Log::info('Posible fallo en nombre FirstName = '.$composedName[0].' LastName = '.$composedName[1]);
+                //Log::info('Posible fallo en nombre FirstName = '.$composedName[0].' LastName = '.$composedName[1]);
             }
     }
 

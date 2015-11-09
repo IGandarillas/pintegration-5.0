@@ -164,13 +164,13 @@ class SyncAllPrestashopAddresses extends Command
 
                         array_push($addresses, $address);
                         if ($totalCount % 100 == 0) {
-                            Log::info("Address: " . $address->address1);
+                            Log::info($totalCount." Prestashop -> Pipedrive: Address: " . $address->address1);
                             if ($start != 0)
                                 sleep(10);
                             $this->addAddressesToPipedrive($user, $addresses);
                             $addresses = array();
                         } else if ($exit && $resources['addresses'][$itemsCount - 1]['id'] == $resource['id']) {
-                            Log::info("Address: " . $address->address1);
+                            Log::info($totalCount." Prestashop -> Pipedrive: Address: " . $address->address1);
                             if ($start != 0)
                                 sleep(10);
                             $this->addAddressesToPipedrive($user, $addresses);

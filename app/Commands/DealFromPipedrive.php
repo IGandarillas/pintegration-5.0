@@ -136,18 +136,18 @@ class DealFromPipedrive extends Command implements SelfHandling, ShouldBeQueued
     protected function checkClientName($client){
         $name = $this->clientData['data']['name'];
 
-        $pd = new Pipedrive();
-        $composedName = $pd->searchName($name);
-        if($composedName!=0){
-            $client->firstname = $composedName[0];
-            $client->lastname  = $composedName[1];
-            Log::info('FirstName = '.$composedName[0].' LastName = '.$composedName[1]);
-        }else{
-            $composedName = $this->getNameFirstWord($name);
-            $client->firstname = $composedName[0];
-            $client->lastname  = $composedName[1];
-            Log::info('Posible fallo en nombre FirstName = '.$composedName[0].' LastName = '.$composedName[1]);
-        }
+            $pd = new Pipedrive();
+            $composedName = $pd->searchName($name);
+            if($composedName!=0){
+                $client->firstname = $composedName[0];
+                $client->lastname  = $composedName[1];
+                Log::info('FirstName = '.$composedName[0].' LastName = '.$composedName[1]);
+            }else{
+                $composedName = $this->getNameFirstWord($name);
+                $client->firstname = $composedName[0];
+                $client->lastname  = $composedName[1];
+                Log::info('Posible fallo en nombre FirstName = '.$composedName[0].' LastName = '.$composedName[1]);
+            }
     }
 
     protected function addAddress($client)

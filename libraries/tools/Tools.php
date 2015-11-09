@@ -9,6 +9,8 @@ use pintegration\User;
 use PSWebS\PrestaShopWebservice;
 use PSWebS\PrestaShopWebserviceException;
 use pintegration\State;
+
+
 class Tools
 {
     protected $user_id=null;
@@ -17,6 +19,15 @@ class Tools
     const CUSTOMERS = 'customers';
     const CARTS = 'carts';
     const ADDRESSES = 'addresses';
+    const CARRITO_CREADO = 'Carrito creado ';
+    const CARRITO_ERROR = 'Error carrito ';
+    const CLIENTE_CREADO = 'Cliente creado ';
+    const CLIENTE_ERROR = 'Error cliente ';
+    const CLIENTE_ACTUALIZADO = 'Cliente actualizado ';
+    const DIRECCION_CREADA = 'Dirección creada ';
+    const DIRECCION_ERROR = 'Error dirección ';
+    const DIRECCION_ACTUALIZADA = 'Dirección actualizada ';
+    const NO_DEFINIDO = 'Faltan datos por definir ';
 
     public function __construct($user_id){
 
@@ -39,12 +50,11 @@ class Tools
     }
     public function hasClientRequiredFields($client)
     {
-        return isset($client->email);
+        return isset($client->email,$client->firstname,$client->lastname);
     }
 
     public function addClient($client){
         if($this->hasClientRequiredFields($client)) {
-
             $xml = $this->getBlankSchema(self::CUSTOMERS);
             $resources = $xml->children()->children();
 
@@ -63,7 +73,7 @@ class Tools
                 $xml = $connectClient->add($opt);
 
             } catch (PrestaShopWebserviceException $ex) { // Here we are dealing with errors
-                $msg = utf8_encode('Prestashop falló al crear el cliente '.$client->firstname.' '.$client->lastname);
+                $msg = 'Prestashop falló al crear el cliente '.$client->firstname.' '.$client->lastname;
                 Log::error($msg);
                 $this->notifyError($msg);
             }
@@ -74,14 +84,15 @@ class Tools
             $client->password             = $response->passwd;
 
             $client->update();
-            $msg = 'Cliente creado: ' . $client->firstname . ' ' . $client->lastname;
+            $clientArray = (string) $client;
+            $msg = "Cliente creado: \n" . $clientArray;
             Log::info($msg);
-            $this->notifySuccess($msg);
+            $this->notifySuccess($msg,self::CLIENTE_CREADO);
         }else{
             //$client->email = 'pipedrive'.$client->firstname.$client->id_client_pipedrive
-            $msg = 'No hay email para el cliente: '.$client->firstname.' '.$client->lastname;
+            $msg = 'Cliente no creado. Deben definirse los campos email, nombre y apellidos.';
             Log::error($msg);
-            $this->notifyError($msg);
+            $this->notifySuccess($msg,self::CLIENTE_ERROR);
         }
     }
     public function editClient($client){
@@ -93,9 +104,9 @@ class Tools
             try{
                 $xml = $connectClient->get($opt);
             } catch (PrestaShopWebserviceException $e) { // Here we are dealing with errors
-                $msg = 'Algo fue mal en Prestashop: '. $e->getMessage();
+                $msg = "Algo fue mal en Prestashop: \n Prestashop no acepta nombre y apellidos con más de 32 caracteres cada uno.". $e->getMessage();
                 Log::error($msg);
-                $this->notifyError($msg);
+                $this->notifySuccess($msg,self::CLIENTE_ERROR);
             }
             $resources = $xml->children()->children();
 
@@ -114,33 +125,42 @@ class Tools
             try {
                 $connectClient->edit($opt);
             } catch (PrestaShopWebserviceException $ex) { // Here we are dealing with errors
-                $msg = 'Algo fue mal en Prestashop: '. $ex->getMessage();
+                $msg = 'Algo fue mal en Prestashop.';
                 Log::error($msg);
-                $this->notifyError($msg);
+                $this->notifySuccess($msg,self::CLIENTE_ERROR);
                 return;
             }
-            $msg = 'Cliente actualizado: ' . $client->firstname . ' ' . $client->lastname;
+            $clientArray = (string) $client;
+            $msg = "Cliente actualizado: \n" . $clientArray;
             Log::info($msg);
-            $this->notifySuccess($msg);
+            $this->notifySuccess($clientArray,self::CLIENTE_ACTUALIZADO);
+        }else{
+            //$client->email = 'pipedrive'.$client->firstname.$client->id_client_pipedrive
+            $msg = 'Cliente no actualizado. Deben definirse los campos email, nombre y apellidos.';
+            Log::error($msg);
+            $this->notifySuccess($msg,self::CLIENTE_ERROR.'. '.self::NO_DEFINIDO);
         }
     }
 
 
     public function checkCartParameters($client){
         $address = $client->direccion;
-        /* return isset(
+         return isset(
              $address->id_address_prestashop
-         );*/
+         );
         return true;
     }
+    public function checkAddress($direccion){
+        return isset($direccion->id_address_prestashop, $direccion->id_address_prestashop);
+    }
     public function addCart($client,$order){
-        if($this->checkCartParameters($client)) {
+
             $xml = $this->getBlankSchema(self::CARTS);
             $resources = $xml->children()->children();
 
             $direccion = $client->direccion;
 
-            if(isset($direccion->id_address_prestashop, $direccion->id_address_prestashop)) {
+            if($this->checkAddress($direccion)) {
 
                 $resources->id_address_delivery = $direccion->id_address_prestashop;
                 $resources->id_address_invoice = $direccion->id_address_prestashop;
@@ -177,36 +197,44 @@ class Tools
 
             $connectClient = $this->initConnection();
             try {
+                if ($client->id_client_prestashop != 0)
                 $xml = $connectClient->add($opt);
             } catch (PrestaShopWebserviceException $ex) {
                 $msg = 'Algo fue mal en Prestashop: '. $ex->getMessage();
                 Log::error($msg);
-                $this->notifyError($msg);
+                $this->notifySuccess($msg,self::CARRITO_ERROR);
             }
 
             if (isset($xml->children()->children()->id)) {
                 if ($client->id_client_prestashop == 0)
-                    Log::info("No se puede crear un cliente\nFalta email.\nSe ha generado un carrito vacío en prestashop.");
+                    Log::error('Carrito no actualizado. Deben definirse los campos email, dirección, teléfono, nombre y apellidos.');
                 else if($xml->children()->children()->id = !0) {
+                    if( !$this->checkAddress($direccion) ){
+                        $clientArray = (string) $client;
+                        $msg = "Carrito creado sin dirección: \n " .$clientArray;
+                        Log::warning($msg);
+                        $this->notifySuccess($msg,self::CARRITO_CREADO.'. '.self::NO_DEFINIDO);
+                    }else{
+                        $clientArray = (string) $client;
+                        $msg = "Carrito creado :  \n" .$clientArray;
+                        Log::info($msg);
+                        $this->notifySuccess($msg,self::CARRITO_CREADO);
+                        return $xml->children()->children()->id;//Process response.
+                    }
 
-                    $msg = 'Carrito creado para el cliente: ' . $client->firstname . ' ' . $client->lastname;
-                    Log::info($msg);
-                    $this->notifySuccess($msg);
-                    return $xml->children()->children()->id;//Process response.
-
-                }else
-                $msg = 'Error al crear carrito para el cliente: ' . $client->firstname . ' ' . $client->lastname;
-                Log::error($msg);
-                $this->notifyError($msg);
+                }else {
+                    $clientArray = (string) $client;
+                    $msg = "Error al crear carrito: \n". $clientArray;
+                    Log::error($msg);
+                    $this->notifySuccess($msg,self::CARRITO_ERROR);
+                }
             }
 
 
 
-        }else{
-            $msg = 'Error al crear carrito para el cliente: ' . $client->firstname . ' ' . $client->lastname."\n No se ha definido una direcci?n para ese cliente.";
-            Log::error($msg);
-            $this->notifyError($msg);
-        }
+
+
+
     }
 
     public function checkAddressParameters($client){
@@ -244,17 +272,17 @@ class Tools
             try {
                 $xml = $connectClient->add($opt);
             } catch (PrestaShopWebserviceException $ex) {
-                $msg = 'Algo fue mal en Prestashop: '. $ex->getMessage();
+                $msg = "Algo fue mal en Prestashop: \n". $ex->getMessage();
                 Log::error($msg);
-                $this->notifyError($msg);
+                $this->notifySuccess($msg,self::DIRECCION_ERROR);
                 return;
             }
             //Store response
             $direccion->id_address_prestashop = $xml->children()->children()->id;//Process response.
             $direccion->update();
-            $msg = 'Dirección creada: ' . $client->firstname . ' ' . $client->lastname;
+            $msg = "Dirección creada: \n" . $client->firstname . ' ' . $client->lastname;
             Log::info($msg);
-            $this->notifySuccess($msg);
+            $this->notifySuccess($msg,self::DIRECCION_CREADA);
         }
     }
     public function editAddress($client){
@@ -290,13 +318,14 @@ class Tools
         } catch (PrestaShopWebserviceException $ex) {
             $msg = 'Algo fue mal en Prestashop: '. $ex->getMessage();
             Log::error($msg);
-            $this->notifyError($msg);
+            $this->notifySuccess($msg,self::DIRECCION_ERROR);
         }
         $direccion->id_address_prestashop = $xml->children()->children()->id;//Process response.
         $direccion->update();
-        $msg = utf8_encode('Dirección actualizada: ' . $client->firstname . ' ' . $client->lastname);
+        $clientArray = (string) $client;
+        $msg = "Dirección actualizada: \n" .$clientArray;
         Log::info($msg);
-        $this->notifySuccess($msg);
+        $this->notifySuccess($msg,self::DIRECCION_ACTUALIZADA);
 
     }
     public function fillAddressState($direccion){
@@ -329,11 +358,17 @@ class Tools
             $message->to($this->user->email_log, 'psintegration')->subject('Error');
         });
     }
-    protected function notifySuccess($e){
-        Mail::raw( $e, function($message) {
-            $message->to($this->user->email_log, 'psintegration')->subject('Creado');
+    protected function notifySuccess($e,$head){
+        if($this->isJson($e)){
+            $e = json_encode($e, JSON_PRETTY_PRINT);
+        }
+        Mail::raw( $e, function($message) use ($head){
+            $message->to($this->user->email_log, $head)->subject($head);
         });
     }
-
+    function isJson($string) {
+        json_decode($string);
+        return (json_last_error() == JSON_ERROR_NONE);
+    }
 
 }

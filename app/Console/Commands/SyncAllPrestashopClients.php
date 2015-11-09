@@ -168,13 +168,13 @@ class SyncAllPrestashopClients extends Command implements SelfHandling, ShouldBe
 
 
 					if ($totalCount % 100 == 0) {
-						Log::info("Total: " . $totalCount . " Last client name: " . $item->firstname . ' ' . $item->lastname);
+						Log::info($totalCount." Prestashop -> Pipedrive: Last client name: " . $item->firstname . ' ' . $item->lastname);
 						if ($start != 0)
 							sleep(10);
 						$this->addClientsToPipedrive($user, $items);
 						$items = array();
 					} else if ($exit && $json['customers'][$itemsCount - 1]['id'] == $customer['id']) {
-						Log::info("Total: " . $totalCount . " Last client name: " . $item->firstname . ' ' . $item->lastname);
+						Log::info($totalCount." Prestashop -> Pipedrive: Last client name: " . $item->firstname . ' ' . $item->lastname);
 						if ($start != 0)
 							sleep(10);
 
