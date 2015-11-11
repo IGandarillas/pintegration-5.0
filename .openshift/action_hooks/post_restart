@@ -1,3 +1,3 @@
 #!/bin/bash
 
-php /var/lib/openshift/561e79980c1e666eb40000dd/app-root/repo/artisan queue:listen --tries=1 --timeout=0
+php $OPENSHIFT_REPO_DIR/artisan queue:listen --tries=1 --timeout=0
