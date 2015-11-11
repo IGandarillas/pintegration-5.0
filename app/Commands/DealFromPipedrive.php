@@ -141,12 +141,12 @@ class DealFromPipedrive extends Command implements SelfHandling, ShouldBeQueued
             if($composedName!=0){
                 $client->firstname = $composedName[0];
                 $client->lastname  = $composedName[1];
-                Log::info('FirstName = '.$composedName[0].' LastName = '.$composedName[1]);
+                //Log::info('FirstName = '.$composedName[0].' LastName = '.$composedName[1]);
             }else{
                 $composedName = $this->getNameFirstWord($name);
                 $client->firstname = $composedName[0];
                 $client->lastname  = $composedName[1];
-                Log::info('Posible fallo en nombre FirstName = '.$composedName[0].' LastName = '.$composedName[1]);
+                //::info('Posible fallo en nombre FirstName = '.$composedName[0].' LastName = '.$composedName[1]);
             }
     }
 
@@ -209,7 +209,7 @@ class DealFromPipedrive extends Command implements SelfHandling, ShouldBeQueued
             utf8_encode('Gipuzkoa') => utf8_encode('Guipuzcoa'),
             utf8_encode('València') => utf8_encode('Valencia'),
         );
-
+        if( isset($state) && !empty($state))
         foreach($specialStates as $key => $value){
             $match1 = strpos($key, $state);
             $match2 = strpos($state, $key);
@@ -222,7 +222,7 @@ class DealFromPipedrive extends Command implements SelfHandling, ShouldBeQueued
         return false;
     }
     protected function getStateFromDb($state){
-
+        if( isset($state) && !empty($state))
         foreach( State::all() as $stateDB ) { //Perform in model with sql sentence.
             $match1 = strpos($state, $stateDB->name);
             $match2 = strpos($stateDB->name, $state);

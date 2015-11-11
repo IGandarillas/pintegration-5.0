@@ -167,7 +167,7 @@ class ClientFromPipedrive extends Command implements SelfHandling, ShouldBeQueue
             utf8_encode('València') => utf8_encode('Valencia'),
         );
 
-        if(isset($state) ){
+        if( isset($state) && !empty($state)){
             foreach($specialStates as $key => $value){
                 $match1 = strpos($key, $state);
                 $match2 = strpos($state, $key);
@@ -181,7 +181,7 @@ class ClientFromPipedrive extends Command implements SelfHandling, ShouldBeQueue
         return false;
     }
     protected function getStateFromDb($state){
-
+        if( isset($state) && !empty($state))
         foreach( State::all() as $stateDB ) { //Perform in model with sql sentence.
             $match1 = strpos($state, $stateDB->name);
             $match2 = strpos($stateDB->name, $state);

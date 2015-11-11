@@ -24,9 +24,9 @@ class Tools
     const CLIENTE_CREADO = 'Cliente creado ';
     const CLIENTE_ERROR = 'Error cliente ';
     const CLIENTE_ACTUALIZADO = 'Cliente actualizado ';
-    const DIRECCION_CREADA = 'Dirección creada ';
-    const DIRECCION_ERROR = 'Error dirección ';
-    const DIRECCION_ACTUALIZADA = 'Dirección actualizada ';
+    const DIRECCION_CREADA = 'Direccion creada ';
+    const DIRECCION_ERROR = 'Error direccion ';
+    const DIRECCION_ACTUALIZADA = 'Direccion actualizada ';
     const NO_DEFINIDO = 'Faltan datos por definir ';
 
     public function __construct($user_id){
@@ -73,9 +73,10 @@ class Tools
                 $xml = $connectClient->add($opt);
 
             } catch (PrestaShopWebserviceException $ex) { // Here we are dealing with errors
-                $msg = 'Prestashop falló al crear el cliente '.$client->firstname.' '.$client->lastname;
+                $msg = 'Prestashop fallo al crear el cliente '.$client->firstname.' '.$client->lastname;
                 Log::error($msg);
-                $this->notifyError($msg);
+                $this->notifySuccess($msg,self::CLIENTE_ERROR);
+                return null;
             }
 
             $response = $xml->children()->children();
@@ -84,12 +85,12 @@ class Tools
             $client->password             = $response->passwd;
 
             $client->update();
-            $clientArray = (string) $client;
-            $msg = "Cliente creado: \n" . $clientArray;
-            Log::info($msg);
-            $this->notifySuccess($msg,self::CLIENTE_CREADO);
+                $clientArray = (string)$client;
+                $msg = "Cliente creado: \n" . $clientArray;
+                Log::info($msg);
+                $this->notifySuccess($msg,self::CLIENTE_CREADO);
+
         }else{
-            //$client->email = 'pipedrive'.$client->firstname.$client->id_client_pipedrive
             $msg = 'Cliente no creado. Deben definirse los campos email, nombre y apellidos.';
             Log::error($msg);
             $this->notifySuccess($msg,self::CLIENTE_ERROR);
@@ -107,6 +108,7 @@ class Tools
                 $msg = "Algo fue mal en Prestashop: \n Prestashop no acepta nombre y apellidos con más de 32 caracteres cada uno.". $e->getMessage();
                 Log::error($msg);
                 $this->notifySuccess($msg,self::CLIENTE_ERROR);
+                return null;
             }
             $resources = $xml->children()->children();
 
@@ -128,7 +130,7 @@ class Tools
                 $msg = 'Algo fue mal en Prestashop.';
                 Log::error($msg);
                 $this->notifySuccess($msg,self::CLIENTE_ERROR);
-                return;
+                return null;
             }
             $clientArray = (string) $client;
             $msg = "Cliente actualizado: \n" . $clientArray;
@@ -207,7 +209,7 @@ class Tools
 
             if (isset($xml->children()->children()->id)) {
                 if ($client->id_client_prestashop == 0)
-                    Log::error('Carrito no actualizado. Deben definirse los campos email, dirección, teléfono, nombre y apellidos.');
+                    Log::error('Carrito no creado. Deben definirse los campos email, dirección, teléfono, nombre y apellidos.');
                 else if($xml->children()->children()->id = !0) {
                     if( !$this->checkAddress($direccion) ){
                         $clientArray = (string) $client;
@@ -216,7 +218,7 @@ class Tools
                         $this->notifySuccess($msg,self::CARRITO_CREADO.'. '.self::NO_DEFINIDO);
                     }else{
                         $clientArray = (string) $client;
-                        $msg = "Carrito creado :  \n" .$clientArray;
+                        $msg = "Carrito creado:  \n" .$clientArray;
                         Log::info($msg);
                         $this->notifySuccess($msg,self::CARRITO_CREADO);
                         return $xml->children()->children()->id;//Process response.
@@ -280,7 +282,8 @@ class Tools
             //Store response
             $direccion->id_address_prestashop = $xml->children()->children()->id;//Process response.
             $direccion->update();
-            $msg = "Dirección creada: \n" . $client->firstname . ' ' . $client->lastname;
+
+            $msg = ("Dirección creada: \n" . $client->firstname . " " . $client->lastname);
             Log::info($msg);
             $this->notifySuccess($msg,self::DIRECCION_CREADA);
         }
@@ -323,7 +326,7 @@ class Tools
         $direccion->id_address_prestashop = $xml->children()->children()->id;//Process response.
         $direccion->update();
         $clientArray = (string) $client;
-        $msg = "Dirección actualizada: \n" .$clientArray;
+        $msg = "Direccion actualizada: \n" .$clientArray;
         Log::info($msg);
         $this->notifySuccess($msg,self::DIRECCION_ACTUALIZADA);
 
